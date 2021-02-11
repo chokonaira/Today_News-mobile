@@ -8,6 +8,7 @@ const SignupScreen = ({ navigation }) => {
       <Button
         primary
         small
+        style={styles.button}
         title="Login"
         onPress={() => navigation.navigate("Login")}
       />
@@ -24,4 +25,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  button: {
+    alignSelf: "center",
+  }
 });

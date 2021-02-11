@@ -9,6 +9,7 @@ const DashboardScreen = ({ navigation }) => {
         primary
         small
         title="Home"
+        style={styles.button}
         onPress={() => navigation.navigate("Home")}
       />
     </View>
@@ -24,4 +25,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  button: {
+    alignSelf: "center",
+  }
 });

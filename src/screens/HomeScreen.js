@@ -9,6 +9,7 @@ const HomeScreen = ({ navigation }) => {
         primary
         small
         title="Sign Up"
+        style={styles.button}
         onPress={() => navigation.navigate("Signup")}
       />
     </View>
@@ -23,4 +24,7 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     justifyContent: "center",
   },
+  button: {
+    alignSelf: "center",
+  }
 });
