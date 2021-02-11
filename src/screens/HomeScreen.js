@@ -1,10 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import Button from "../components/Button";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.home}>
-      <Text>Welcome</Text>
+      <Button
+        primary
+        small
+        title="Sign Up"
+        onPress={() => navigation.navigate("Signup")}
+      />
     </View>
   );
 };
@@ -14,9 +20,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   home: {
     flex: 1,
-    flexDirection: 'column',
     backgroundColor: "yellow",
-    alignItems: "center",
     justifyContent: "center",
   },
 });

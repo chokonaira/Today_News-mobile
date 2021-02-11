@@ -1,22 +1,27 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import Button from "../components/Button";
 
-const DashboardScreen = () => {
+const DashboardScreen = ({ navigation }) => {
   return (
     <View style={styles.dashboard}>
-      <Text>DashboardScreen</Text>
+      <Button
+        primary
+        small
+        title="Home"
+        onPress={() => navigation.navigate("Home")}
+      />
     </View>
-  )
-}
+  );
+};
 
 export default DashboardScreen;
-
 
 const styles = StyleSheet.create({
   dashboard: {
     flex: 1,
-    backgroundColor: 'orange',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "orange",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
