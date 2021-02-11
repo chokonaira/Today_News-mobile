@@ -9,8 +9,26 @@ const Stack = createStackNavigator();
 
 const StackRoutes = () => {
   return (
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#00A6FB",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+      }}
+      initialRouteName="Home"
+    >
+      <Stack.Screen
+        options={{
+          headerTitle: null,
+          headerStyle: { backgroundColor: "#fff" },
+        }}
+        name="Home"
+        component={HomeScreen}
+      />
       <Stack.Screen name="Signup" component={SignupScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Dashboard" component={DashboardScreen} />

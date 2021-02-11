@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
-import Button from "./Button";
-const NewsCard = () => {
+
+const Card = () => {
   return (
     <>
       <View style={styles.card}>
@@ -10,7 +10,7 @@ const NewsCard = () => {
           <Image
             style={styles.cardBodyImage}
             source={{
-              uri: "https://ichef.bbci.co.uk/images/ic/1200x675/p07kfjyp.jpg",
+              uri: "https://chicago.cbslocal.com/wp-content/uploads/sites/15116062/2020/04/Combo-Logo-CHICAGO.png?w=1500",
             }}
           />
           <Text style={styles.cardBodyText}>
@@ -27,7 +27,7 @@ const NewsCard = () => {
           <Image
             style={styles.cardBodyImage}
             source={{
-              uri: "https://ichef.bbci.co.uk/images/ic/1200x675/p07kfjyp.jpg",
+              uri: "https://www.todayjaffna.com/wp-content/uploads/2020/12/FS-MON-BREAKING-NEWS-.png",
             }}
           />
           <Text style={styles.cardBodyText}>
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsCard;
+export default Card;
