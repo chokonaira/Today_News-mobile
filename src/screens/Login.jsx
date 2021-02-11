@@ -2,24 +2,24 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import Button from "../components/Button";
 
-const SignupScreen = ({ navigation }) => {
+const Login = ({ navigation }) => {
   return (
-    <View style={styles.signup}>
+    <View style={styles.login}>
       <Button
         primary
         small
+        title="See to Today News"
         style={styles.button}
-        title="Login"
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.navigate("Today News")}
       />
     </View>
   );
 };
 
-export default SignupScreen;
+export default Login;
 
 const styles = StyleSheet.create({
-  signup: {
+  login: {
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",

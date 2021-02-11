@@ -1,15 +1,14 @@
 import * as React from "react";
-import HomeScreen from "../screens/HomeScreen";
-import SignupScreen from "../screens/SignupScreen";
-import LoginScreen from "../screens/LoginScreen";
-import DashboardScreen from "../screens/DashboardScreen";
+import Home from "../screens/Home";
+import Signup from "../screens/Signup";
+import Login from "../screens/Login";
 import { createStackNavigator } from "@react-navigation/stack";
 
-const Stack = createStackNavigator();
+const Stacks = createStackNavigator();
 
 const StackRoutes = () => {
   return (
-    <Stack.Navigator
+    <Stacks.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: "#00A6FB",
@@ -21,18 +20,17 @@ const StackRoutes = () => {
       }}
       initialRouteName="Home"
     >
-      <Stack.Screen
+      <Stacks.Screen
         options={{
           headerTitle: null,
           headerStyle: { backgroundColor: "#fff" },
         }}
         name="Home"
-        component={HomeScreen}
+        component={Home}
       />
-      <Stack.Screen name="Signup" component={SignupScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Dashboard" component={DashboardScreen} />
-    </Stack.Navigator>
+      <Stacks.Screen name="Signup" component={Signup} />
+      <Stacks.Screen name="Login" component={Login} />
+    </Stacks.Navigator>
   );
 };
 

@@ -4,13 +4,16 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import StackRoutes from './src/navigations/StackRoutes';
+import TabsRoutes from "./src/navigations/TabRoutes";
+
 
 const App = () => {
   return (
     <NavigationContainer>
       <View style={styles.container}>
         <StatusBar style="auto" />
-        < StackRoutes />
+        {/* < StackRoutes /> */}
+        < TabsRoutes />
       </View>
     </NavigationContainer>
   );

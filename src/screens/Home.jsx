@@ -2,13 +2,13 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import Button from "../components/Button";
 
-const HomeScreen = ({ navigation }) => {
+const Home = ({ navigation }) => {
   return (
     <View style={styles.home}>
       <Button
         primary
         small
-        title="Sign Up"
+        title="Go to SignUp Screen"
         style={styles.button}
         onPress={() => navigation.navigate("Signup")}
       />
@@ -16,7 +16,7 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-export default HomeScreen;
+export default Home;
 
 const styles = StyleSheet.create({
   home: {
