@@ -1,17 +1,11 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import Button from "../components/Button";
+import { View, Text, StyleSheet } from "react-native";
+import NewsCard from "../components/NewsCard";
 
-const DashboardScreen = ({ navigation }) => {
+const DashboardScreen = () => {
   return (
     <View style={styles.dashboard}>
-      <Button
-        primary
-        small
-        title="Home"
-        style={styles.button}
-        onPress={() => navigation.navigate("Home")}
-      />
+      <NewsCard />
     </View>
   );
 };
@@ -22,10 +16,5 @@ const styles = StyleSheet.create({
   dashboard: {
     flex: 1,
     backgroundColor: "orange",
-    alignItems: "center",
-    justifyContent: "center",
   },
-  button: {
-    alignSelf: "center",
-  }
 });
