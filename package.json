@@ -7,6 +7,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
+    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19001' && expo start",
+    "open-ios-simulator": "open -a simulator",
     "web": "expo start --web",
     "eject": "expo eject"
   },
