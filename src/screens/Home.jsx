@@ -26,5 +26,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignSelf: "center",
+    backgroundColor: '#fff',
+    padding: 10
   }
 });

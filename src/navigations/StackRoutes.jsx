@@ -22,9 +22,7 @@ const StackRoutes = () => {
     >
       <Stacks.Screen
         options={{
-          headerTitle: 'Home',
-          headerStyle: { backgroundColor: "#fff" },
-          headerTintColor: "#00A6FB",
+          headerShown: false
         }}
         name="Home"
         component={Home}

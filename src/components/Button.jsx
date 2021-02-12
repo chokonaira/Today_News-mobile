@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Text } from "native-base";
+import { Button } from "native-base";
+import { Text } from "react-native";
 
 const NativeButton = ({ title, onPress, ...rest }) => (
   <Button {...rest} onPress={onPress}>
