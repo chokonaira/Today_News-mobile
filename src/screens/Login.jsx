@@ -10,7 +10,7 @@ const Login = ({ navigation }) => {
         small
         title="See to Today News"
         style={styles.button}
-        onPress={() => navigation.navigate("Today News")}
+        // onPress={() => navigation.navigate("Today News")}
       />
     </View>
   );
