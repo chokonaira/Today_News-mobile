@@ -12,8 +12,8 @@ const App = () => {
     <NavigationContainer>
       <View style={styles.container}>
         <StatusBar style="auto" />
-        {/* < StackRoutes /> */}
-        < TabsRoutes />
+        < StackRoutes />
+        {/* < TabsRoutes /> */}
       </View>
     </NavigationContainer>
   );
