@@ -1,14 +1,19 @@
 import React from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import Button from "../components/Button";
+import { useDispatch } from "react-redux";
+import { signup } from '../redux/actions/signup';
+
 
 const Signup = ({ navigation }) => {
   const [userName, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const dispatch = useDispatch();
+
   const onSignup = () => {
-    
+    dispatch(signup(email, password));
   }
 
   return (
@@ -21,12 +26,14 @@ const Signup = ({ navigation }) => {
       />
       <TextInput
         placeholder="email"
+        type="email"
         onChange={(event) => setEmail(event.target.value)}
         value={email}
         onPress={() => navigation.navigate("Login")}
       />
       <TextInput
         placeholder="password"
+        type='password'
         secureTextEntry={true}
         onChange={(event) => setPassword(event.target.value)}
         value={password}
@@ -37,7 +44,7 @@ const Signup = ({ navigation }) => {
         small
         title="SignUp"
         style={styles.button}
-        onPress={() => onSignup("Signup")}
+        onPress={() => onSignup()}
       />
     </View>
   );

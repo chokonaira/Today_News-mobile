@@ -6,23 +6,28 @@ import { StyleSheet, View } from "react-native";
 import StackRoutes from "./src/navigations/StackRoutes";
 import TabsRoutes from "./src/navigations/TabRoutes";
 import firebase from "firebase";
-import { firebaseConfig } from "./src/config/firebaseConfig";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
+import { firebaseConfig } from "./src/config/firebase";
 
-if(firebase.app.length === 0){
-  firebase.initializeApp(firebaseConfig)
+
+if (firebase.app.length === 0) {
+  firebase.initializeApp(firebaseConfig);
 }
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        < StackRoutes />
-        {/* < TabsRoutes /> */}
-      </View>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <View style={styles.container}>
+          <StatusBar style="auto" />
+          <StackRoutes />
+          {/* < TabsRoutes /> */}
+        </View>
+      </NavigationContainer>
+    </Provider>
   );
-}
+};
 
 export default App;
 
