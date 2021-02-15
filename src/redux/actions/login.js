@@ -21,7 +21,7 @@ export const login = (email, password) => (dispatch) => {
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((response) => {
-      dispatch(loginSuccess(response));
+      dispatch(loginSuccess(response.user));
     })
     .catch((error) => {
       dispatch(loginFailure(error));

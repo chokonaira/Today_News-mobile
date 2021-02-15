@@ -22,13 +22,25 @@ const StackRoutes = () => {
     >
       <Stacks.Screen
         options={{
-          headerShown: false
+          headerShown: false,
         }}
         name="Home"
         component={Home}
       />
-      <Stacks.Screen name="Signup" component={Signup} />
-      <Stacks.Screen name="Login" component={Login} />
+      <Stacks.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Signup"
+        component={Signup}
+      />
+      <Stacks.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Login"
+        component={Login}
+      />
     </Stacks.Navigator>
   );
 };
