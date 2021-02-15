@@ -5,7 +5,7 @@ import Input from "../components/Input";
 import { useDispatch } from "react-redux"; 
 import { signup } from "../redux/actions/signup";
 
-const Signup = () => {
+const Signup = ({navigation}) => {
   const [userName, setUserName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -14,6 +14,7 @@ const Signup = () => {
 
   const signupHandler = () => {
     dispatch(signup(email, password));
+    navigation.navigate('Login')
   };
 
   return (
