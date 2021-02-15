@@ -6,7 +6,7 @@ const initialState = {
   errors: null
 };
 
-export const signupReducer = (state = initialState, action) => {
+export const signUpReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.SIGNUP_LOADING:
       return {

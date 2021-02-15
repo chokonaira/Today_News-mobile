@@ -11,12 +11,12 @@ const Home = ({ navigation }) => {
         <Logo />
       </View>
       <View style={styles.footer}>
-        <Text style={styles.title}>Stay Connect With Top News</Text>
+        <Text style={styles.title}>Stay connected with Todays News</Text>
         <Text style={styles.text}>Sign In with Account</Text>
         <View style={styles.buttonWrapper}>
           <Button
             title="Get Started"
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("SignIn")}
             name="navigate-next" 
             color="#fff" 
             size={20} 
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     color: "#05375a",
     fontSize: 30,
     fontWeight: "bold",
+    marginBottom: 15
   },
   text: {
     color: "grey",

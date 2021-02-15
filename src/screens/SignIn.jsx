@@ -3,17 +3,17 @@ import { View, StyleSheet, Platform } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/actions/login";
+import { signIn } from "../redux/actions/signIn";
 import { Text } from "native-base";
 
-const Login = ({ navigation }) => {
+const SignIn = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const dispatch = useDispatch();
 
   const loginHandler = () => {
-    dispatch(login(email, password));
+    dispatch(signIn(email, password));
   };
 
   return (
@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
           />
           <Button
             title="Sign Up"
-            onPress={() => navigation.navigate("Signup")}
+            onPress={() => navigation.navigate("SignUp")}
             color="#fff" 
             size={20} 
             color='#00A6FB'
@@ -68,7 +68,7 @@ const Login = ({ navigation }) => {
   );
 };
 
-export default Login;
+export default SignIn;
 
 const styles = StyleSheet.create({
   container: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   text_footer: {
     color: "#05375a",
     fontSize: 18,
-    marginTop: 30
+    marginTop: 20
   },
   action: {
     flexDirection: "row",

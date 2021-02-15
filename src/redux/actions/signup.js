@@ -1,22 +1,22 @@
 import { auth, database } from "../../config/firebase";
 import * as types from "./types";
 
-const signupLoading = () => ({
+const signUpLoading = () => ({
   type: types.SIGNUP_LOADING,
 });
 
-const signupSuccess = (payload) => ({
+const signUpSuccess = (payload) => ({
   type: types.SIGNUP_SUCCESS,
   payload,
 });
 
-const signupFailure = (payload) => ({
+const signUpFailure = (payload) => ({
   type: types.SIGNUP_ERROR,
   payload,
 });
 
-export const signup = (userName, email, password) => (dispatch) => {
-  dispatch(signupLoading());
+export const signUp = (userName, email, password) => (dispatch) => {
+  dispatch(signUpLoading());
   auth
     .createUserWithEmailAndPassword(email, password)
     .then((response) => {
@@ -24,9 +24,9 @@ export const signup = (userName, email, password) => (dispatch) => {
         userName,
         email,
       });
-      dispatch(signupSuccess(response));
+      dispatch(signUpSuccess(response));
     })
     .catch((error) => {
-      dispatch(signupFailure(error));
+      dispatch(signUpFailure(error));
     });
 };

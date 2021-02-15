@@ -1,29 +1,29 @@
 import firebase from "firebase";
 import * as types from "./types";
 
-const loginLoading = () => ({
+const signInLoading = () => ({
   type: types.LOGIN_LOADING,
 });
 
-const loginSuccess = (payload) => ({
+const signInSuccess = (payload) => ({
   type: types.LOGIN_SUCCESS,
   payload,
 });
 
-const loginFailure = (payload) => ({
+const signInFailure = (payload) => ({
   type: types.LOGIN_ERROR,
   payload,
 });
 
-export const login = (email, password) => (dispatch) => {
-  dispatch(loginLoading());
+export const signIn = (email, password) => (dispatch) => {
+  dispatch(signInLoading());
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((response) => {
-      dispatch(loginSuccess(response.user));
+      dispatch(signInSuccess(response.user));
     })
     .catch((error) => {
-      dispatch(loginFailure(error));
+      dispatch(signInFailure(error));
     });
 };
