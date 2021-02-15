@@ -2,8 +2,8 @@ import * as types from "../actions/types";
 
 const initialState = {
   loading: false,
-  newUser: {},
-  isAuthenticated: false,
+  newUser: [],
+  errors: null
 };
 
 export const signupReducer = (state = initialState, action) => {
@@ -18,13 +18,12 @@ export const signupReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         newUser: action.payload,
-        isAuthenticated: true,
       };
     case types.SIGNUP_ERROR:
       return {
         ...state,
         loading: false,
-        newUser: action.payload,
+        errors: action.payload,
       };
     default:
       return state;
