@@ -17,6 +17,11 @@ const Home = ({ navigation }) => {
           <Button
             title="Get Started"
             onPress={() => navigation.navigate("Login")}
+            name="navigate-next" 
+            color="#fff" 
+            size={20} 
+            color='#fff'
+            style={[styles.button, {width: 150, backgroundColor: "#00A6FB"}]}
           />
         </View>
       </View>
@@ -56,5 +61,12 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     alignItems: "flex-end",
     marginTop: 30,
+  },
+  button: {
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    flexDirection: "row",
   },
 });
