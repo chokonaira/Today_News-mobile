@@ -13,8 +13,8 @@ const Signup = ({navigation}) => {
   const dispatch = useDispatch();
 
   const signupHandler = () => {
-    dispatch(signup({email}, password));
-    navigation.navigate('Login');
+      dispatch(signup(userName, email, password));
+    // navigation.navigate('Login');
   };
 
   return (

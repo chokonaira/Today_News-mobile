@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import { auth, database } from "../../config/firebase";
 import * as types from "./types";
 
 const signupLoading = () => ({
@@ -15,12 +15,15 @@ const signupFailure = (payload) => ({
   payload,
 });
 
-export const signup = (email, password) => (dispatch) => {
+export const signup = (userName, email, password) => (dispatch) => {
   dispatch(signupLoading());
-  firebase
-    .auth()
+  auth
     .createUserWithEmailAndPassword(email, password)
     .then((response) => {
+      database.collection("users").doc(auth.currentUser.uid).set({
+        userName,
+        email,
+      });
       dispatch(signupSuccess(response));
     })
     .catch((error) => {

@@ -1,12 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import "react-native-gesture-handler";
 import React from "react";
-import * as firebase from "firebase";
-import { firebaseConfig } from "./src/config/firebase";
+// import * as firebase from "firebase";
+// import { firebaseConfig } from "./src/config/firebase";
 
-// if (firebase.app.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-// }
+// firebase.initializeApp(firebaseConfig);
 
 import { NavigationContainer } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";

@@ -1,3 +1,6 @@
+import * as firebase from "firebase";
+import "firebase/firestore";
+
 import {
   API_KEY,
   AUTH_DOMAIN,
@@ -7,7 +10,7 @@ import {
   APP_ID,
 } from "@env";
 
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: API_KEY,
   authDomain: AUTH_DOMAIN,
   projectId: PROJECT_ID,
@@ -15,3 +18,9 @@ export const firebaseConfig = {
   messagingSenderId: MESSAGING_SENDER_ID,
   appId: APP_ID,
 };
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const database = firebase.firestore();
+
+export { auth, database };
