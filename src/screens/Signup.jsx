@@ -2,18 +2,27 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../redux/actions/signUp";
+import UsernameValidations from "../components/validations/UsernameValidations";
+import EmailValidations from "../components/validations/EmailValidations";
+import PasswordValidations from "../components/validations/PasswordValidations";
 
 const SignUp = ({ navigation }) => {
-  const [userName, setUserName] = React.useState("");
+  const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const error = useSelector((state) => state.signUpReducer.errors)
+  const [validCredentials, setValidInput] = React.useState({
+    isUsernameValid: true,
+    isEmailValid: true,
+    isPasswordValid: true,
+  });
 
   const dispatch = useDispatch();
 
   const signupHandler = () => {
-    dispatch(signUp(userName, email, password));
+    dispatch(signUp(username, email, password));
     // navigation.navigate('Login');
   };
 
@@ -28,12 +37,13 @@ const SignUp = ({ navigation }) => {
           <Input
             placeholder="Your Username"
             type="username"
-            onChangeText={(userName) => setUserName(userName)}
+            onChangeText={(username) => {setUsername(username)}}
             value={userName}
             autoCapitalize="none"
             style={styles.textInput}
           />
         </View>
+          <UsernameValidations username={username} style={styles.errorText}/>
         <Text style={styles.text_footer}>Email</Text>
         <View style={styles.action}>
           <Input
@@ -46,6 +56,7 @@ const SignUp = ({ navigation }) => {
             style={styles.textInput}
           />
         </View>
+        <EmailValidations email={email} style={styles.errorText}/>
         <Text style={styles.text_footer}>Password</Text>
         <View style={styles.action}>
           <Input
@@ -58,6 +69,7 @@ const SignUp = ({ navigation }) => {
             style={styles.textInput}
           />
         </View>
+        <PasswordValidations password={password} style={styles.errorText}/>
         <View style={styles.buttonWrapper}>
           <Button
             title="Sign Up"
@@ -148,4 +160,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: "row",
   },
+  errorText: {
+    color: 'red',
+    fontSize: 9
+  }
 });
