@@ -2,28 +2,42 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { signUp } from "../redux/actions/signUp";
-import UsernameValidations from "../components/validations/UsernameValidations";
-import EmailValidations from "../components/validations/EmailValidations";
-import PasswordValidations from "../components/validations/PasswordValidations";
+import {
+  usernameValidation,
+  passwordValidation,
+  emailValidation,
+} from "../helpers/validations";
 
 const SignUp = ({ navigation }) => {
+
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const error = useSelector((state) => state.signUpReducer.errors)
-  const [validCredentials, setValidInput] = React.useState({
-    isUsernameValid: true,
-    isEmailValid: true,
-    isPasswordValid: true,
+  const [userNameError, setUserNameError] = React.useState("");
+  const [validCredentials, setValidCredentials] = React.useState({
+    isUsername: true,
+    isEmail: true,
+    isPassword: true,
   });
 
   const dispatch = useDispatch();
 
   const signupHandler = () => {
-    dispatch(signUp(username, email, password));
+    console.log(validCredentials);
+      dispatch(signUp(username, email, password));
     // navigation.navigate('Login');
+  };
+
+  const handleValidUser = (value) => {
+    const errorMessage = usernameValidation(value);
+    if (errorMessage !== undefined) {
+      setUserNameError(errorMessage);
+      setValidCredentials({ ...validCredentials, isUsername: false });
+    } else {
+      setValidCredentials({ ...validCredentials, isUsername: true });
+    }
   };
 
   return (
@@ -37,13 +51,19 @@ const SignUp = ({ navigation }) => {
           <Input
             placeholder="Your Username"
             type="username"
-            onChangeText={(username) => {setUsername(username)}}
-            value={userName}
+            onChangeText={(username) => {
+              setUsername(username);
+            }}
+            value={username}
             autoCapitalize="none"
             style={styles.textInput}
+            onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
           />
         </View>
-          <UsernameValidations username={username} style={styles.errorText}/>
+        {validCredentials.isUsername ? null : (
+          <Text style={styles.errorText}>{userNameError}</Text>
+        )}
+
         <Text style={styles.text_footer}>Email</Text>
         <View style={styles.action}>
           <Input
@@ -56,7 +76,10 @@ const SignUp = ({ navigation }) => {
             style={styles.textInput}
           />
         </View>
-        <EmailValidations email={email} style={styles.errorText}/>
+        {/* {validCredentials.isEmail ? null : (
+          <Text style={styles.errorText}>{emailValidation(email)}</Text>
+        )} */}
+
         <Text style={styles.text_footer}>Password</Text>
         <View style={styles.action}>
           <Input
@@ -69,7 +92,10 @@ const SignUp = ({ navigation }) => {
             style={styles.textInput}
           />
         </View>
-        <PasswordValidations password={password} style={styles.errorText}/>
+        {/* {validCredentials.isPassword ? null : (
+          <Text style={styles.errorText}>{passwordValidation(password)}</Text>
+        )} */}
+
         <View style={styles.buttonWrapper}>
           <Button
             title="Sign Up"
@@ -103,6 +129,7 @@ const SignUp = ({ navigation }) => {
     </View>
   );
 };
+
 
 export default SignUp;
 
@@ -161,7 +188,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   errorText: {
-    color: 'red',
-    fontSize: 9
-  }
+    color: "red",
+    fontSize: 9,
+  },
 });
