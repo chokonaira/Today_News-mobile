@@ -1,10 +1,11 @@
 
 export const usernameValidation = (username) => {
-  let message;
-  const isnum = /^\d+$/.test(username);
-  if (username.trim() === "") {
+  let message = null;
+  let value = username.trim()
+  const isnum = /^\d+$/.test(value);
+  if (value === "") {
     message = "Username cannot be empty";
-  } else if (username.trim().length < 4) {
+  } else if (value.length < 4) {
     message = "Username must be more than 4 characters";
   } else if (isnum) {
     message = "Username cannot be only digits";
@@ -13,21 +14,23 @@ export const usernameValidation = (username) => {
 };
 
 export const passwordValidation = (password) => {
-  let message;
-  if (password.trim() === "") {
+  let message = null;
+  let value = password.trim();
+  if (value === "") {
     massage = "Password cannot be empty";
-  } else if (password.trim().length < 6) {
+  } else if (value.length < 6) {
     message = "Password should be more than 6 characters";
   }
   return message;
 };
 
 export const emailValidation = (email) => {
-  let message;
+  let message = null;
+  let value = email.trim();
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  if (email.trim() === "") {
+  if (value === "") {
     message = "Email cannot be empty";
-  } else if (!emailRegex.test(String(email).toLowerCase())) {
+  } else if (!emailRegex.test(String(value).toLowerCase())) {
     message = "Email format is incorrect";
   }
   return message;
