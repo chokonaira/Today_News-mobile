@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 import { signUp } from "../redux/actions/signUp";
 import {
   usernameValidation,
-  passwordValidation,
   emailValidation,
+  passwordValidation,
 } from "../helpers/validations";
 
 const SignUp = ({ navigation }) => {
@@ -15,7 +15,6 @@ const SignUp = ({ navigation }) => {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [userNameError, setUserNameError] = React.useState("");
   const [validCredentials, setValidCredentials] = React.useState({
     isUsername: true,
     isEmail: true,
@@ -30,13 +29,30 @@ const SignUp = ({ navigation }) => {
     // navigation.navigate('Login');
   };
 
-  const handleValidUser = (value) => {
-    const errorMessage = usernameValidation(value);
-    if (errorMessage !== undefined) {
-      setUserNameError(errorMessage);
+  const handleValidUsername = (value) => {
+    const usernameError = usernameValidation(value);
+    if (usernameError) {
       setValidCredentials({ ...validCredentials, isUsername: false });
     } else {
       setValidCredentials({ ...validCredentials, isUsername: true });
+    }
+  };
+
+  const handleValidEmail = (value) => {
+    const emailError = emailValidation(value);
+    if (emailError) {
+      setValidCredentials({ ...validCredentials, isEmail: false });
+    } else {
+      setValidCredentials({ ...validCredentials, isEmail: true });
+    }
+  };
+
+  const handleValidPassword = (value) => {
+    const passwordError = passwordValidation(value);
+    if (passwordError) {
+      setValidCredentials({ ...validCredentials, isPassword: false });
+    } else {
+      setValidCredentials({ ...validCredentials, isPassword: true });
     }
   };
 
@@ -57,11 +73,11 @@ const SignUp = ({ navigation }) => {
             value={username}
             autoCapitalize="none"
             style={styles.textInput}
-            onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+            onEndEditing={(e) => handleValidUsername(e.nativeEvent.text)}
           />
         </View>
         {validCredentials.isUsername ? null : (
-          <Text style={styles.errorText}>{userNameError}</Text>
+          <Text style={styles.errorText}>{usernameValidation(username)}</Text>
         )}
 
         <Text style={styles.text_footer}>Email</Text>
@@ -74,11 +90,12 @@ const SignUp = ({ navigation }) => {
             autoCapitalize="none"
             keyboardType={"email-address"}
             style={styles.textInput}
+            onEndEditing={(e) => handleValidEmail(e.nativeEvent.text)}
           />
         </View>
-        {/* {validCredentials.isEmail ? null : (
+        {validCredentials.isEmail ? null : (
           <Text style={styles.errorText}>{emailValidation(email)}</Text>
-        )} */}
+        )}
 
         <Text style={styles.text_footer}>Password</Text>
         <View style={styles.action}>
@@ -90,11 +107,12 @@ const SignUp = ({ navigation }) => {
             onChangeText={(password) => setPassword(password)}
             value={password}
             style={styles.textInput}
+            onEndEditing={(e) => handleValidPassword(e.nativeEvent.text)}
           />
         </View>
-        {/* {validCredentials.isPassword ? null : (
+        {validCredentials.isPassword ? null : (
           <Text style={styles.errorText}>{passwordValidation(password)}</Text>
-        )} */}
+        )}
 
         <View style={styles.buttonWrapper}>
           <Button

@@ -1,6 +1,6 @@
 
 export const usernameValidation = (username) => {
-  let message = undefined;
+  let message;
   const isnum = /^\d+$/.test(username);
   if (username.trim() === "") {
     message = "Username cannot be empty";
