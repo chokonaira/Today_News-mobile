@@ -27,7 +27,7 @@ export const emailValidation = (email) => {
 
 export const passwordValidation = (password) => {
   let message = null;
-  let value = password.trim()
+  let value = password.trim();
   if (value === "") {
     message = "Password cannot be empty";
   } else if (value.length < 6) {

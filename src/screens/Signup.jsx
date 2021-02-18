@@ -14,56 +14,50 @@ const SignUp = ({ navigation }) => {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [validCredentials, setValidCredentials] = React.useState({
-    validUsername: true,
-    validEmail: true,
-    validPassword: true,
-    hasError: true,
-  });
+  const [validUsername, setValidUsername] = React.useState(true);
+  const [validEmail, setValidEmail] = React.useState(true);
+  const [validPassword, setValidPassword] = React.useState(true);
+  const [error, setError] = React.useState(true);
 
   const dispatch = useDispatch();
 
   const signupHandler = () => {
-    console.log(validCredentials);
-    if (validCredentials.hasError) {
-      
+     
+    if (error) {
+      console.log('bad');
       handleValidUsername(username);
       handleValidEmail(email);
       handleValidPassword(password);
+      return;
     } else {
-      console.log('called')
-      dispatch(signUp(username, email, password));
+      console.log('good');
+      // dispatch(signUp(username, email, password));
       // navigation.navigate("SignIn");
+      return
     }
   };
 
   const handleValidUsername = (value) => {
     const errorMessage = usernameValidation(value);
-    handleUserInput(errorMessage, validCredentials.validUsername);
+    handleUserInput(errorMessage, setValidUsername);
   };
 
   const handleValidEmail = (value) => {
     const errorMessage = emailValidation(value);
-    handleUserInput(errorMessage, validCredentials.validEmail);
+    handleUserInput(errorMessage, setValidEmail);
   };
 
   const handleValidPassword = (value) => {
     const errorMessage = passwordValidation(value);
-    handleUserInput(errorMessage, validCredentials.validPassword);
+    handleUserInput(errorMessage, setValidPassword);
   };
 
-  const handleUserInput = (errorMessage, key) => {
-    const noErrorMessage = errorMessage === null
-    console.log(errorMessage, 'error')
-
-    if (noErrorMessage) {
-      setValidCredentials({ ...validCredentials, [key]: true, hasError: false });
+  const handleUserInput = (errorMessage, setState) => {
+    if (errorMessage !== null) {
+      setState(false);
     } else {
-      setValidCredentials({
-        ...validCredentials,
-        [key]: false,
-        hasError: true,
-      });
+      setState(true);
+      setError(false);
     }
   };
 
@@ -88,7 +82,7 @@ const SignUp = ({ navigation }) => {
           />
         </View>
 
-        {validCredentials.validUsername ? null : (
+        {validUsername ? null : (
           <Text style={styles.errorText}>{usernameValidation(username)}</Text>
         )}
 
@@ -106,7 +100,7 @@ const SignUp = ({ navigation }) => {
           />
         </View>
 
-        {validCredentials.validEmail ? null : (
+        {validEmail ? null : (
           <Text style={styles.errorText}>{emailValidation(email)}</Text>
         )}
 
@@ -124,7 +118,7 @@ const SignUp = ({ navigation }) => {
           />
         </View>
 
-        {validCredentials.validPassword ? null : (
+        {validPassword ? null : (
           <Text style={styles.errorText}>{passwordValidation(password)}</Text>
         )}
 

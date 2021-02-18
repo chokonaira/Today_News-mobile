@@ -5,16 +5,58 @@ import Input from "../components/Input";
 import { useDispatch } from "react-redux";
 import { signIn } from "../redux/actions/signIn";
 import { Text } from "native-base";
+import {
+  emailValidation,
+  passwordValidation,
+} from "../helpers/validations";
 
 const SignIn = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [validCredentials, setValidCredentials] = React.useState({
+    validEmail: true,
+    validPassword: true,
+    hasError: true,
+  });
 
   const dispatch = useDispatch();
 
   const loginHandler = () => {
+     if (validCredentials.hasError) {
+      handleValidEmail(email);
+      handleValidPassword(password);
+    } else {
+      console.log('called')
+      dispatch(signUp(username, email, password));
+      // navigation.navigate("SignIn");
+    }
     dispatch(signIn(email, password));
   };
+
+  const handleValidEmail = (value) => {
+    const errorMessage = emailValidation(value);
+    handleUserInput(errorMessage, validCredentials.validEmail);
+  };
+
+  const handleValidPassword = (value) => {
+    const errorMessage = passwordValidation(value);
+    handleUserInput(errorMessage, validCredentials.validPassword);
+  };
+
+  const handleUserInput = (errorMessage, key) => {
+    const noErrorMessage = errorMessage === null
+
+    if (noErrorMessage) {
+      setValidCredentials({ ...validCredentials, [key]: true, hasError: false });
+    } else {
+      setValidCredentials({
+        ...validCredentials,
+        [key]: false,
+        hasError: true,
+      });
+    }
+  };
+
 
   return (
     <View style={styles.container}>
@@ -32,8 +74,14 @@ const SignIn = ({ navigation }) => {
             autoCapitalize="none"
             keyboardType={"email-address"}
             style={styles.textInput}
+            onEndEditing={(e) => handleValidEmail(e.nativeEvent.text)}
           />
         </View>
+
+        {validCredentials.validEmail ? null : (
+          <Text style={styles.errorText}>{emailValidation(email)}</Text>
+        )}
+
         <Text style={styles.text_footer}>Password</Text>
         <View style={styles.action}>
           <Input
@@ -44,8 +92,14 @@ const SignIn = ({ navigation }) => {
             onChangeText={(password) => setPassword(password)}
             value={password}
             style={styles.textInput}
+            onEndEditing={(e) => handleValidPassword(e.nativeEvent.text)}
           />
         </View>
+
+        {validCredentials.validPassword ? null : (
+          <Text style={styles.errorText}>{passwordValidation(password)}</Text>
+        )}
+
         <View style={styles.buttonWrapper}>
           <Button
             title="Sign In"
