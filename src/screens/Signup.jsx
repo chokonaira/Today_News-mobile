@@ -22,18 +22,13 @@ const SignUp = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const signupHandler = () => {
-     
     if (error) {
-      console.log('bad');
       handleValidUsername(username);
       handleValidEmail(email);
       handleValidPassword(password);
       return;
     } else {
-      console.log('good');
-      // dispatch(signUp(username, email, password));
-      // navigation.navigate("SignIn");
-      return
+      dispatch(signUp(username, email, password));
     }
   };
 

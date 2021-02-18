@@ -13,50 +13,40 @@ import {
 const SignIn = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [validCredentials, setValidCredentials] = React.useState({
-    validEmail: true,
-    validPassword: true,
-    hasError: true,
-  });
+  const [validEmail, setValidEmail] = React.useState(true);
+  const [validPassword, setValidPassword] = React.useState(true);
+  const [error, setError] = React.useState(true);
 
   const dispatch = useDispatch();
 
   const loginHandler = () => {
-     if (validCredentials.hasError) {
+     if (error) {
       handleValidEmail(email);
       handleValidPassword(password);
+      return;
     } else {
-      console.log('called')
-      dispatch(signUp(username, email, password));
-      // navigation.navigate("SignIn");
+      dispatch(signIn(email, password));
     }
-    dispatch(signIn(email, password));
   };
 
   const handleValidEmail = (value) => {
     const errorMessage = emailValidation(value);
-    handleUserInput(errorMessage, validCredentials.validEmail);
+    handleUserInput(errorMessage, setValidEmail);
   };
 
   const handleValidPassword = (value) => {
     const errorMessage = passwordValidation(value);
-    handleUserInput(errorMessage, validCredentials.validPassword);
+    handleUserInput(errorMessage, setValidPassword);
   };
 
-  const handleUserInput = (errorMessage, key) => {
-    const noErrorMessage = errorMessage === null
-
-    if (noErrorMessage) {
-      setValidCredentials({ ...validCredentials, [key]: true, hasError: false });
+  const handleUserInput = (errorMessage, setState) => {
+    if (errorMessage !== null) {
+      setState(false);
     } else {
-      setValidCredentials({
-        ...validCredentials,
-        [key]: false,
-        hasError: true,
-      });
+      setState(true);
+      setError(false);
     }
   };
-
 
   return (
     <View style={styles.container}>
@@ -78,7 +68,7 @@ const SignIn = ({ navigation }) => {
           />
         </View>
 
-        {validCredentials.validEmail ? null : (
+        {validEmail ? null : (
           <Text style={styles.errorText}>{emailValidation(email)}</Text>
         )}
 
@@ -96,7 +86,7 @@ const SignIn = ({ navigation }) => {
           />
         </View>
 
-        {validCredentials.validPassword ? null : (
+        {validPassword ? null : (
           <Text style={styles.errorText}>{passwordValidation(password)}</Text>
         )}
 
@@ -177,5 +167,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     flexDirection: "row"
+  },
+  errorText: {
+    color: "red",
+    fontSize: 9,
   }
 });
