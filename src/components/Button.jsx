@@ -1,9 +1,18 @@
 import React from "react";
-import { Button, Text } from "native-base";
+import { TouchableOpacity, Text, StyleSheet,  } from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-const NativeButton = ({ title, onPress, ...rest }) => (
-  <Button {...rest} onPress={onPress}>
-    <Text>{title}</Text>
-  </Button>
+const Button = ({ title, onPress, style, color, ...rest }) => (
+  <TouchableOpacity {...rest} onPress={onPress} style={style}>
+    <Text style={[styles.textSign, {color}]}>{title}</Text>
+    <MaterialIcons {...rest}/>
+  </TouchableOpacity>
 );
-export default NativeButton;
+export default Button;
+
+const styles = StyleSheet.create({
+  textSign: {
+    color: "#fff",
+    fontWeight: "bold",
+  }
+});

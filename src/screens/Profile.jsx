@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import Button from "../components/Button";
 
-const Profile = ({navigation}) => {
+function Profile({ navigation }) {
   return (
     <View style={styles.profile}>
       <Button
@@ -14,7 +14,7 @@ const Profile = ({navigation}) => {
       />
     </View>
   );
-};
+}
 
 export default Profile;
 
@@ -26,5 +26,5 @@ const styles = StyleSheet.create({
   },
   button: {
     alignSelf: "center",
-  }
+  },
 });

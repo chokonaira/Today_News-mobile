@@ -1,31 +1,26 @@
 import React from "react";
-import { View, StyleSheet, Text, Platform } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useDispatch } from "react-redux";
-import { signUp } from "../redux/actions/auth";
+import { signIn } from "../redux/actions/auth";
+import { Text } from "native-base";
 import { useSelector } from "react-redux";
-import {
-  usernameValidation,
-  emailValidation,
-  passwordValidation,
-} from "../helpers/validations";
+import { emailValidation, passwordValidation } from "../helpers/validations";
 
-function SignUp({ navigation }) {
-  const [username, setUsername] = React.useState("");
+function SignIn({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [validUsername, setValidUsername] = React.useState(true);
   const [validEmail, setValidEmail] = React.useState(true);
   const [validPassword, setValidPassword] = React.useState(true);
   const [InvalidCredentials, setCredentials] = React.useState(true);
 
   const serverError = useSelector((state) => state.auth.errors);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
 
-  const signupHandler = () => {
+  const loginHandler = () => {
     if (InvalidCredentials) {
-      handleValidUsername(username);
       handleValidEmail(email);
       handleValidPassword(password);
       return;
@@ -34,13 +29,8 @@ function SignUp({ navigation }) {
         { text: "Okay" },
       ]);
     } else {
-      dispatch(signUp(username, email, password, navigation));
+      dispatch(signIn(email, password, navigation));
     }
-  };
-
-  const handleValidUsername = (value) => {
-    const errorMessage = usernameValidation(value);
-    handleUserInput(errorMessage, setValidUsername);
   };
 
   const handleValidEmail = (value) => {
@@ -65,28 +55,9 @@ function SignUp({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.text_header}>Register Now!</Text>
+        <Text style={styles.text_header}>Welcome!</Text>
       </View>
       <View style={styles.footer}>
-        <Text style={styles.text_footer}>Username</Text>
-        <View style={styles.action}>
-          <Input
-            placeholder="Your Username"
-            type="username"
-            onChangeText={(username) => {
-              setUsername(username);
-            }}
-            value={username}
-            autoCapitalize="none"
-            style={styles.textInput}
-            onEndEditing={(e) => handleValidUsername(e.nativeEvent.text)}
-          />
-        </View>
-
-        {validUsername ? null : (
-          <Text style={styles.errorText}>{usernameValidation(username)}</Text>
-        )}
-
         <Text style={styles.text_footer}>Email</Text>
         <View style={styles.action}>
           <Input
@@ -125,8 +96,8 @@ function SignUp({ navigation }) {
 
         <View style={styles.buttonWrapper}>
           <Button
-            title="Sign Up"
-            onPress={signupHandler}
+            title="Sign In"
+            onPress={loginHandler}
             color="#fff"
             size={20}
             style={[
@@ -135,8 +106,10 @@ function SignUp({ navigation }) {
             ]}
           />
           <Button
-            title="Sign In"
-            onPress={() => navigation.navigate("SignIn")}
+            title="Sign Up"
+            onPress={() =>
+              navigation.navigate("SignUp")
+            }
             color="#fff"
             size={20}
             color="#00A6FB"
@@ -157,7 +130,7 @@ function SignUp({ navigation }) {
   );
 }
 
-export default SignUp;
+export default SignIn;
 
 const styles = StyleSheet.create({
   container: {
@@ -171,7 +144,7 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   footer: {
-    flex: 2.3,
+    flex: 2,
     backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -186,7 +159,7 @@ const styles = StyleSheet.create({
   text_footer: {
     color: "#05375a",
     fontSize: 18,
-    marginTop: 10,
+    marginTop: 20,
   },
   action: {
     flexDirection: "row",
