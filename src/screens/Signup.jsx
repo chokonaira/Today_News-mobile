@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Platform } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useDispatch } from "react-redux";
@@ -194,6 +194,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#f2f2f2",
     paddingBottom: 5,
+  },
+  textInput:{
+    flex: 1,
+    marginTop: Platform.OS === 'ios' ? 0 : -12,
+    paddingLeft: 10,
+    color: '#053751'
   },
   buttonWrapper: {
     alignItems: "center",
