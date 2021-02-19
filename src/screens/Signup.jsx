@@ -3,32 +3,38 @@ import { View, StyleSheet, Text } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useDispatch } from "react-redux";
-import { signUp } from "../redux/actions/signUp";
+import { signUp } from "../redux/actions/auth";
+import { useSelector } from "react-redux";
 import {
   usernameValidation,
   emailValidation,
   passwordValidation,
 } from "../helpers/validations";
 
-const SignUp = ({ navigation }) => {
+function SignUp({ navigation }) {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [validUsername, setValidUsername] = React.useState(true);
   const [validEmail, setValidEmail] = React.useState(true);
   const [validPassword, setValidPassword] = React.useState(true);
-  const [error, setError] = React.useState(true);
+  const [InvalidCredentials, setCredentials] = React.useState(true);
 
+  const serverError = useSelector((state) => state.auth.errors);
   const dispatch = useDispatch();
 
   const signupHandler = () => {
-    if (error) {
+    if (InvalidCredentials) {
       handleValidUsername(username);
       handleValidEmail(email);
       handleValidPassword(password);
       return;
+    } else if (serverError) {
+      return Alert.alert("Invalid credentials", "Please try again", [
+        { text: "Okay" },
+      ]);
     } else {
-      dispatch(signUp(username, email, password));
+      dispatch(signUp(username, email, password, navigation));
     }
   };
 
@@ -52,7 +58,7 @@ const SignUp = ({ navigation }) => {
       setState(false);
     } else {
       setState(true);
-      setError(false);
+      setCredentials(false);
     }
   };
 
@@ -149,7 +155,7 @@ const SignUp = ({ navigation }) => {
       </View>
     </View>
   );
-};
+}
 
 export default SignUp;
 

@@ -2,13 +2,14 @@ import * as React from "react";
 import Home from "../screens/Home";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
+import TodayNews from "../screens/TodayNews";
 import { createStackNavigator } from "@react-navigation/stack";
 
-const Stacks = createStackNavigator();
+const Stack = createStackNavigator();
 
-const StackRoutes = () => {
+function Stacks() {
   return (
-    <Stacks.Navigator
+    <Stack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: "#00A6FB",
@@ -20,29 +21,36 @@ const StackRoutes = () => {
       }}
       initialRouteName="Home"
     >
-      <Stacks.Screen
+      <Stack.Screen
         options={{
           headerShown: false,
         }}
         name="Home"
         component={Home}
       />
-      <Stacks.Screen
+      <Stack.Screen
         options={{
           headerShown: false,
         }}
         name="SignUp"
         component={SignUp}
       />
-      <Stacks.Screen
+      <Stack.Screen
         options={{
           headerShown: false,
         }}
         name="SignIn"
         component={SignIn}
       />
-    </Stacks.Navigator>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="News"
+        component={TodayNews}
+      />
+    </Stack.Navigator>
   );
-};
+}
 
-export default StackRoutes;
+export default Stacks;

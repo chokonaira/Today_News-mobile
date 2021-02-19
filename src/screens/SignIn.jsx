@@ -1,31 +1,35 @@
 import React from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useDispatch } from "react-redux";
-import { signIn } from "../redux/actions/signIn";
+import { signIn } from "../redux/actions/auth";
 import { Text } from "native-base";
-import {
-  emailValidation,
-  passwordValidation,
-} from "../helpers/validations";
+import { useSelector } from "react-redux";
+import { emailValidation, passwordValidation } from "../helpers/validations";
 
-const SignIn = ({ navigation }) => {
+function SignIn({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [validEmail, setValidEmail] = React.useState(true);
   const [validPassword, setValidPassword] = React.useState(true);
-  const [error, setError] = React.useState(true);
+  const [InvalidCredentials, setCredentials] = React.useState(true);
 
+  const serverError = useSelector((state) => state.auth.errors);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
 
   const loginHandler = () => {
-     if (error) {
+    if (InvalidCredentials) {
       handleValidEmail(email);
       handleValidPassword(password);
       return;
+    } else if (serverError) {
+      return Alert.alert("Invalid credentials", "Please try again", [
+        { text: "Okay" },
+      ]);
     } else {
-      dispatch(signIn(email, password));
+      dispatch(signIn(email, password, navigation));
     }
   };
 
@@ -44,7 +48,7 @@ const SignIn = ({ navigation }) => {
       setState(false);
     } else {
       setState(true);
-      setError(false);
+      setCredentials(false);
     }
   };
 
@@ -94,23 +98,37 @@ const SignIn = ({ navigation }) => {
           <Button
             title="Sign In"
             onPress={loginHandler}
-            color="#fff" 
-            size={20} 
-            style={[styles.button, {width: '100%', backgroundColor: "#00A6FB"}]}
+            color="#fff"
+            size={20}
+            style={[
+              styles.button,
+              { width: "100%", backgroundColor: "#00A6FB" },
+            ]}
           />
           <Button
             title="Sign Up"
-            onPress={() => navigation.navigate("SignUp")}
-            color="#fff" 
-            size={20} 
-            color='#00A6FB'
-            style={[styles.button, {width: '100%', backgroundColor: "#fff", borderColor: '#00A6FB', borderWidth: 1, marginTop: 15}]}
+            onPress={() =>
+              navigation.navigate("SignUp")
+            }
+            color="#fff"
+            size={20}
+            color="#00A6FB"
+            style={[
+              styles.button,
+              {
+                width: "100%",
+                backgroundColor: "#fff",
+                borderColor: "#00A6FB",
+                borderWidth: 1,
+                marginTop: 15,
+              },
+            ]}
           />
         </View>
       </View>
     </View>
   );
-};
+}
 
 export default SignIn;
 
@@ -141,7 +159,7 @@ const styles = StyleSheet.create({
   text_footer: {
     color: "#05375a",
     fontSize: 18,
-    marginTop: 20
+    marginTop: 20,
   },
   action: {
     flexDirection: "row",
@@ -166,10 +184,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    flexDirection: "row"
+    flexDirection: "row",
   },
   errorText: {
     color: "red",
     fontSize: 9,
-  }
+  },
 });

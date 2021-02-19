@@ -2,14 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import NewsCard from "../components/NewsCard";
 
-const TodaysNews = () => {
+function TodaysNews() {
   return (
     <View style={styles.todayNews}>
       <NewsCard />
       <Text style={styles.text}>Today News</Text>
     </View>
   );
-};
+}
 
 export default TodaysNews;
 
@@ -20,5 +20,5 @@ const styles = StyleSheet.create({
   },
   text: {
     alignSelf: "center",
-  }
+  },
 });

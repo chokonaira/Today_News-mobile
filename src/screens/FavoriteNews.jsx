@@ -2,14 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import NewsCard from "../components/NewsCard";
 
-const FavoriteNews = () => {
+function FavoriteNews() {
   return (
     <View style={styles.favoriteNews}>
       <NewsCard />
-      <Text style={styles.text} >Favorite News</Text>
+      <Text style={styles.text}>Favorite News</Text>
     </View>
   );
-};
+}
 
 export default FavoriteNews;
 
@@ -20,5 +20,5 @@ const styles = StyleSheet.create({
   },
   text: {
     alignSelf: "center",
-  }
+  },
 });
