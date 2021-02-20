@@ -15,7 +15,7 @@ const authError = (payload) => ({
   payload,
 });
 
-export const signUp = (username, email, password, navigation) => (dispatch) => {
+export const signUp = (username, email, password, navigation) => (dispatch) => {x
   dispatch(authLoading());
   auth
     .createUserWithEmailAndPassword(email, password)
