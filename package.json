@@ -3,7 +3,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "author": "Henry Okonkwo",
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest",
     "start": "expo start -c",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -25,7 +25,6 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
-    "react-native-dotenv": "^2.5.3",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-loading-spinner-overlay": "^2.0.0",
     "react-native-reanimated": "~1.13.0",
@@ -35,26 +34,34 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0",
-    "@testing-library/jest-native": "^3.4.3",
-    "@testing-library/react-native": "^7.1.0",
+    "@babel/core": "^7.8.6",
+    "@babel/plugin-syntax-jsx": "^7.12.13",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
+    "babel-jest": "^25.5.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-expo": "~8.1.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-native": "^4.0.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "fetch-mock": "^9.10.5",
     "jest": "^25.5.4",
     "jest-expo": "^40.0.2",
+    "metro-react-native-babel-preset": "^0.61.0",
+    "react-native-dotenv": "^2.5.3",
+    "react-native-testing-library": "^2.1.0",
     "react-redux": "^7.2.2",
+    "react-test-renderer": "^16.13.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-mock-store": "^1.5.4",
-    "redux-thunk": "^2.3.0",
-    "uuid": "^3.4.0"
+    "redux-thunk": "^2.3.0"
   },
   "private": true,
   "jest": {
     "preset": "jest-expo",
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
-    ],
-    "setupFilesAfterEnv": [
-      "@testing-library/jest-native/extend-expect"
     ]
   }
 }

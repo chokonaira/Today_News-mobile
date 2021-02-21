@@ -1,4 +1,7 @@
-const {defaults} = require('jest-config');
+const { defaults } = require("jest-config");
 module.exports = {
-  moduleFileExtensions: [...defaults.moduleFileExtensions, 'js', 'jsx'],
+  moduleFileExtensions: [...defaults.moduleFileExtensions, "js", "jsx"],
+  transform: {
+    "^.+\\.jsx?$": "babel-jest"
+  },
 };
