@@ -3,7 +3,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "author": "Henry Okonkwo",
   "scripts": {
-    "test": "jest",
+    "test": "jest --watchAll",
     "start": "expo start -c",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -43,7 +43,9 @@
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-mock-store": "^1.5.4",
+    "redux-thunk": "^2.3.0",
+    "uuid": "^3.4.0"
   },
   "private": true,
   "jest": {

@@ -20,7 +20,8 @@ export const signUp = (username, email, password, navigation) => (dispatch) => {
   auth
     .createUserWithEmailAndPassword(email, password)
     .then((response) => {
-      database.collection("users").doc(auth.currentUser.uid).set({
+      const {user: { uid, email }} = response;
+      database.collection("users").doc(uid).set({
         username,
         email,
       });
@@ -28,6 +29,7 @@ export const signUp = (username, email, password, navigation) => (dispatch) => {
       navigation.navigate("News");
     })
     .catch((error) => {
+      console.log(error)
       dispatch(authError(error.message));
     });
 };
