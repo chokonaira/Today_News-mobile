@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, Platform } from "react-native";
+import { View, StyleSheet, Text, Platform, Alert } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useDispatch } from "react-redux";
@@ -64,7 +64,6 @@ function SignUp({ navigation }) {
   };
 
   return (
-    <React.Fragment>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.text_header}>Register Now!</Text>
@@ -225,5 +224,4 @@ function SignUp({ navigation }) {
       color: "red",
       fontSize: 9,
     },
-    </React.Fragment>
 });

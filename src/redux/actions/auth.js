@@ -16,29 +16,28 @@ const authError = (payload) => ({
   payload,
 });
 
-export const signUp = (username, email, password, navigation) => {
-  // dispatch(authLoading());
+export const signUp = (email, password, navigation) => (dispatch) => {
+  dispatch(authLoading());
   firebase.auth()
     .createUserWithEmailAndPassword(email, password)
     .then((response) => {
-      console.log(response)
-      // const {user: { uid, email }} = response;
-      // firebase.firestore().collection("users").doc(uid).set({
-      //   username,
-      //   email,
-      // });
-      // dispatch(authSuccess(response.user));
+      const {user: { uid, email }} = response;
+      firebase.firestore().collection("users").doc(uid).set({
+        username,
+        email,
+      });
+      dispatch(authSuccess(response.user));d
       navigation.navigate("News");
     })
     .catch((error) => {
       console.log(error)
-      // dispatch(authError(error.message));
+      dispatch(authError(error.message));
     });
 };
 
 export const signIn = (email, password, navigation) => (dispatch) => {
   dispatch(authLoading());
-  auth
+  firebase.auth()
     .signInWithEmailAndPassword(email, password)
     .then((response) => {
       dispatch(authSuccess(response.user));
