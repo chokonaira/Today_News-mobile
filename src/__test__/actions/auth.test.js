@@ -1,34 +1,27 @@
 import firebase from "firebase";
 import { signUp } from "../../redux/actions/auth";
 
-jest.spyOn(firebase, 'initializeApp')
-.mockImplementation( () => {
-  return {
-    auth: jest.fn().mockReturnValue({
-      createUserWithEmailAndPassword: jest.fn(() => {
-        return Promise.resolve('result of createUserWithEmailAndPassword')
-      }),
-      signInWithEmailAndPassword: jest.fn(),
-    }),
-    firestore: jest.fn().mockReturnValue({
-      collection: jest.fn().mockReturnValue({
-        doc: jest.fn().mockReturnValue({
-          set: jest.fn().mockResolvedValue({
-            id: "abc123",
-          }),
-        }),
-      }),
-    }),
-  };
+const createUserWithEmailAndPassword = jest.fn(() => {
+  return Promise.resolve('result of createUserWithEmailAndPassword')
 })
 
-// jest.spyOn(firebase, 'auth').mockImplementation(() => {
-//   return {
-//     createUserWithEmailAndPassword: jest.fn(() => {
-//       return Promise.resolve('result of createUserWithEmailAndPassword')
-//     })
-//   }
-// })
+jest
+  .spyOn(firebase, 'initializeApp')
+  .mockImplementation(() => {
+    return {
+      auth: () => {
+        return {
+          createUserWithEmailAndPassword,
+        }
+      }
+    }
+  })
+
+jest.spyOn(firebase, 'auth').mockImplementation(() => {
+  return {
+    createUserWithEmailAndPassword
+  }
+})
 
 describe("Auth", () => {
   it("succesfully firebase signup and save user in firestore", (done) => {
@@ -37,6 +30,7 @@ describe("Auth", () => {
     };
     signUp("Testuser", "test@gmail.com", "password", navigation);
     expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled()
+    // expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith("test@gmail.com", "password")
     done();
   });
 });
