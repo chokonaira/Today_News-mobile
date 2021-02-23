@@ -12,7 +12,6 @@ import "firebase/firestore";
 
 const mockStore = configureStore([thunk]);
 
-const onAuthStateChanged = jest.fn()
 const createUserWithEmailAndPassword = jest.fn(() => {
   return Promise.resolve('result of createUserWithEmailAndPassword')
 })
@@ -28,7 +27,6 @@ const collection = jest.fn(() => {
 
 jest.spyOn(firebase, 'auth').mockImplementation(() => {
   return {
-    onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     currentUser: {
@@ -37,7 +35,6 @@ jest.spyOn(firebase, 'auth').mockImplementation(() => {
   }
 })
 
-const setPromise = Promise.resolve({ username: "testuser",  email: "test@gmail.com" });
 jest.spyOn(firebase, "firestore").mockImplementation(() => {
   return {
     collection,
@@ -60,7 +57,7 @@ describe("Auth", () => {
       }
     ];
     store
-      .dispatch(signUp("testuser", "test@gmail.com", "password", navigation)).then()
+      .dispatch(signUp("testuser", "test@gmail.com", "password", navigation))
         try {
           expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled()
           expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith("test@gmail.com", "password")

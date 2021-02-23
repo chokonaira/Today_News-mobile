@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import NewsCard from "../components/NewsCard";
 
-function FavoriteNews() {
+export default function FavoriteNews() {
   return (
     <View style={styles.favoriteNews}>
       <NewsCard />
@@ -10,8 +10,6 @@ function FavoriteNews() {
     </View>
   );
 }
-
-export default FavoriteNews;
 
 const styles = StyleSheet.create({
   favoriteNews: {

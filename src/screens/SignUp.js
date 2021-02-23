@@ -11,7 +11,7 @@ import {
   passwordValidation,
 } from "../helpers/validations";
 
-function SignUp({ navigation }) {
+export default function SignUp({ navigation }) {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");

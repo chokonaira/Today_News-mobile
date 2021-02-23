@@ -7,7 +7,7 @@ import Tabs from "./navigations/Tabs";
 import { useSelector } from "react-redux";
 import Spinner from "react-native-loading-spinner-overlay";
 
-function Index() {
+export default function Main() {
   const authenticated = useSelector((state) => state.auth.isAuthenticated);
   const loading = useSelector((state) => state.auth.isLoading);
 
@@ -46,8 +46,6 @@ function Index() {
     </View>
   );
 }
-
-export default Index;
 
 const styles = StyleSheet.create({
   container: {

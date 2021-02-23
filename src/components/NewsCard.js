@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
 
-const Card = () => {
+export default function Card() {
   return (
     <>
       <View style={styles.card}>
@@ -10,7 +10,8 @@ const Card = () => {
           <Image
             style={styles.cardBodyImage}
             source={{
-              uri: "https://chicago.cbslocal.com/wp-content/uploads/sites/15116062/2020/04/Combo-Logo-CHICAGO.png?w=1500",
+              uri:
+                "https://chicago.cbslocal.com/wp-content/uploads/sites/15116062/2020/04/Combo-Logo-CHICAGO.png?w=1500",
             }}
           />
           <Text style={styles.cardBodyText}>
@@ -27,7 +28,8 @@ const Card = () => {
           <Image
             style={styles.cardBodyImage}
             source={{
-              uri: "https://www.todayjaffna.com/wp-content/uploads/2020/12/FS-MON-BREAKING-NEWS-.png",
+              uri:
+                "https://www.todayjaffna.com/wp-content/uploads/2020/12/FS-MON-BREAKING-NEWS-.png",
             }}
           />
           <Text style={styles.cardBodyText}>
@@ -40,7 +42,7 @@ const Card = () => {
       </View>
     </>
   );
-};
+}
 
 const styles = StyleSheet.create({
   card: {
@@ -71,5 +73,3 @@ const styles = StyleSheet.create({
     height: "20%",
   },
 });
-
-export default Card;

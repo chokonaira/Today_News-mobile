@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import Button from "../components/Button";
 
-function Profile({ navigation }) {
+export default function Profile({ navigation }) {
   return (
     <View style={styles.profile}>
       <Button
@@ -15,8 +15,6 @@ function Profile({ navigation }) {
     </View>
   );
 }
-
-export default Profile;
 
 const styles = StyleSheet.create({
   profile: {

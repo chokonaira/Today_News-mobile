@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import NewsCard from "../components/NewsCard";
 
-function TodaysNews() {
+export default function TodaysNews() {
   return (
     <View style={styles.todayNews}>
       <NewsCard />
@@ -10,8 +10,6 @@ function TodaysNews() {
     </View>
   );
 }
-
-export default TodaysNews;
 
 const styles = StyleSheet.create({
   todayNews: {

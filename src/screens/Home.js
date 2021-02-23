@@ -1,10 +1,9 @@
-import { Text } from "native-base";
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import Logo from "../components/Logo";
 import Button from "../components/Button";
 
-function Home({ navigation }) {
+export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
@@ -29,8 +28,6 @@ function Home({ navigation }) {
     </View>
   );
 }
-
-export default Home;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,15 +1,15 @@
 import React from "react";
 import { Image, StyleSheet, Dimensions } from "react-native";
 
-const Logo = () => (
-  <Image
-    style={styles.logo}
-    source={require("../assets/news_logo.png")}
-    resizeMode="stretch"
-  />
-);
-export default Logo;
-
+export default function () {
+  return (
+    <Image
+      style={styles.logo}
+      source={require("../assets/news_logo.png")}
+      resizeMode="stretch"
+    />
+  );
+}
 const { height } = Dimensions.get("screen");
 const logoHeight = height * 0.28;
 

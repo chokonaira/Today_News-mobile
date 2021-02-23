@@ -7,7 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
 
-function Stacks() {
+export default function Stacks() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -52,5 +52,3 @@ function Stacks() {
     </Stack.Navigator>
   );
 }
-
-export default Stacks;

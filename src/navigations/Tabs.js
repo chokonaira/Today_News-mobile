@@ -6,7 +6,7 @@ import FavoriteNews from "../screens/FavoriteNews";
 
 const Tab = createBottomTabNavigator();
 
-function Tabs() {
+export default function Tabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="News" component={TodayNews} />
@@ -15,5 +15,3 @@ function Tabs() {
     </Tab.Navigator>
   );
 }
-
-export default Tabs;

@@ -1,14 +1,13 @@
 import React from "react";
-import { View, StyleSheet, Alert, Platform } from "react-native";
+import { View, StyleSheet, Alert, Platform, Text } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useDispatch } from "react-redux";
 import { signIn } from "../redux/actions/auth";
-import { Text } from "native-base";
 import { useSelector } from "react-redux";
 import { emailValidation, passwordValidation } from "../helpers/validations";
 
-function SignIn({ navigation }) {
+export default function SignIn({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [validEmail, setValidEmail] = React.useState(true);
@@ -128,8 +127,6 @@ function SignIn({ navigation }) {
     </View>
   );
 }
-
-export default SignIn;
 
 const styles = StyleSheet.create({
   container: {
