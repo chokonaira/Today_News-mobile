@@ -20,7 +20,7 @@ export const signUp = (username, email, password, navigation) => async (dispatch
   try {
     dispatch(authLoading());
     const response = await firebase.auth().createUserWithEmailAndPassword(email, password)
-    await firebase.firestore().collection("users").doc().set({ username, email });
+    await firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).set({ username, email });
     dispatch(authSuccess(response.user));
     navigation.navigate("News");
   } catch(error) {
