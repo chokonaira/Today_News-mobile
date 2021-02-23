@@ -2,7 +2,7 @@ import {
   usernameValidation,
   emailValidation,
   passwordValidation,
-} from "../helpers/validations";
+} from "../../helpers/validations";
 
 describe("Input Validations", () => {
   it("validates for an empty username", () => {

@@ -7,7 +7,7 @@ const initialState = {
   errors: null,
 };
 
-export const auth = (state = initialState, action) => {
+function auth(state = initialState, action){
   switch (action.type) {
     case types.AUTH_LOADING:
       return {
@@ -31,3 +31,5 @@ export const auth = (state = initialState, action) => {
       return state;
   }
 };
+
+export default auth;

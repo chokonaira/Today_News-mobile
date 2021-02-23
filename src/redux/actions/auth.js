@@ -1,5 +1,5 @@
 import * as types from "./types";
-import { auth, database } from "../../config/firebase";
+import * as firebase from "firebase";
 
 const authLoading = () => ({
   type: types.AUTH_LOADING,
@@ -15,26 +15,23 @@ const authError = (payload) => ({
   payload,
 });
 
-export const signUp = (username, email, password, navigation) => (dispatch) => {
-  dispatch(authLoading());
-  auth
-    .createUserWithEmailAndPassword(email, password)
-    .then((response) => {
-      database.collection("users").doc(auth.currentUser.uid).set({
-        username,
-        email,
-      });
-      dispatch(authSuccess(response.user));
-      navigation.navigate("News");
-    })
-    .catch((error) => {
+export const signUp = (username, email, password, navigation) => async (dispatch) => {
+  try {
+    dispatch(authLoading());
+    const response = await firebase.auth().createUserWithEmailAndPassword(email, password)
+    await firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).set({ username, email });
+    console.log('called');
+    dispatch(authSuccess(response.user));
+    navigation.navigate("News");
+  } catch(error) {
+      console.log(error)
       dispatch(authError(error.message));
-    });
-};
+    };
+  }
 
 export const signIn = (email, password, navigation) => (dispatch) => {
   dispatch(authLoading());
-  auth
+  firebase.auth()
     .signInWithEmailAndPassword(email, password)
     .then((response) => {
       dispatch(authSuccess(response.user));

@@ -16,7 +16,6 @@ function SignIn({ navigation }) {
   const [InvalidCredentials, setCredentials] = React.useState(true);
 
   const serverError = useSelector((state) => state.auth.errors);
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
 
   const loginHandler = () => {
