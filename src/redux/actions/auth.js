@@ -32,8 +32,9 @@ export const signUp = (username, email, password, navigation) => (dispatch) => {
     })
     .catch((error) => {
       dispatch(authError(error.message));
-    }
-  }
+    });
+};
+
 
 export const signIn = (email, password, navigation) => (dispatch) => {
   dispatch(authLoading());

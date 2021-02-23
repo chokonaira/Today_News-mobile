@@ -1,4 +1,4 @@
-import { auth } from "../../redux/reducers/auth";
+import auth from "../../redux/reducers/auth";
 
 import {
   AUTH_LOADING,

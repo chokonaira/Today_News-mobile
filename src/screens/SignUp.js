@@ -157,9 +157,7 @@ export default function SignUp({ navigation }) {
       </View>
     );
   }
-  
-  export default SignUp;
-  
+    
   const styles = StyleSheet.create({
     container: {
       flex: 1,
