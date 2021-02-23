@@ -7,9 +7,12 @@ import {
   AUTH_SUCCESS,
   AUTH_ERROR,
 } from "../../redux/actions/types";
+import "firebase/firestore";
+
 
 const mockStore = configureStore([thunk]);
 
+const onAuthStateChanged = jest.fn()
 const createUserWithEmailAndPassword = jest.fn(() => {
   return Promise.resolve('result of createUserWithEmailAndPassword')
 })
@@ -18,15 +21,34 @@ const signInWithEmailAndPassword = jest.fn(() => {
   return Promise.resolve('result of signInWithEmailAndPassword')
 })
 
+const collection = jest.fn(() => {
+  return Promise.resolve('result of signInWithEmailAndPassword')
+})
+
+
 jest.spyOn(firebase, 'auth').mockImplementation(() => {
   return {
+    onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    currentUser: {
+      uid: 1,
+    },
   }
 })
 
+const setPromise = Promise.resolve({ username: "testuser",  email: "test@gmail.com" });
+jest.spyOn(firebase, "firestore").mockImplementation(() => {
+  return {
+    collection,
+  }
+});
+
 describe("Auth", () => {
+
   it("succesfully firebase signup and save user in firestore", (done) => {
+    
+
     const store = mockStore({})
     const navigation = {
       navigate: jest.fn(),
@@ -38,10 +60,11 @@ describe("Auth", () => {
       }
     ];
     store
-      .dispatch(signUp("test@gmail.com", "password", navigation))
+      .dispatch(signUp("testuser", "test@gmail.com", "password", navigation)).then()
         try {
           expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled()
           expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith("test@gmail.com", "password")
+          // expect(firebase.firestore().collection).toBeCalledWith('users');
           expect(store.getActions()).toEqual(expectedAction);
           done();
         } catch (error) {
@@ -49,6 +72,41 @@ describe("Auth", () => {
         }
    
   });
+
+  // xit("unsuccesfully firebase signup with error", (done) => {
+  //   const store = mockStore({})
+  //   const navigation = {
+  //     navigate: jest.fn(),
+  //   };
+
+  //   const message = "Invalid email format";
+    
+  //   const expectedAction = [
+  //     {
+  //       type: AUTH_LOADING,
+  //     },
+  //     {
+  //       type: AUTH_ERROR,
+  //       payload: {
+  //         message,
+  //       },
+  //     }
+  //   ];
+  //   store.dispatch(signUp("tesgmail", "password", navigation))
+  //       try {
+  //         expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled()
+  //         expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith("tesgmail", "password")
+  //         expect(firebase.firestore().collection().doc).toBeCalledWith("users")
+    
+
+  //         console.log(store.getActions())
+  //         expect(store.getActions()).toEqual(expectedAction);
+  //         done();
+  //       } catch (error) {
+  //         done(error);
+  //       }
+   
+  // });
 
   it("succesfully firebase signin with firebase", (done) => {
     const store = mockStore({})

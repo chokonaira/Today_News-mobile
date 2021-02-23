@@ -1,10 +1,9 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-// import SingIn from "../../screens/SignIn";
+import { shallow } from 'enzyme';
+import React from 'react';
+import SignIn from '../../screens/SignIn';
+import { View } from 'react-native';
 
-describe("", () => {
-  xit("throw error message when the input is invalid for firstname", () => {
-    // const tree = render(<SingIn/>);
-    console.log("Hello");
-  });
+it('works', () => {
+  console.log('..got here')
+  // expect(1).toBe(1);
 });
