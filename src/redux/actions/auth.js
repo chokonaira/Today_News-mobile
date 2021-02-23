@@ -1,5 +1,4 @@
 import * as types from "./types";
-import { auth, database } from "../../config/firebase";
 import * as firebase from "firebase";
 
 const authLoading = () => ({
@@ -21,6 +20,7 @@ export const signUp = (username, email, password, navigation) => async (dispatch
     dispatch(authLoading());
     const response = await firebase.auth().createUserWithEmailAndPassword(email, password)
     await firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).set({ username, email });
+    console.log('called');
     dispatch(authSuccess(response.user));
     navigation.navigate("News");
   } catch(error) {
