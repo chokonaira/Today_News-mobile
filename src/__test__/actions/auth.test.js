@@ -59,7 +59,7 @@ describe("Auth", () => {
           expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith("test@gmail.com", "password")
           expect(firestoreMock.collection).toBeCalledWith('users');
           expect(firestoreMock.doc).toBeCalledWith(5)
-          expect(firestoreMock.set).toBeCalledWith({"email": "test@gmail.com", "username": "testuser"})
+          expect(firestoreMock.set).toBeCalledWith({email: "test@gmail.com", username: "testuser"})
           // expect(store.getActions()).toEqual(expectedAction);
           done();
         } catch (error) {

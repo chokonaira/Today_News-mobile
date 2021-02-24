@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput } from "react-native";
+import { TextInput, View, StyleSheet, Text } from "react-native";
 
 export default function Input({
   placeholder,
@@ -7,16 +7,41 @@ export default function Input({
   onChangeText,
   value,
   onEndEditing,
+  isValid,
+  validationFn,
   ...rest
 }) {
   return (
-    <TextInput
-      placeholder={placeholder}
-      type={type}
-      onChangeText={onChangeText}
-      value={value}
-      onEndEditing={onEndEditing}
-      {...rest}
-    />
+    <>
+      <View style={styles.action}>
+        <TextInput
+          placeholder={placeholder}
+          type={type}
+          onChangeText={onChangeText}
+          value={value}
+          onEndEditing={onEndEditing}
+          {...rest}
+        />
+      </View>
+      {isValid ? null : (
+        <Text testID="errorText" style={styles.errorText}>
+          {validationFn}
+        </Text>
+      )}
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  action: {
+    flexDirection: "row",
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f2f2f2",
+    paddingBottom: 5,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 9,
+  },
+});
