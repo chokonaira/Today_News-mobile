@@ -10,8 +10,9 @@ import {
   emailValidation,
   passwordValidation,
 } from "../helpers/validations";
+import * as types from "../redux/actions/types";
 
-export default function SignUp({ navigation }) {
+function SignUp({ navigation }) {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -30,7 +31,8 @@ export default function SignUp({ navigation }) {
       handleValidPassword(password);
       return;
     } else if (serverError) {
-      return Alert.alert("Invalid credentials", "Please try again", [
+      dispatch({type: types.DISMISS_ERROR})
+      return Alert.alert("User with Email already exist", "Please try again", [
         { text: "Okay" },
       ]);
     } else {
@@ -156,7 +158,9 @@ export default function SignUp({ navigation }) {
       </View>
     );
   }
-    
+  
+  export default SignUp;
+  
   const styles = StyleSheet.create({
     container: {
       flex: 1,

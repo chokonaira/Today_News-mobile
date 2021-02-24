@@ -5,7 +5,6 @@ import {firebaseConfig} from '../../config/firebase'
 
 firebase.initializeApp(firebaseConfig);
 
-
 const authLoading = () => ({
   type: types.AUTH_LOADING,
 });
@@ -19,7 +18,6 @@ const authError = (payload) => ({
   type: types.AUTH_ERROR,
   payload,
 });
-
 
 export const signUp = (username, email, password, navigation) => async (dispatch) => {
   dispatch(authLoading());

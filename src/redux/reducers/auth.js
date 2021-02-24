@@ -27,6 +27,11 @@ export  default function auth(state = initialState, action) {
         isLoading: false,
         errors: action.payload,
       };
+    case types.DISMISS_ERROR:
+    return {
+      ...state,
+      errors: undefined,
+    };
     default:
       return state;
   }

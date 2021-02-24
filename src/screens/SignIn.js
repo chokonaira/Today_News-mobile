@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { signIn } from "../redux/actions/auth";
 import { useSelector } from "react-redux";
 import { emailValidation, passwordValidation } from "../helpers/validations";
+import * as types from "../redux/actions/types";
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = React.useState("");
@@ -23,6 +24,7 @@ export default function SignIn({ navigation }) {
       handleValidPassword(password);
       return;
     } else if (serverError) {
+      dispatch({type: types.DISMISS_ERROR})
       return Alert.alert("Invalid credentials", "Please try again", [
         { text: "Okay" },
       ]);
