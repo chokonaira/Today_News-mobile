@@ -59,35 +59,42 @@ export default function SignIn({ navigation }) {
       </View>
       <View style={styles.footer}>
         <Text style={styles.text_footer}>Email</Text>
-        <Input
-          isValid={validEmail}
-          validationFn={emailValidation(email)}
-          testID="email"
-          placeholder="Your Email"
-          type="email"
-          onChangeText={(email) => setEmail(email)}
-          value={email}
-          autoCapitalize="none"
-          keyboardType={"email-address"}
-          style={styles.textInput}
-          onEndEditing={(e) => handleValidEmail(e.nativeEvent.text)}
-        />
+        <View>
+          <Input
+            isValid={validEmail}
+            validationFn={emailValidation(email)}
+            testID="email"
+            placeholder="Your Email"
+            type="email"
+            onChangeText={(email) => setEmail(email)}
+            value={email}
+            autoCapitalize="none"
+            keyboardType={"email-address"}
+            style={styles.textInput}
+            onBlur={() => handleValidEmail(email)}
+          />
+        </View>
+
         <Text style={styles.text_footer}>Password</Text>
-        <Input
-          isValid={validEmail}
-          validationFn={passwordValidation(password)}
-          testID="password"
-          placeholder="Your Password"
-          type="password"
-          secureTextEntry
-          autoCapitalize="none"
-          onChangeText={(password) => setPassword(password)}
-          value={password}
-          style={styles.textInput}
-          onEndEditing={(e) => handleValidPassword(e.nativeEvent.text)}
-        />
+        <View>
+          <Input
+            isValid={validPassword}
+            validationFn={passwordValidation(password)}
+            testID="password"
+            placeholder="Your Password"
+            type="password"
+            secureTextEntry
+            autoCapitalize="none"
+            onChangeText={(password) => setPassword(password)}
+            value={password}
+            style={styles.textInput}
+            onBlur={() => handleValidPassword(password)}
+          />
+        </View>
+
         <View style={styles.buttonWrapper}>
           <Button
+            testID="signin-btn"
             title="Sign In"
             onPress={loginHandler}
             color="#fff"
