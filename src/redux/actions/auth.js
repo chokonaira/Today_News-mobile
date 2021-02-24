@@ -1,6 +1,11 @@
 import * as types from "./types";
 import * as firebase from "firebase";
 import "firebase/firestore";
+import {firebaseConfig} from '../../config/firebase'
+
+if(firebase.app.length === 0){
+  firebase.initializeApp(firebaseConfig);
+}
 
 const authLoading = () => ({
   type: types.AUTH_LOADING,
@@ -15,6 +20,7 @@ const authError = (payload) => ({
   type: types.AUTH_ERROR,
   payload,
 });
+
 
 export const signUp = (username, email, password, navigation) => (dispatch) => {
   dispatch(authLoading());

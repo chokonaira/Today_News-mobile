@@ -3,7 +3,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "author": "Henry Okonkwo",
   "scripts": {
-    "test": "jest --detectOpenHandles",
+    "test": "jest  --detectOpenHandles",
     "start": "expo start -c",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -15,17 +15,14 @@
   "jest": {
     "preset": "jest-expo",
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-expo-)?react-native|react-native|@react-native-community|expo(nent)?|@expo(nent)?/.|react-navigation|@react-navigation/.|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
     ],
     "moduleFileExtensions": [
       "js",
       "jsx",
       "json",
       "vue"
-    ],
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
+    ]
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.10",
