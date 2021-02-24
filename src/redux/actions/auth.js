@@ -22,7 +22,7 @@ const authError = (payload) => ({
 
 
 export const signUp = (username, email, password, navigation) => async (dispatch) => {
-  // dispatch(authLoading());
+  dispatch(authLoading());
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)

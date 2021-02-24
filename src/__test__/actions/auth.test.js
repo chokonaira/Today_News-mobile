@@ -51,7 +51,7 @@ describe("Auth", () => {
       navigate: jest.fn(),
     };
 
-    await signUp("testuser", "test@gmail.com", "password", navigation)();
+    await signUp("testuser", "test@gmail.com", "password", navigation)(()=> {});
     
     expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled()
     expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith("test@gmail.com", "password")
