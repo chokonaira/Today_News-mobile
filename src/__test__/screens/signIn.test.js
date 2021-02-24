@@ -9,7 +9,7 @@ jest.mock('react-native-vector-icons/MaterialIcons', () => ({
 }))
 
 
-it('works', () => {
-  console.log('..got here')
+it('works', async() => {
+  // console.log('..got here')
   // expect(1).toBe(1);
 });

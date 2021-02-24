@@ -3,9 +3,8 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import {firebaseConfig} from '../../config/firebase'
 
-if(firebase.app.length === 0){
-  firebase.initializeApp(firebaseConfig);
-}
+firebase.initializeApp(firebaseConfig);
+
 
 const authLoading = () => ({
   type: types.AUTH_LOADING,
@@ -22,8 +21,8 @@ const authError = (payload) => ({
 });
 
 
-export const signUp = (username, email, password, navigation) => (dispatch) => {
-  dispatch(authLoading());
+export const signUp = (username, email, password, navigation) => async (dispatch) => {
+  // dispatch(authLoading());
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)

@@ -24,7 +24,6 @@ export default function SignUp({ navigation }) {
   const dispatch = useDispatch();
 
   const signupHandler = () => {
-    console.log(username)
     if (InvalidCredentials) {
       handleValidUsername(username);
       handleValidEmail(email);
