@@ -12,7 +12,7 @@ import {
 } from "../helpers/validations";
 import * as types from "../redux/actions/types";
 
-function SignUp({ navigation }) {
+export default function SignUp({ navigation }) {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -158,8 +158,6 @@ function SignUp({ navigation }) {
       </View>
     );
   }
-  
-  export default SignUp;
   
   const styles = StyleSheet.create({
     container: {
