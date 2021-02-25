@@ -105,7 +105,6 @@ export default function SignIn({ navigation }) {
             ]}
           />
           <Button
-            testID="signin-btn"
             title="Sign Up"
             onPress={() => navigation.navigate("SignUp")}
             color="#fff"
