@@ -1,17 +1,15 @@
 import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Profile from "../screens/Profile";
-import TodayNews from "../screens/TodayNews";
-import FavoriteNews from "../screens/FavoriteNews";
+import { Drawers } from "./Drawers";
+import { FavoriteNewsStacks } from "./Stacks";
 
 const Tab = createBottomTabNavigator();
 
-export default function Tabs() {
+export function Tabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="News" component={TodayNews} />
-      <Tab.Screen name="Favorite News" component={FavoriteNews} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Latest News" component={Drawers} />
+      <Tab.Screen name="Your Favorites" component={FavoriteNewsStacks} />
     </Tab.Navigator>
   );
 }
