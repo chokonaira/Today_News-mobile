@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   footer: {
-    flex: 2,
+    flex: Platform.OS === "ios" ? 2 : 2.5,
     backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -152,20 +152,15 @@ const styles = StyleSheet.create({
   },
   text_footer: {
     color: "#05375a",
-    fontSize: 18,
-    marginTop: 20,
-  },
-  action: {
-    flexDirection: "row",
+    fontSize: 20,
     marginTop: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f2f2f2",
-    paddingBottom: 5,
+    paddingLeft: 10,
   },
   textInput: {
     flex: 1,
-    marginTop: Platform.OS === "ios" ? 0 : -12,
-    paddingLeft: 10,
+    fontSize: 15,
+    marginTop: Platform.OS === "ios" ? 0 : -8,
+    paddingLeft: 7,
     color: "#053751",
   },
   buttonWrapper: {
@@ -185,9 +180,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     flexDirection: "row",
-  },
-  errorText: {
-    color: "red",
-    fontSize: 9,
-  },
+  }
 });

@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
-    fontSize: 9,
+    fontSize: 10,
+    paddingLeft: 7,
   },
 });
