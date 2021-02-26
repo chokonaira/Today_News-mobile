@@ -15,34 +15,27 @@ const AuthStack = createStackNavigator(),
   ProfileStack = createStackNavigator(),
   FaqsStack = createStackNavigator();
 
+const screenOptions = {
+  headerStyle: {
+    backgroundColor: "red",
+  },
+  headerShown: false,
+  headerTintColor: "#fff",
+  headerTitleStyle: {
+    fontWeight: "bold",
+  },
+};
+
 function AuthStacks() {
   return (
     <AuthStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: "red",
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
+        headerShown: false,
       }}
       initialRouteName="Home"
     >
-      <AuthStack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="Home"
-        component={Home}
-      />
-      <AuthStack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="SignUp"
-        component={SignUp}
-      />
+      <AuthStack.Screen name="Home" component={Home} />
+      <AuthStack.Screen name="SignUp" component={SignUp} />
       <AuthStack.Screen
         options={{
           headerShown: false,
@@ -56,17 +49,7 @@ function AuthStacks() {
 
 function TodayNewsStacks() {
   return (
-    <TodayNewsStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "red",
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
-    >
+    <TodayNewsStack.Navigator screenOptions={screenOptions}>
       <TodayNewsStack.Screen name="Today News" component={TodayNews} />
     </TodayNewsStack.Navigator>
   );
@@ -74,17 +57,7 @@ function TodayNewsStacks() {
 
 function FavoriteNewsStacks() {
   return (
-    <FavoriteNewsStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "red",
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
-    >
+    <FavoriteNewsStack.Navigator screenOptions={screenOptions}>
       <FavoriteNewsStack.Screen name="Favorite News" component={FavoriteNews} />
     </FavoriteNewsStack.Navigator>
   );
@@ -92,17 +65,7 @@ function FavoriteNewsStacks() {
 
 function ProfileStacks() {
   return (
-    <ProfileStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "red",
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
-    >
+    <ProfileStack.Navigator screenOptions={screenOptions}>
       <ProfileStack.Screen name="Profile" component={Profile} />
     </ProfileStack.Navigator>
   );
@@ -110,17 +73,7 @@ function ProfileStacks() {
 
 function FaqsStacks() {
   return (
-    <FaqsStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "red",
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
-    >
+    <FaqsStack.Navigator screenOptions={screenOptions}>
       <FaqsStack.Screen name="Faqs" component={Faqs} />
     </FaqsStack.Navigator>
   );
