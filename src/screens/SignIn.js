@@ -94,7 +94,6 @@ export default function SignIn({ navigation }) {
 
         <View style={styles.buttonWrapper}>
           <Button
-            testID="signin-btn"
             title="Sign In"
             onPress={loginHandler}
             color="#fff"

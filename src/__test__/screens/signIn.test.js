@@ -1,13 +1,14 @@
 import React from "react";
 import { render, fireEvent, cleanup } from "react-native-testing-library";
 import SignIn from "../../screens/SignIn";
+import Button from "../../components/Button";
 import Input from "../../components/Input";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
 
-describe("<SignIn />", () => {
+describe("<SignIn /> Screen", () => {
   afterEach(cleanup);
   const mockStore = configureStore([]);
   const initialState = {
@@ -113,7 +114,7 @@ describe("<SignIn />", () => {
     expect(errorElement.props.children).toEqual(undefined);
   });
 
-  xit("shows an error message when all inputs fields are empty", () => {
+  it("shows an error message when all inputs fields are empty", () => {
     const tree = render(
       <Provider store={store}>
         <SignIn />
@@ -122,26 +123,28 @@ describe("<SignIn />", () => {
     const signinBtn = tree.getByText("Sign In");
     fireEvent.press(signinBtn);
     const errorElement = tree.getAllByTestId("errorText");
-    errorElement.map((element) => {
-      
-      console.log(element.props)
-      // expect(element.props.children).toEqual("Email cannot be empty");
-      // expect(element.props.children).toEqual("Password cannot be empty");
+    const errors = errorElement.map((element) => {
+      return element.props.children
     });
+    expect(errors[0]).toEqual("Email cannot be empty");
+    expect(errors[1]).toEqual("Password cannot be empty");
   });
 
-  xit("shows that the loginHandler is called", () => {
-    
+  it("shows that the loginHandler is called", () => {
+    const loginHandler = jest.fn();
+    const props = {
+      loginHandler: loginHandler,
+    };
+
     const tree = render(
       <Provider store={store}>
-        <SignIn />
+        <SignIn {...props} /> 
       </Provider>
     );
-    const loginHandlerFn = jest.spyOn(SignIn, "loginHandler").mockImplementation();
-    const signinBtn = tree.getByText("Sign In");
 
-    console.log(loginHandlerFn)
-    fireEvent.press(signinBtn);
-    // expect(btn).toHaveBeenCalled();
+    fireEvent.press(tree.getByText("Sign In"))
+    console.log(loginHandler)
+
+    expect(loginHandler).toHaveBeenCalled();
   });
 });

@@ -3,13 +3,12 @@ import { render, fireEvent, cleanup } from "react-native-testing-library";
 import SignUp from "../../screens/SignUp";
 import Input from "../../components/Input";
 
-
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 
 jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
 
-describe("<SignUp />", () => {
+describe("<SignUp /> Screen", () => {
   afterEach(cleanup);
   const mockStore = configureStore([]);
   const initialState = {
@@ -114,7 +113,7 @@ describe("<SignUp />", () => {
       </Provider>
     );
     const usernameInput = tree.getByTestId("username");
-    fireEvent.changeText(usernameInput, '12377');
+    fireEvent.changeText(usernameInput, "12377");
     fireEvent(usernameInput, "blur");
     const errorElement = tree.getByTestId("errorText");
 
@@ -179,7 +178,7 @@ describe("<SignUp />", () => {
     expect(errorElement.props.children).toEqual(undefined);
   });
 
-  xit("shows an error message when all inputs fields are empty", () => {
+  it("shows an error message when all inputs fields are empty", () => {
     const tree = render(
       <Provider store={store}>
         <SignUp />
@@ -188,12 +187,12 @@ describe("<SignUp />", () => {
     const SignUpBtn = tree.getByText("Sign Up");
     fireEvent.press(SignUpBtn);
     const errorElement = tree.getAllByTestId("errorText");
-    errorElement.map((element) => {
-      
-      console.log(element.props)
-      // expect(element.props.children).toEqual("Email cannot be empty");
-      // expect(element.props.children).toEqual("Password cannot be empty");
+    const errors = errorElement.map((element) => {
+      return element.props.children;
     });
+    expect(errors[0]).toEqual("Username cannot be empty");
+    expect(errors[1]).toEqual("Email cannot be empty");
+    expect(errors[2]).toEqual("Password cannot be empty");
   });
 
   xit("shows that the loginHandler is called", () => {
@@ -202,10 +201,12 @@ describe("<SignUp />", () => {
         <SignUp />
       </Provider>
     );
-    const loginHandlerFn = jest.spyOn(SignUp, "signupHandler").mockImplementation();
+    const loginHandlerFn = jest
+      .spyOn(SignUp, "signupHandler")
+      .mockImplementation();
     const SignUpBtn = tree.getByText("Sign Up");
 
-    console.log(loginHandlerFn)
+    console.log(loginHandlerFn);
     fireEvent.press(SignUpBtn);
     // expect(btn).toHaveBeenCalled();
   });

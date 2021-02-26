@@ -51,3 +51,5 @@ export const signIn = (email, password, navigation) => async(dispatch) => {
       dispatch(authError(error.message));
     });
 };
+
+
