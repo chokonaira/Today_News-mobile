@@ -10,126 +10,135 @@ import {
 import "firebase/firestore";
 
 
-const mockStore = configureStore([thunk]);
+describe("Succesfull Authentication", () => {
+  const createUserWithEmailAndPassword = jest.fn(() => {
+    return Promise.resolve("result of createUserWithEmailAndPassword");
+  });
 
-const createUserWithEmailAndPassword = jest.fn(() => {
-  return Promise.resolve('result of createUserWithEmailAndPassword')
-})
+  const signInWithEmailAndPassword = jest.fn(() => {
+    return Promise.resolve("result of signInWithEmailAndPassword");
+  });
 
-const signInWithEmailAndPassword = jest.fn(() => {
-  return Promise.resolve('result of signInWithEmailAndPassword')
-})
-
-const collection = jest.fn(() => {
-  return Promise.resolve('result of signInWithEmailAndPassword')
-})
-
-
-jest.spyOn(firebase, 'auth').mockImplementation(() => {
-  return {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    currentUser: {
-      uid: 1,
-    },
-  }
-})
-
-jest.spyOn(firebase, "firestore").mockImplementation(() => {
-  return {
-    collection,
-  }
-});
-
-describe("Auth", () => {
-
-  it("succesfully firebase signup and save user in firestore", async(done) => {
+  beforeEach(() => {
+    jest.restoreAllMocks();
+    const firestoreMock = {
+      collection: jest.fn().mockReturnThis(),
+      doc: jest.fn().mockReturnThis(),
+      set: jest.fn().mockResolvedValueOnce(),
+    }
     
+    jest.spyOn(firebase, "firestore").mockImplementationOnce(() => firestoreMock);
 
-    // const store = mockStore({})
+    jest.spyOn(firebase, "auth").mockImplementation(() => {
+      return {
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        currentUser: {
+          uid: 5,
+        },
+      };
+    });
+  });
+
+  xit("succesfully firebase signup and save user in firestore", async (done) => {
     const navigation = {
       navigate: jest.fn(),
     };
 
-    await signUp("testuser", "test@gmail.com", "password", navigation)(()=> {});
-    
-    expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled()
-    expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith("test@gmail.com", "password")
-    done()
-    // const expectedAction = [
-    //   {
-    //     type: AUTH_LOADING,
-    //   }
-    // ];
-    // store
-    //   .dispatch(signUp("testuser", "test@gmail.com", "password", navigation))
-    //     try {
-          
-    //       // expect(firebase.firestore().collection).toBeCalledWith('users');
-    //       expect(store.getActions()).toEqual(expectedAction);
-    //       done();
-    //     } catch (error) {
-    //       done(error);
-    //     }
-   
+    await signUp(
+      "testuser",
+      "test@gmail.com",
+      "password",
+      navigation
+    )(() => {});
+
+    expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled();
+    expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith(
+      "test@gmail.com",
+      "password"
+    );
+    expect(firestoreMock.collection).toBeCalledWith("users");
+    expect(firestoreMock.doc).toBeCalledWith(5);
+    expect(firestoreMock.set).toBeCalledWith({
+      email: "test@gmail.com",
+      username: "testuser",
+    });
+    done();
   });
 
-  // xit("unsuccesfully firebase signup with error", (done) => {
-  //   const store = mockStore({})
-  //   const navigation = {
-  //     navigate: jest.fn(),
-  //   };
+  it("succesfully firebase signin with firebase", async (done) => {
 
-  //   const message = "Invalid email format";
-    
-  //   const expectedAction = [
-  //     {
-  //       type: AUTH_LOADING,
-  //     },
-  //     {
-  //       type: AUTH_ERROR,
-  //       payload: {
-  //         message,
-  //       },
-  //     }
-  //   ];
-  //   store.dispatch(signUp("tesgmail", "password", navigation))
-  //       try {
-  //         expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled()
-  //         expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith("tesgmail", "password")
-  //         expect(firebase.firestore().collection().doc).toBeCalledWith("users")
-    
+    const navigation = {
+      navigate: jest.fn(),
+    };
 
-  //         console.log(store.getActions())
-  //         expect(store.getActions()).toEqual(expectedAction);
-  //         done();
-  //       } catch (error) {
-  //         done(error);
-  //       }
-   
-  // });
+    await signIn("test@gmail.com", "password", navigation)(() => {});
 
-  // it("succesfully firebase signin with firebase", (done) => {
-  //   const store = mockStore({})
-  //   const navigation = {
-  //     navigate: jest.fn(),
-  //   };
-    
-  //   const expectedAction = [
-  //     {
-  //       type: AUTH_LOADING,
-  //     }
-  //   ];
-  //   store
-  //     .dispatch(signIn("test@gmail.com", "password", navigation))
-  //       try {
-  //         expect(firebase.auth().signInWithEmailAndPassword).toHaveBeenCalled()
-  //         expect(firebase.auth().signInWithEmailAndPassword).toBeCalledWith("test@gmail.com", "password")
-  //         expect(store.getActions()).toEqual(expectedAction);
-  //         done();
-  //       } catch (error) {
-  //         done(error);
-  //       }
-   
-  // });
+    expect(firebase.auth().signInWithEmailAndPassword).toHaveBeenCalled();
+    expect(firebase.auth().signInWithEmailAndPassword).toBeCalledWith(
+      "test@gmail.com",
+      "password"
+    );
+    done();
+  });
+});
+
+describe("Unsuccesfull Authentication", () => {
+
+  const createUserWithEmailAndPassword = jest.fn(() => {
+    return Promise.reject(new Error("Failed"));
+  });
+
+  const signInWithEmailAndPassword = jest.fn(() => {
+    return Promise.reject(new Error("Failed"));
+  });
+
+  beforeEach(() => {   
+    jest.restoreAllMocks(); 
+    jest.spyOn(firebase, "auth").mockImplementation(() => {
+      return {
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword
+      };
+    });
+  });
+
+  xit("firebase signup returned error and failed to save a user in firestore", async (done) => {
+  
+    const navigation = {
+      navigate: jest.fn(),
+    };
+
+    await signUp(
+      "testuser",
+      "test@gmail.com",
+      "password",
+      navigation
+    )(() => {});
+
+    expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled();
+    expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith(
+      "test@gmail.com",
+      "password"
+    );
+    expect(firebase.auth().currentUser).toEqual(undefined);
+    expect(database.mock.instances).toEqual([]);
+    done();
+  });
+
+  it("firebase signin return an error", async (done) => {
+
+    const navigation = {
+      navigate: jest.fn(),
+    };
+
+    await signIn("test@gmail.com", "password", navigation)(() => {});
+    expect(firebase.auth().signInWithEmailAndPassword).toHaveBeenCalled();
+    expect(firebase.auth().signInWithEmailAndPassword).toBeCalledWith(
+      "test@gmail.com",
+      "password"
+    );
+    expect(firebase.auth().currentUser).toEqual(undefined);
+    done();
+  });
 });

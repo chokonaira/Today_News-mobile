@@ -24,7 +24,7 @@ export default function SignIn({ navigation }) {
       handleValidPassword(password);
       return;
     } else if (serverError) {
-      dispatch({type: types.DISMISS_ERROR})
+      dispatch({ type: types.DISMISS_ERROR });
       return Alert.alert("Invalid credentials", "Please try again", [
         { text: "Okay" },
       ]);
@@ -59,8 +59,11 @@ export default function SignIn({ navigation }) {
       </View>
       <View style={styles.footer}>
         <Text style={styles.text_footer}>Email</Text>
-        <View style={styles.action}>
+        <View>
           <Input
+            isValid={validEmail}
+            validationFn={emailValidation(email)}
+            testID="email"
             placeholder="Your Email"
             type="email"
             onChangeText={(email) => setEmail(email)}
@@ -68,31 +71,26 @@ export default function SignIn({ navigation }) {
             autoCapitalize="none"
             keyboardType={"email-address"}
             style={styles.textInput}
-            onEndEditing={(e) => handleValidEmail(e.nativeEvent.text)}
+            onBlur={() => handleValidEmail(email)}
           />
         </View>
 
-        {validEmail ? null : (
-          <Text style={styles.errorText}>{emailValidation(email)}</Text>
-        )}
-
         <Text style={styles.text_footer}>Password</Text>
-        <View style={styles.action}>
+        <View>
           <Input
+            isValid={validPassword}
+            validationFn={passwordValidation(password)}
+            testID="password"
             placeholder="Your Password"
             type="password"
-            secureTextEntry={true}
+            secureTextEntry
             autoCapitalize="none"
             onChangeText={(password) => setPassword(password)}
             value={password}
             style={styles.textInput}
-            onEndEditing={(e) => handleValidPassword(e.nativeEvent.text)}
+            onBlur={() => handleValidPassword(password)}
           />
         </View>
-
-        {validPassword ? null : (
-          <Text style={styles.errorText}>{passwordValidation(password)}</Text>
-        )}
 
         <View style={styles.buttonWrapper}>
           <Button
@@ -107,9 +105,7 @@ export default function SignIn({ navigation }) {
           />
           <Button
             title="Sign Up"
-            onPress={() =>
-              navigation.navigate("SignUp")
-            }
+            onPress={() => navigation.navigate("SignUp")}
             color="#fff"
             size={20}
             color="#00A6FB"
@@ -166,11 +162,11 @@ const styles = StyleSheet.create({
     borderBottomColor: "#f2f2f2",
     paddingBottom: 5,
   },
-  textInput:{
+  textInput: {
     flex: 1,
-    marginTop: Platform.OS === 'ios' ? 0 : -12,
+    marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
-    color: '#053751'
+    color: "#053751",
   },
   buttonWrapper: {
     alignItems: "center",

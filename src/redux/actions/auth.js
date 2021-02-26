@@ -19,7 +19,7 @@ const authError = (payload) => ({
   payload,
 });
 
-export const signUp = (username, email, password, navigation) => async (dispatch) => {
+export const signUp = (username, email, password, navigation) => async(dispatch) => {
   dispatch(authLoading());
   firebase
     .auth()
@@ -39,7 +39,7 @@ export const signUp = (username, email, password, navigation) => async (dispatch
 };
 
 
-export const signIn = (email, password, navigation) => (dispatch) => {
+export const signIn = (email, password, navigation) => async(dispatch) => {
   dispatch(authLoading());
   firebase.auth()
     .signInWithEmailAndPassword(email, password)
@@ -51,3 +51,5 @@ export const signIn = (email, password, navigation) => (dispatch) => {
       dispatch(authError(error.message));
     });
 };
+
+
