@@ -1,17 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import icons from "react-native-vector-icons/MaterialCommunityIcons";
-import {
-  Avatar,
-  Title,
-  Caption,
-  Paragraph,
-  Drawer,
-  Text,
-  TouchableRipple,
-  Switch,
-} from "react-native-paper";
+import { Avatar, Title, Caption, Drawer } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function DrawerContent(props) {
@@ -21,14 +11,14 @@ export default function DrawerContent(props) {
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
-            <Avatar.Image
+              <Avatar.Image
                 source={{
                   uri:
-                    "https://themindsetproject.com.au/wp-content/uploads/2017/08/avatar-icon.png",
+                    "https://w1.pngwing.com/pngs/933/945/png-transparent-social-media-icons-avatar-user-profile-login-black-circle-silhouette-symbol.png",
                 }}
                 size={50}
               />
-              <View style={{ flexDirection: "column", marginLeft: 15}}>
+              <View style={{ flexDirection: "column", marginLeft: 15, width:'100%' }}>
                 <Title style={styles.title}>Henry</Title>
                 <Caption style={styles.caption}>henry@gmail.com</Caption>
               </View>
@@ -40,21 +30,18 @@ export default function DrawerContent(props) {
                 <Icon name="book-open" color={color} size={size} />
               )}
               label="Today News"
-              onPress={() => {props.navigation.navigate('Today News')}}
+              onPress={() => {
+                props.navigation.navigate("Today News");
+              }}
             ></DrawerItem>
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="account" color={color} size={size} />
               )}
               label="Profile"
-              onPress={() => {props.navigation.navigate('Profile')}}
-            ></DrawerItem>
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="poll-box" color={color} size={size} />
-              )}
-              label="Faqs"
-              onPress={() => {props.navigation.navigate('Faqs')}}
+              onPress={() => {
+                props.navigation.navigate("Profile");
+              }}
             ></DrawerItem>
           </Drawer.Section>
         </View>
@@ -79,33 +66,20 @@ const styles = StyleSheet.create({
   userInfoSection: {
     paddingLeft: 20,
     paddingBottom: 6,
-    borderBottomWidth: .2,
-    borderBottomColor: '#333'
+    borderBottomWidth: .3,
+    borderBottomColor: "#333",
   },
   title: {
     fontSize: 16,
     marginTop: 3,
     fontWeight: "bold",
-    color: '#333'
+    color: "#333",
   },
   caption: {
-    fontStyle: 'italic',
+    fontStyle: "italic",
     fontSize: 14,
     lineHeight: 14,
-  },
-  row: {
-    marginTop: 20,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  section: {
-    marginRight: 15,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  paragraph: {
-    fontWeight: "bold",
-    marginRight: 3,
+    width: '75%'
   },
   drawerSection: {
     marginTop: 15,
@@ -114,11 +88,5 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderTopColor: "#f4f4f4",
     borderTopWidth: 1,
-  },
-  preference: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-  },
+  }
 });

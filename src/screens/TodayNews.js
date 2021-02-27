@@ -9,7 +9,7 @@ export default function TodaysNews({ navigation }) {
       <Header
         onPress={() => navigation.openDrawer()}
         name="menu"
-        title="Latest News"
+        title="Today News"
         navigation={navigation}
       />
       <NewsCard />

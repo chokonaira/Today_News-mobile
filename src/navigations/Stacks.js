@@ -5,15 +5,13 @@ import SignUp from "../screens/SignUp";
 import TodayNews from "../screens/TodayNews";
 import FavoriteNews from "../screens/FavoriteNews";
 import Profile from "../screens/Profile";
-import Faqs from "../screens/Faqs";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
 const AuthStack = createStackNavigator(),
   TodayNewsStack = createStackNavigator(),
   FavoriteNewsStack = createStackNavigator(),
-  ProfileStack = createStackNavigator(),
-  FaqsStack = createStackNavigator();
+  ProfileStack = createStackNavigator()
 
 const screenOptions = {
   headerStyle: {
@@ -71,18 +69,9 @@ function ProfileStacks() {
   );
 }
 
-function FaqsStacks() {
-  return (
-    <FaqsStack.Navigator screenOptions={screenOptions}>
-      <FaqsStack.Screen name="Faqs" component={Faqs} />
-    </FaqsStack.Navigator>
-  );
-}
-
 export {
   AuthStacks,
   TodayNewsStacks,
   FavoriteNewsStacks,
-  ProfileStacks,
-  FaqsStacks,
+  ProfileStacks
 };
