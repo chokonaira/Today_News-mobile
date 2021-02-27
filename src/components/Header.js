@@ -8,7 +8,7 @@ export default function Header({ title, name, onPress }) {
       <MaterialIcons
         onPress={onPress}
         name={name}
-        size={40}
+        size={30}
         style={styles.icon}
       />
       <View>
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   header: {
     width: "100%",
     height: Platform.OS === "android" ? "12%" : "12%",
-    backgroundColor: "#00A6FB",
+    backgroundColor: "#fff",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
@@ -31,13 +31,13 @@ const styles = StyleSheet.create({
     marginTop: 30,
     fontWeight: "bold",
     fontSize: 20,
-    color: "#fff",
+    color: "#333",
     letterSpacing: 1,
   },
   icon: {
     position: "absolute",
-    top: Platform.OS === "android" ? 35 : 47,
+    top: Platform.OS === "ios" ? 52 : 40,
     left: 10,
-    color: "#fff",
+    color: "#333",
   },
 });

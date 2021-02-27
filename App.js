@@ -7,7 +7,7 @@ import Main from "./src/Main";
 export default function App() {
   return (
     <Provider store={store}>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <Main />
     </Provider>
   );

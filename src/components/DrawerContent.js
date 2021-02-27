@@ -16,9 +16,9 @@ export default function DrawerContent(props) {
                   uri:
                     "https://w1.pngwing.com/pngs/933/945/png-transparent-social-media-icons-avatar-user-profile-login-black-circle-silhouette-symbol.png",
                 }}
-                size={50}
+                size={48}
               />
-              <View style={{ flexDirection: "column", marginLeft: 15, width:'100%' }}>
+              <View style={{ flexDirection: "column", marginLeft: 15, width:'95%' }}>
                 <Title style={styles.title}>Henry</Title>
                 <Caption style={styles.caption}>henry@gmail.com</Caption>
               </View>
@@ -71,15 +71,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    marginTop: 3,
+    marginTop: 2,
     fontWeight: "bold",
     color: "#333",
   },
   caption: {
     fontStyle: "italic",
-    fontSize: 14,
+    fontSize: 13,
     lineHeight: 14,
-    width: '75%'
+    width: '70%'
   },
   drawerSection: {
     marginTop: 15,
