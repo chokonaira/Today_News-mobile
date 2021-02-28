@@ -16,10 +16,10 @@ export default function DrawerContent(props) {
                   uri:
                     "https://w1.pngwing.com/pngs/933/945/png-transparent-social-media-icons-avatar-user-profile-login-black-circle-silhouette-symbol.png",
                 }}
-                size={48}
+                size={53}
               />
               <View style={{ flexDirection: "column", marginLeft: 15, width:'95%' }}>
-                <Title style={styles.title}>Henry</Title>
+                <Title style={styles.title}>LOGGED-IN AS</Title>
                 <Caption style={styles.caption}>henry@gmail.com</Caption>
               </View>
             </View>
@@ -70,14 +70,13 @@ const styles = StyleSheet.create({
     borderBottomColor: "#333",
   },
   title: {
-    fontSize: 16,
-    marginTop: 2,
+    fontSize: 14,
     fontWeight: "bold",
     color: "#333",
   },
   caption: {
-    fontStyle: "italic",
-    fontSize: 13,
+    fontWeight: "bold",
+    fontSize: 12,
     lineHeight: 14,
     width: '70%'
   },

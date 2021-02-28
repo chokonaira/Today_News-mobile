@@ -25,12 +25,12 @@ export function Tabs() {
           marginBottom: 3,
         },
         style: {
-          height: Platform.OS === "ios" ? "8.65%" : "8*%",
+          height: Platform.OS === "ios" ? "8.65%" : "8%",
         },
       }}
     >
       <Tab.Screen
-        name="Today News"
+        name="News"
         component={Drawers}
         options={() => ({
           tabBarIcon: ({ color }) => {
@@ -46,7 +46,7 @@ export function Tabs() {
         })}
       />
       <Tab.Screen
-        name="Favorites News"
+        name="Favorites"
         component={FavoriteNewsStacks}
         options={{
           tabBarIcon: ({ color }) => {
