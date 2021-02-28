@@ -12,7 +12,7 @@ export default function Home({ navigation }) {
       </View>
       <View style={styles.footer}>
         <Text style={styles.title}>Stay connected with Todays News</Text>
-        <Text style={styles.text}>Sign In with Account</Text>
+        <Text style={styles.text}>Sign In to explore</Text>
         <View style={styles.buttonWrapper}>
           <Button
             title="Get Started"

@@ -18,7 +18,6 @@ export default function TodaysNews({ navigation }) {
         navigation={navigation}
       />
       <NewsCard />
-      <Text style={styles.text}>Today News</Text>
     </View>
   );
 }
