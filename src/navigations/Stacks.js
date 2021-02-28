@@ -2,8 +2,8 @@ import * as React from "react";
 import Home from "../screens/Home";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
-import TodayNews from "../screens/TodayNews";
-import FavoriteNews from "../screens/FavoriteNews";
+import TodayNews from "../screens/News";
+import FavoriteNews from "../screens/Favorites";
 import Profile from "../screens/Profile";
 
 import { createStackNavigator } from "@react-navigation/stack";

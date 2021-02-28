@@ -19,7 +19,7 @@ export default function DrawerContent(props) {
                 size={53}
               />
               <View style={{ flexDirection: "column", marginLeft: 15, width:'95%' }}>
-                <Title style={styles.title}>LOGGED-IN AS</Title>
+                <Title style={styles.title}>Henry</Title>
                 <Caption style={styles.caption}>henry@gmail.com</Caption>
               </View>
             </View>
@@ -70,13 +70,14 @@ const styles = StyleSheet.create({
     borderBottomColor: "#333",
   },
   title: {
-    fontSize: 14,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#333",
   },
   caption: {
     fontWeight: "bold",
-    fontSize: 12,
+    fontStyle: 'italic',
+    fontSize: 10,
     lineHeight: 14,
     width: '70%'
   },

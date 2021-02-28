@@ -24,7 +24,7 @@ export default function SignIn({ navigation }) {
       handleValidPassword(password);
       return;
     } else if (serverError) {
-      dispatch({ type: types.DISMISS_ERROR });
+      dispatch({ type: types.DISMISS_AUTH_ERROR });
       return Alert.alert("Invalid credentials", "Please try again", [
         { text: "Okay" },
       ]);
