@@ -71,7 +71,7 @@ export default function SignUp({ navigation }) {
       </View>
       <View style={styles.footer}>
         <Text style={styles.text_footer}>Username</Text>
-        <View >
+        <View>
           <Input
             testID="username"
             isValid={validUsername}
@@ -89,7 +89,7 @@ export default function SignUp({ navigation }) {
         </View>
 
         <Text style={styles.text_footer}>Email</Text>
-        <View >
+        <View>
           <Input
             testID="email"
             isValid={validEmail}
@@ -106,7 +106,7 @@ export default function SignUp({ navigation }) {
         </View>
 
         <Text style={styles.text_footer}>Password</Text>
-        <View >
+        <View>
           <Input
             testID="password"
             isValid={validPassword}
@@ -155,7 +155,6 @@ export default function SignUp({ navigation }) {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -211,5 +210,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     flexDirection: "row",
-  }
+  },
 });

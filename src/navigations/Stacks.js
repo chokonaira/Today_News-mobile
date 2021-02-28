@@ -3,52 +3,75 @@ import Home from "../screens/Home";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 import TodayNews from "../screens/TodayNews";
+import FavoriteNews from "../screens/FavoriteNews";
+import Profile from "../screens/Profile";
+
 import { createStackNavigator } from "@react-navigation/stack";
 
-const Stack = createStackNavigator();
+const AuthStack = createStackNavigator(),
+  TodayNewsStack = createStackNavigator(),
+  FavoriteNewsStack = createStackNavigator(),
+  ProfileStack = createStackNavigator()
 
-export default function Stacks() {
+const screenOptions = {
+  headerStyle: {
+    backgroundColor: "red",
+  },
+  headerShown: false,
+  headerTintColor: "#fff",
+  headerTitleStyle: {
+    fontWeight: "bold",
+  },
+};
+
+function AuthStacks() {
   return (
-    <Stack.Navigator
+    <AuthStack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: "#00A6FB",
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
+        headerShown: false,
       }}
       initialRouteName="Home"
     >
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="Home"
-        component={Home}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="SignUp"
-        component={SignUp}
-      />
-      <Stack.Screen
+      <AuthStack.Screen name="Home" component={Home} />
+      <AuthStack.Screen name="SignUp" component={SignUp} />
+      <AuthStack.Screen
         options={{
           headerShown: false,
         }}
         name="SignIn"
         component={SignIn}
       />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="News"
-        component={TodayNews}
-      />
-    </Stack.Navigator>
+    </AuthStack.Navigator>
   );
 }
+
+function TodayNewsStacks() {
+  return (
+    <TodayNewsStack.Navigator screenOptions={screenOptions}>
+      <TodayNewsStack.Screen name="Today News" component={TodayNews} />
+    </TodayNewsStack.Navigator>
+  );
+}
+
+function FavoriteNewsStacks() {
+  return (
+    <FavoriteNewsStack.Navigator screenOptions={screenOptions}>
+      <FavoriteNewsStack.Screen name="Favorite News" component={FavoriteNews} />
+    </FavoriteNewsStack.Navigator>
+  );
+}
+
+function ProfileStacks() {
+  return (
+    <ProfileStack.Navigator screenOptions={screenOptions}>
+      <ProfileStack.Screen name="Profile" component={Profile} />
+    </ProfileStack.Navigator>
+  );
+}
+
+export {
+  AuthStacks,
+  TodayNewsStacks,
+  FavoriteNewsStacks,
+  ProfileStacks
+};

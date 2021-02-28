@@ -3,20 +3,19 @@ import { View, StyleSheet } from "react-native";
 import Button from "../components/Button";
 import Header from "../components/Header";
 
-export default function Profile({ navigation }) {
+export default function Faqs({ navigation }) {
   return (
-    <View style={styles.profile}>
+    <View style={styles.faqs}>
       <Header
         onPress={() => navigation.openDrawer()}
         name="menu"
-        title="Profile"
+        title="FAQs"
         navigation={navigation}
       />
-
       <Button
         primary
         small
-        title="Log out"
+        title="Frequently asked questions"
         style={styles.button}
         onPress={() => navigation.navigate("Profile")}
       />
@@ -25,7 +24,7 @@ export default function Profile({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  profile: {
+  faqs: {
     flex: 1,
     backgroundColor: "#fff",
   },

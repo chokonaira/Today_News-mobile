@@ -2,15 +2,15 @@ import "react-native-gesture-handler";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import Stacks from "./navigations/Stacks";
-import Tabs from "./navigations/Tabs";
+import { AuthStacks } from "./navigations/Stacks";
+import { Tabs } from "./navigations/Tabs";
 import { useSelector } from "react-redux";
 import Spinner from "react-native-loading-spinner-overlay";
 
 export default function Main() {
   const authenticated = useSelector((state) => state.auth.isAuthenticated);
   const loading = useSelector((state) => state.auth.isLoading);
-  if (authenticated) {
+  if (!authenticated) {
     return (
       <View style={styles.container}>
         <Spinner
@@ -40,7 +40,7 @@ export default function Main() {
         textContent="Loading..."
       />
       <NavigationContainer>
-        <Stacks />
+        <AuthStacks />
       </NavigationContainer>
     </View>
   );

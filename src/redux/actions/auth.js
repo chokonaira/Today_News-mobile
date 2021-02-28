@@ -31,7 +31,7 @@ export const signUp = (username, email, password, navigation) => async(dispatch)
         .doc(firebase.auth().currentUser.uid)
         .set({ username, email });
       dispatch(authSuccess(response.user));
-      navigation.navigate("News");
+      navigation.navigate("Today News");
     })
     .catch((error) => {
       dispatch(authError(error.message));
@@ -45,7 +45,7 @@ export const signIn = (email, password, navigation) => async(dispatch) => {
     .signInWithEmailAndPassword(email, password)
     .then((response) => {
       dispatch(authSuccess(response.user));
-      navigation.navigate("News");
+      navigation.navigate("Today News");
     })
     .catch((error) => {
       dispatch(authError(error.message));

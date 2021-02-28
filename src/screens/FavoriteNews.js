@@ -1,10 +1,17 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import NewsCard from "../components/NewsCard";
+import NewsCard from "../components/Card";
+import Header from "../components/Header";
 
-export default function FavoriteNews() {
+export default function FavoriteNews({ navigation }) {
   return (
     <View style={styles.favoriteNews}>
+      <Header
+        onPress={() => navigation.goBack()}
+        name="arrow-back"
+        title="Favorite News"
+        navigation={navigation}
+      />
       <NewsCard />
       <Text style={styles.text}>Favorite News</Text>
     </View>
