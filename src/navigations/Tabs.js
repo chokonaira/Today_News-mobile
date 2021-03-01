@@ -17,15 +17,14 @@ export function Tabs() {
         activeTintColor: "#00A6FB",
         inactiveTintColor: "#333",
         tabStyle: {
-          padding: 2,
-          margin: Platform.OS === "ios" ? 2 : 10,
+          marginTop: Platform.OS === "ios" ? 6 : 13,
         },
         labelStyle: {
           fontWeight: "bold",
           marginBottom: 3,
         },
         style: {
-          height: Platform.OS === "ios" ? "8.65%" : "8%",
+          height: Platform.OS === "ios" ? "9%" : "7%",
         },
       }}
     >
