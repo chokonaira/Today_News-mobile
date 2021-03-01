@@ -2,6 +2,7 @@ import React from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import Card from "../components/Card";
 import Header from "../components/Header";
+import Loader from "../components/Loader";
 import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
 import { headerDate } from "../helpers/date";
@@ -15,7 +16,7 @@ export default function TodaysNews({ navigation }) {
   React.useEffect(() => {
     dispatch(news());
   }, []);
-  console.log(loading);
+
   return (
     <View style={styles.todayNews}>
       <Header
@@ -26,19 +27,21 @@ export default function TodaysNews({ navigation }) {
         navigation={navigation}
       />
       <View style={styles.container}>
+        <Loader visible={loading} />
         <ScrollView>
-          {articles &&
+          {articles.articles &&
             articles.articles.map((article, index) => {
-              console.log(article);
-              console.log(article, `hellllllllllo${index++}`);
               return (
                 <Card
-                  key={index + 1}
+                  key={index}
                   author={article.author}
                   sourceName={article.source.name}
                   imageUrl={article.urlToImage}
                   color={"red"}
-                  onPress={() => {console.log('pressed')}}
+                  title={article.title}
+                  onPress={() => {
+                    console.log("pressed");
+                  }}
                 />
               );
             })}

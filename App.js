@@ -21,7 +21,7 @@ export default function App() {
       <AppLoading
         startAsync={LoadFonts}
         onFinish={() => setFontsLoading(true)}
-        onError={(err) => console.log(err)}
+        onError={(error) => console.log(error)}
       />
     );
   }

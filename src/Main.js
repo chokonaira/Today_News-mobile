@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthStacks } from "./navigations/Stacks";
 import { Tabs } from "./navigations/Tabs";
 import { useSelector } from "react-redux";
-import Loader from "./components/Spinner";
+import Loader from "./components/Loader";
 
 export default function Main() {
   const authenticated = useSelector((state) => state.auth.isAuthenticated);

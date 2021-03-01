@@ -22,6 +22,7 @@ export default function NewsCard({
   onPress,
   imageUrl,
   color,
+  title,
 }) {
   return (
     <Card key={key}>
@@ -50,26 +51,24 @@ export default function NewsCard({
               color: "#00A6FB",
               unfilledColor: "rgba(200, 200, 200, 0.2)",
             }}
-            style={{ height: 100, width: null, flex: 1 }}
+            style={styles.image}
           />
         </CardItem>
+        <View numberOfLines={2}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
       </View>
       <CardItem>
         <Left>
           <Button transparent>
-            <FavIcon
-              name="heart"
-              size={23}
-              color={color}
-              style={{ paddingBottom: 5 }}
-            />
-            <Text>12 favorites</Text>
+            <Icon active name="chatbubbles" />
+            <Text>4 Comments</Text>
           </Button>
         </Left>
         <Right>
           <Button transparent>
-            <Icon active name="chatbubbles" />
-            <Text>4 Comments</Text>
+            <FavIcon name="heart" size={23} color={color} />
+            <Text>12 favorites</Text>
           </Button>
         </Right>
       </CardItem>
@@ -78,32 +77,6 @@ export default function NewsCard({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingHorizontal: 8,
-  },
-  card: {},
-  article: {
-    marginTop: 5,
-    padding: 10,
-    backgroundColor: "#00A6FB",
-    fontSize: 15,
-  },
-  cardHeader: {
-    backgroundColor: "white",
-  },
-  cardBody: {
-    height: "60%",
-    width: "100%",
-  },
-  cardBodyImage: {},
-  cardBodyText: {
-    height: "40%",
-    padding: 2,
-  },
-  cardFooter: {
-    backgroundColor: "white",
-    height: "20%",
-  },
+  image: { height: 100, flex: 1 },
+  title: { margin: 8, height: 30, fontSize: 12 },
 });

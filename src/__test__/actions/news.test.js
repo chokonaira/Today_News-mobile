@@ -18,8 +18,6 @@ describe("Fetch News actions", () => {
     mock.resetHistory();
   });
   it("succesfull action to fetch news", (done) => {
-    console.log(news());
-
     const store = mockStore({});
     const payload = {
       articles: [
