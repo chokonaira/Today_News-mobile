@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Platform } from "react-native";
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 
-export default function Header({ title, name, onPress }) {
+export default function Header({ title, name, onPress, date }) {
   return (
     <View style={styles.header}>
       <MaterialIcons
@@ -11,12 +11,20 @@ export default function Header({ title, name, onPress }) {
         size={30}
         style={styles.iconLeft}
       />
-      <View>
-        <Text style={styles.headerText}>{title}</Text>
-      </View>
+      {date ? (
+        <View>
+          <Text style={styles.headerText}>{title}</Text>
+          <Text style={styles.headerDate}>{date}</Text>
+        </View>
+      ) : (
+        <View>
+          <Text style={styles.headerText}>{title}</Text>
+        </View>
+      )}
+
       <FontAwesome
-        onPress={()=>{}}
-        name='search'
+        onPress={() => {}}
+        name="search"
         size={22}
         style={styles.iconRight}
       />
@@ -39,6 +47,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#fff",
     letterSpacing: 1,
+  },
+  headerDate: {
+    top: Platform.OS === "ios" ? 22 : 14,
+    fontSize:10,
+    fontWeight: "bold",
+    marginLeft: 19,
+    color: "#fff",
   },
   iconLeft: {
     position: "absolute",

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import NewsCard from "../components/Card";
+import NewsCard from "../components/NewsCard";
 import Header from "../components/Header";
 
 export default function FavoriteNews({ navigation }) {

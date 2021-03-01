@@ -6,10 +6,20 @@ import { AuthStacks } from "./navigations/Stacks";
 import { Tabs } from "./navigations/Tabs";
 import { useSelector } from "react-redux";
 import Spinner from "react-native-loading-spinner-overlay";
+import * as Font from 'expo-font'
 
 export default function Main() {
+  const [fontsLoading, setFontLoading] = React.useState(true);
   const authenticated = useSelector((state) => state.auth.isAuthenticated);
   const loading = useSelector((state) => state.auth.isLoading);
+
+  React.useEffect(() => {
+    (async () => await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+    }))();
+     }, [])
+
   if (!authenticated) {
     return (
       <View style={styles.container}>
@@ -20,7 +30,6 @@ export default function Main() {
           textStyle={{ color: "#fff" }}
           overlayColor="rgba(0, 0, 0, 0.9)"
           textStyle={{ color: "#fff" }}
-          textContent="Loading..."
         />
         <NavigationContainer>
           <Tabs />
@@ -37,7 +46,6 @@ export default function Main() {
         textStyle={{ color: "#fff" }}
         overlayColor="rgba(0, 0, 0, 0.9)"
         textStyle={{ color: "#fff" }}
-        textContent="Loading..."
       />
       <NavigationContainer>
         <AuthStacks />

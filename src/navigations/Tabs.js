@@ -36,7 +36,7 @@ export function Tabs() {
             return (
               <NewsIcon
                 name="book-open"
-                size={25}
+                size={23}
                 color={color}
                 style={{ paddingBottom: 5 }}
               />
@@ -52,7 +52,7 @@ export function Tabs() {
             return (
               <FavIcon
                 name="heart"
-                size={25}
+                size={23}
                 color={color}
                 style={{ paddingBottom: 5 }}
               />

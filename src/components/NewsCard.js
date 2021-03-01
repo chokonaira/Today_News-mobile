@@ -1,7 +1,18 @@
 import React from "react";
-import { Image, View, Text, StyleSheet, ScrollView } from "react-native";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
+import {
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body,
+  Right,
+} from "native-base";
 
-export default function Card() {
+export default function NewsCard() {
   const [article, setArticle] = React.useState([
     {
       id: 1,
@@ -84,66 +95,54 @@ export default function Card() {
         "https://chicago.cbslocal.com/wp-content/uploads/sites/15116062/2020/04/Combo-Logo-CHICAGO.png?w=1500",
     },
   ]);
+// React.useEffect(()=>{
 
+// })
   return (
     <View style={styles.container}>
       <ScrollView>
         {article.map((article) => {
           return (
-            <View key={article.id} style={styles.card}>
-              <View></View>
-              <View>
-                {/* <Image
-                  style={styles.card}
+            <Card key={article.id}>
+              <CardItem>
+                <Left>
+                  <Thumbnail source={{ uri: "Image URL" }} />
+                  <Body>
+                    <Text>NativeBase</Text>
+                    <Text note>GeekyAnts</Text>
+                  </Body>
+                </Left>
+              </CardItem>
+              <CardItem cardBody>
+                <Image
                   source={{
                     uri:
                       "https://chicago.cbslocal.com/wp-content/uploads/sites/15116062/2020/04/Combo-Logo-CHICAGO.png?w=1500",
                   }}
-                /> */}
-                <Text style={styles.article}>{article.content}</Text>
-              </View>
-              <View></View>
-            </View>
+                  style={{ height: 120, width: null, flex: 1 }}
+                />
+              </CardItem>
+              <CardItem>
+                <Left>
+                  <Button transparent>
+                    <Icon active name="thumbs-up" />
+                    <Text>12 Likes</Text>
+                  </Button>
+                </Left>
+                <Body>
+                  <Button transparent>
+                    <Icon active name="chatbubbles" />
+                    <Text>4 Comments</Text>
+                  </Button>
+                </Body>
+                <Right>
+                  <Text>11h ago</Text>
+                </Right>
+              </CardItem>
+            </Card>
           );
         })}
       </ScrollView>
-
-      {/* <View style={styles.card}>
-        <View style={styles.cardHeader}></View>
-        <View style={styles.cardBody}>
-          <Image
-            style={styles.cardBodyImage}
-            source={{
-              uri:
-                "https://chicago.cbslocal.com/wp-content/uploads/sites/15116062/2020/04/Combo-Logo-CHICAGO.png?w=1500",
-            }}
-          />
-          <Text style={styles.cardBodyText}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s.
-          </Text>
-        </View>
-        <View style={styles.cardFooter}></View>
-      </View>
-      <View style={styles.card}>
-        <View style={styles.cardHeader}></View>
-        <View style={styles.cardBody}>
-          <Image
-            style={styles.cardBodyImage}
-            source={{
-              uri:
-                "https://www.todayjaffna.com/wp-content/uploads/2020/12/FS-MON-BREAKING-NEWS-.png",
-            }}
-          />
-          <Text style={styles.cardBodyText}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s.
-          </Text>
-        </View>
-        <View style={styles.cardFooter}></View>
-      </View> */}
     </View>
   );
 }
@@ -155,12 +154,7 @@ const styles = StyleSheet.create({
     // paddingTop: 20,
     paddingHorizontal: 8,
   },
-  card: {
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30
-  },
+  card: {},
   article: {
     marginTop: 5,
     padding: 10,

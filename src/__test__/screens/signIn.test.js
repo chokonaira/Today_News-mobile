@@ -130,21 +130,21 @@ describe("<SignIn /> Screen", () => {
     expect(errors[1]).toEqual("Password cannot be empty");
   });
 
-  xit("shows that the loginHandler is called", () => {
+  it("shows that the loginHandler is called", () => {
     const loginHandler = jest.fn();
-    // const props = {
-    //   loginHandler: loginHandler,
-    // };
+    const props = {
+      loginHandler: loginHandler,
+    };
 
-    const Btn = jest.spyOn(SignIn, "loginHandler").mockImplementationOnce(() => loginHandler);
+    // const Btn = jest.spyOn(SignIn, "loginHandler").mockImplementationOnce(() => loginHandler);
 
     const tree = render(
       <Provider store={store}>
-        <SignIn /> 
+        <SignIn {...props}/> 
       </Provider>
     );
 
     fireEvent.press(tree.getByText("Sign In"))
-    expect(Btn).toHaveBeenCalled();
+    expect(loginHandler).toHaveBeenCalled();
   });
 });

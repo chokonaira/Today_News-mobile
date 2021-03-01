@@ -18,7 +18,7 @@ export default function SignIn({ navigation }) {
   const serverError = useSelector((state) => state.auth.errors);
   const dispatch = useDispatch();
 
-  const loginHandler = () => {
+  function loginHandler(){
     if (InvalidCredentials) {
       handleValidEmail(email);
       handleValidPassword(password);
