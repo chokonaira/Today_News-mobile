@@ -27,14 +27,14 @@ export default function Header({ title, name, onPress }) {
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: "11%",
+    height: "12%",
     backgroundColor: "#00A6FB",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
   },
   headerText: {
-    top: Platform.OS === "ios" ? 20 : 13,
+    top: Platform.OS === "ios" ? 22 : 15,
     fontWeight: "bold",
     fontSize: 20,
     color: "#fff",
@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
   },
   iconLeft: {
     position: "absolute",
-    top: Platform.OS === "ios" ? 53 : 35,
+    top: Platform.OS === "ios" ? 53 : 42,
     left: 10,
     color: "#fff",
   },
   iconRight: {
     position: "absolute",
-    top: Platform.OS === "ios" ? 57 : 40,
+    top: Platform.OS === "ios" ? 57 : 45,
     right: 15,
     color: "#fff",
   },
