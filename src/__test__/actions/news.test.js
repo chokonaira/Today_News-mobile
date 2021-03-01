@@ -1,7 +1,7 @@
 import MockAdapter from "axios-mock-adapter";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { axiosConfig } from "../../config/axios";
+import { axiosInstance } from "../../config/axios";
 import { news } from "../../redux/actions/news";
 import {
   NEWS_LOADING,
@@ -9,18 +9,21 @@ import {
   NEWS_ERROR,
 } from "../../redux/actions/types";
 
-const mock = new MockAdapter(axiosConfig);
+
+const mock = new MockAdapter(axiosInstance);
 const mockStore = configureStore([thunk]);
 
-const baseUrl = "https://newsapi.org/v2/top-headlines";
 const API_KEY = "5a5316ec9d0e46f5bb7474eb91099727";
 
 describe("Fetch News actions", () => {
-  xit("succesfull action to fetch news", (done) => {
+  beforeEach(()=>{
+    mock.resetHistory();
+  })
+  it("succesfull action to fetch news", (done) => {
     console.log(news());
 
     const store = mockStore({});
-    const newsData = {
+    const payload = {
       articles: [
         {
           source: {
@@ -39,8 +42,8 @@ describe("Fetch News actions", () => {
       ],
     };
     mock
-      .onGet(`${baseUrl}?country=us&apiKey=${API_KEY}`)
-      .reply(200, { data: newsData });
+      .onGet(`?country=us&apiKey=${API_KEY}`)
+      .reply(200, payload);
 
     const expectedActions = [
       {
@@ -48,7 +51,7 @@ describe("Fetch News actions", () => {
       },
       {
         type: NEWS_SUCCESS,
-        payload: newsData,
+        payload,
       },
     ];
 
@@ -63,12 +66,13 @@ describe("Fetch News actions", () => {
   });
 
   it("unsuccesfull action to fetch news", (done) => {
+    
     const store = mockStore({});
-    const message = "Request failed with status code 404";
+    const payload = "Request failed with status code 404";
 
     mock
-      .onGet(`${baseUrl}?country=us&from=2021-02-28&apiKey=${API_KEY}`)
-      .reply(404, message);
+      .onGet(`?country=us&apiKey=${API_KEY}`)
+      .reply(404, payload);
 
     const expectedActions = [
       {
@@ -76,7 +80,7 @@ describe("Fetch News actions", () => {
       },
       {
         type: NEWS_ERROR,
-        payload: message,
+        payload,
       },
     ];
 
