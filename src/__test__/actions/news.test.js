@@ -3,22 +3,20 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { axiosInstance } from "../../config/axios";
 import { news } from "../../redux/actions/news";
+import { currentDate } from "../../helpers/date";
 import {
   NEWS_LOADING,
   NEWS_SUCCESS,
   NEWS_ERROR,
 } from "../../redux/actions/types";
 
-
 const mock = new MockAdapter(axiosInstance);
 const mockStore = configureStore([thunk]);
 
-const API_KEY = "5a5316ec9d0e46f5bb7474eb91099727";
-
 describe("Fetch News actions", () => {
-  beforeEach(()=>{
+  beforeEach(() => {
     mock.resetHistory();
-  })
+  });
   it("succesfull action to fetch news", (done) => {
     console.log(news());
 
@@ -41,9 +39,7 @@ describe("Fetch News actions", () => {
         },
       ],
     };
-    mock
-      .onGet(`?country=us&apiKey=${API_KEY}`)
-      .reply(200, payload);
+    mock.onGet(`?country=us&from=${currentDate}`).reply(200, payload);
 
     const expectedActions = [
       {
@@ -66,13 +62,10 @@ describe("Fetch News actions", () => {
   });
 
   it("unsuccesfull action to fetch news", (done) => {
-    
     const store = mockStore({});
     const payload = "Request failed with status code 404";
 
-    mock
-      .onGet(`?country=us&apiKey=${API_KEY}`)
-      .reply(404, payload);
+    mock.onGet(`?country=us&from=${currentDate}`).reply(404, payload);
 
     const expectedActions = [
       {

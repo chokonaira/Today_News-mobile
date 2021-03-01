@@ -2,8 +2,6 @@ import * as types from "./types";
 import { currentDate } from "../../helpers/date";
 import { axiosInstance } from "../../config/axios";
 
-const API_KEY = "5a5316ec9d0e46f5bb7474eb91099727";
-
 const newsLoading = () => ({
   type: types.NEWS_LOADING,
 });
@@ -21,11 +19,8 @@ const newsError = (payload) => ({
 export const news = () => (dispatch) => {
   dispatch(newsLoading());
   return axiosInstance
-    .get(
-      `?country=us&apiKey=${API_KEY}`
-    )
+    .get(`?country=us&from=${currentDate}`)
     .then(({ data }) => {
-      // console.log(data)
       return dispatch(newsSuccess(data));
     })
     .catch((error) => {
