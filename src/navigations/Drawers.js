@@ -12,7 +12,7 @@ export function Drawers() {
   const isLargeScreen = dimensions.width >= 768;
   return (
     <Drawer.Navigator
-      drawerType="back"
+      drawerType="front"
       drawerStyle={isLargeScreen ? null : { width: "65%" }}
       drawerContent={(props) => <DrawerContent {...props} />}
     >

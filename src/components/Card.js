@@ -16,7 +16,6 @@ import Image from "react-native-image-progress";
 import FavIcon from "react-native-vector-icons/AntDesign";
 
 export default function NewsCard({
-  key,
   author,
   sourceName,
   onPress,
@@ -47,7 +46,7 @@ export default function NewsCard({
             }}
             indicator={ProgressBar}
             indicatorProps={{
-              size: 50,
+              size: 35,
               color: "#00A6FB",
               unfilledColor: "rgba(200, 200, 200, 0.2)",
             }}
@@ -67,8 +66,7 @@ export default function NewsCard({
         </Left>
         <Right>
           <Button transparent>
-            <FavIcon name="heart" size={23} color={color} />
-            <Text>12 favorites</Text>
+            <FavIcon name="heart" size={23} color={color} style={{marginRight:15}}/>
           </Button>
         </Right>
       </CardItem>

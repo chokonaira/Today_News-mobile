@@ -22,10 +22,7 @@ export function Tabs() {
         labelStyle: {
           fontWeight: "bold",
           marginBottom: 3,
-        },
-        style: {
-          height: Platform.OS === "ios" ? "9%" : "7%",
-        },
+        }
       }}
     >
       <Tab.Screen
