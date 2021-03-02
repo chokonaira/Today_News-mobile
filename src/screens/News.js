@@ -37,7 +37,7 @@ export default function TodaysNews({ navigation }) {
                     author={article.author}
                     sourceName={article.source.name}
                     imageUrl={article.urlToImage}
-                    color={"red"}
+                    color={"#bde0fe"}
                     title={article.title}
                     onPress={() => {
                       console.log("pressed");

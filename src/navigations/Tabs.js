@@ -11,11 +11,10 @@ const Tab = createBottomTabNavigator();
 export function Tabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Today News"
-      activeColor="#333"
+    initialRouteName="Today News"
       tabBarOptions={{
         activeTintColor: "#00A6FB",
-        inactiveTintColor: "#333",
+        inactiveTintColor: "#bde0fe",
         tabStyle: {
           marginTop: Platform.OS === "ios" ? 6 : 13,
         },
@@ -29,12 +28,12 @@ export function Tabs() {
         name="News"
         component={Drawers}
         options={() => ({
-          tabBarIcon: ({ color }) => {
+          tabBarIcon: () => {
             return (
               <NewsIcon
                 name="book-open"
                 size={23}
-                color={color}
+                color={'#00A6FB'}
                 style={{ paddingBottom: 5 }}
               />
             );
@@ -45,12 +44,12 @@ export function Tabs() {
         name="Favorites"
         component={FavoriteNewsStacks}
         options={{
-          tabBarIcon: ({ color }) => {
+          tabBarIcon: () => {
             return (
               <FavIcon
                 name="heart"
                 size={23}
-                color={color}
+                color={'#00A6FB'}
                 style={{ paddingBottom: 5 }}
               />
             );
