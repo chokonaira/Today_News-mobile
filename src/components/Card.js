@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import {
   Card,
   CardItem,
@@ -18,27 +18,29 @@ import FavIcon from "react-native-vector-icons/AntDesign";
 export default function NewsCard({
   author,
   sourceName,
-  onPress,
+  onCardPress,
+  onFavoritePress,
+  onCommentPress,
   imageUrl,
   color,
   title,
 }) {
   return (
     <Card>
-      <View onPress={onPress}>
-        <CardItem>
-          <Left>
-            <Thumbnail
-              source={{
-                uri: imageUrl,
-              }}
-            />
-            <Body>
-              <Text>{sourceName}</Text>
-              <Text note>{author}</Text>
-            </Body>
-          </Left>
-        </CardItem>
+      <CardItem>
+        <Left>
+          <Thumbnail
+            source={{
+              uri: imageUrl,
+            }}
+          />
+          <Body>
+            <Text>{sourceName}</Text>
+            <Text note>{author}</Text>
+          </Body>
+        </Left>
+      </CardItem>
+      <TouchableOpacity onPress={onCardPress}>
         <CardItem cardBody>
           <Image
             source={{
@@ -56,17 +58,22 @@ export default function NewsCard({
         <View numberOfLines={2}>
           <Text style={styles.title}>{title}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
       <CardItem>
         <Left>
-          <Button transparent>
+          <Button onPress={onCommentPress} transparent>
             <Icon active name="chatbubbles" />
             <Text>4 Comments</Text>
           </Button>
         </Left>
         <Right>
-          <Button transparent>
-            <FavIcon name="heart" size={23} color={color} style={{marginRight:15}}/>
+          <Button onPress={onFavoritePress} transparent>
+            <FavIcon
+              name="heart"
+              size={23}
+              color={color}
+              style={{ marginRight: 15 }}
+            />
           </Button>
         </Right>
       </CardItem>

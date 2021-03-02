@@ -39,8 +39,14 @@ export default function TodaysNews({ navigation }) {
                     imageUrl={article.urlToImage}
                     color={"#bde0fe"}
                     title={article.title}
-                    onPress={() => {
-                      console.log("pressed");
+                    onCardPress={() => {
+                      console.log("carded");
+                    }}
+                    onFavoritePress={() => {
+                      console.log("favorited");
+                    }}
+                    onCommentPress={() => {
+                      console.log("commented");
                     }}
                   />
                 </View>
