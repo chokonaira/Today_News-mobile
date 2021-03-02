@@ -1,75 +1,80 @@
 import React from "react";
-import { Image, View, Text, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
+import {
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body,
+  Right,
+} from "native-base";
+import ProgressBar from "react-native-progress";
+import Image from "react-native-image-progress";
+import FavIcon from "react-native-vector-icons/AntDesign";
 
-export default function Card() {
+export default function NewsCard({
+  author,
+  sourceName,
+  onPress,
+  imageUrl,
+  color,
+  title,
+}) {
   return (
-    <>
-      <View style={styles.card}>
-        <View style={styles.cardHeader}></View>
-        <View style={styles.cardBody}>
+    <Card>
+      <View onPress={onPress}>
+        <CardItem>
+          <Left>
+            <Thumbnail
+              source={{
+                uri: imageUrl,
+              }}
+            />
+            <Body>
+              <Text>{sourceName}</Text>
+              <Text note>{author}</Text>
+            </Body>
+          </Left>
+        </CardItem>
+        <CardItem cardBody>
           <Image
-            style={styles.cardBodyImage}
             source={{
-              uri:
-                "https://chicago.cbslocal.com/wp-content/uploads/sites/15116062/2020/04/Combo-Logo-CHICAGO.png?w=1500",
+              uri: imageUrl,
             }}
-          />
-          <Text style={styles.cardBodyText}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s.
-          </Text>
-        </View>
-        <View style={styles.cardFooter}></View>
-      </View>
-      <View style={styles.card}>
-        <View style={styles.cardHeader}></View>
-        <View style={styles.cardBody}>
-          <Image
-            style={styles.cardBodyImage}
-            source={{
-              uri:
-                "https://www.todayjaffna.com/wp-content/uploads/2020/12/FS-MON-BREAKING-NEWS-.png",
+            indicator={ProgressBar}
+            indicatorProps={{
+              size: 35,
+              color: "#00A6FB",
+              unfilledColor: "rgba(200, 200, 200, 0.2)",
             }}
+            style={styles.image}
           />
-          <Text style={styles.cardBodyText}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s.
-          </Text>
+        </CardItem>
+        <View numberOfLines={2}>
+          <Text style={styles.title}>{title}</Text>
         </View>
-        <View style={styles.cardFooter}></View>
       </View>
-    </>
+      <CardItem>
+        <Left>
+          <Button transparent>
+            <Icon active name="chatbubbles" />
+            <Text>4 Comments</Text>
+          </Button>
+        </Left>
+        <Right>
+          <Button transparent>
+            <FavIcon name="heart" size={23} color={color} style={{marginRight:15}}/>
+          </Button>
+        </Right>
+      </CardItem>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: "white",
-    width: "98%",
-    height: "30%",
-    alignSelf: "center",
-    marginTop: "1%",
-  },
-  cardHeader: {
-    backgroundColor: "white",
-    height: "20%",
-  },
-  cardBody: {
-    height: "60%",
-    width: "100%",
-  },
-  cardBodyImage: {
-    padding: 2,
-    height: "60%",
-  },
-  cardBodyText: {
-    height: "40%",
-    padding: 2,
-  },
-  cardFooter: {
-    backgroundColor: "white",
-    height: "20%",
-  },
+  image: { height: 100, flex: 1 },
+  title: { margin: 8, height: 30, fontSize: 12 },
 });

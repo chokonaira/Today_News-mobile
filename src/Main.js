@@ -5,23 +5,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthStacks } from "./navigations/Stacks";
 import { Tabs } from "./navigations/Tabs";
 import { useSelector } from "react-redux";
-import Spinner from "react-native-loading-spinner-overlay";
+import Loader from "./components/Loader";
 
 export default function Main() {
   const authenticated = useSelector((state) => state.auth.isAuthenticated);
   const loading = useSelector((state) => state.auth.isLoading);
+
   if (!authenticated) {
     return (
       <View style={styles.container}>
-        <Spinner
-          animation="none"
-          color="#fff"
-          visible={loading}
-          textStyle={{ color: "#fff" }}
-          overlayColor="rgba(0, 0, 0, 0.9)"
-          textStyle={{ color: "#fff" }}
-          textContent="Loading..."
-        />
+        <Loader visible={loading} />
         <NavigationContainer>
           <Tabs />
         </NavigationContainer>
@@ -30,15 +23,7 @@ export default function Main() {
   }
   return (
     <View style={styles.container}>
-      <Spinner
-        animation="none"
-        color="#fff"
-        visible={loading}
-        textStyle={{ color: "#fff" }}
-        overlayColor="rgba(0, 0, 0, 0.9)"
-        textStyle={{ color: "#fff" }}
-        textContent="Loading..."
-      />
+      <Loader visible={loading} />
       <NavigationContainer>
         <AuthStacks />
       </NavigationContainer>
@@ -49,9 +34,5 @@ export default function Main() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  loading: {
-    opacity: 0.5,
-    backgroundColor: "red",
   },
 });

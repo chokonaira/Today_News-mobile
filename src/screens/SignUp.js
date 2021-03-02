@@ -31,7 +31,7 @@ export default function SignUp({ navigation }) {
       handleValidPassword(password);
       return;
     } else if (serverError) {
-      dispatch({ type: types.DISMISS_ERROR });
+      dispatch({ type: types.DISMISS_AUTH_ERRORERROR });
       return Alert.alert("User with Email already exist", "Please try again", [
         { text: "Okay" },
       ]);

@@ -2,36 +2,31 @@ import * as types from "../actions/types";
 
 const initialState = {
   isLoading: false,
-  isAuthenticated: false,
-  user: [],
+  isNewsFetched: false,
+  news: [],
   errors: null,
 };
 
-export default function auth(state = initialState, action) {
+export default function news(state = initialState, action) {
   switch (action.type) {
-    case types.AUTH_LOADING:
+    case types.NEWS_LOADING:
       return {
         ...state,
         isLoading: true,
       };
-    case types.AUTH_SUCCESS:
+    case types.NEWS_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        isAuthenticated: true,
-        user: action.payload,
+        isNewsFetched: true,
+        news: action.payload,
       };
-    case types.AUTH_ERROR:
+    case types.NEWS_ERROR:
       return {
         ...state,
         isLoading: false,
         errors: action.payload,
       };
-    case types.DISMISS_AUTH_ERROR:
-    return {
-      ...state,
-      errors: undefined,
-    };
     default:
       return state;
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import NewsCard from "../components/Card";
+import Card from "../components/Card";
 import Header from "../components/Header";
 
 export default function FavoriteNews({ navigation }) {
@@ -12,7 +12,7 @@ export default function FavoriteNews({ navigation }) {
         title="Favorite News"
         navigation={navigation}
       />
-      <NewsCard />
+      <Card />
       <Text style={styles.text}>Favorite News</Text>
     </View>
   );
