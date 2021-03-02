@@ -7,15 +7,30 @@ import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
 import { headerDate } from "../helpers/date";
 import { useSelector } from "react-redux";
+import { addFavorite } from "../redux/actions/favorite";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
-  const { news: articles, loading, isNewsFetched } = useSelector(
+  const [hack] = React.useState(false);
+  const [favorite, setFavorite] = React.useState("#bde0fe");
+  const { news: articles, isLoading, isNewsFetched } = useSelector(
     (state) => state.news
   );
   React.useEffect(() => {
     dispatch(news());
   }, []);
+
+  const favoriteHandler = (article) => {
+    // console.log(article, "article");
+    dispatch(addFavorite(article))
+
+    // {
+    //   favorite === "#bde0fe"
+    //     ? setFavorite("#f94144")
+    //     : setFavorite("#bde0fe");
+    //   console.log("favorited");
+    // }
+  };
 
   return (
     <View style={styles.todayNews}>
@@ -27,7 +42,8 @@ export default function TodaysNews({ navigation }) {
         navigation={navigation}
       />
       <View style={styles.container}>
-        <Loader visible={loading} />
+        {/* <Loader visible={!isNewsFetched && hack} /> */}
+        <Loader visible={isLoading} />
         <ScrollView>
           {isNewsFetched &&
             articles.articles.map((article, index) => {
@@ -37,14 +53,12 @@ export default function TodaysNews({ navigation }) {
                     author={article.author}
                     sourceName={article.source.name}
                     imageUrl={article.urlToImage}
-                    color={"#bde0fe"}
+                    color={favorite}
                     title={article.title}
                     onCardPress={() => {
                       console.log("carded");
                     }}
-                    onFavoritePress={() => {
-                      console.log("favorited");
-                    }}
+                    onFavoritePress={() => favoriteHandler(article)}
                     onCommentPress={() => {
                       console.log("commented");
                     }}

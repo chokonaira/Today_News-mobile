@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 export function Tabs() {
   return (
     <Tab.Navigator
-    initialRouteName="Today News"
+    initialRouteName="News"
       tabBarOptions={{
         activeTintColor: "#00A6FB",
         inactiveTintColor: "#bde0fe",

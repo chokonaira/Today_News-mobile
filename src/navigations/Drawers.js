@@ -16,7 +16,7 @@ export function Drawers() {
       drawerStyle={isLargeScreen ? null : { width: "65%" }}
       drawerContent={(props) => <DrawerContent {...props} />}
     >
-      <Drawer.Screen name="Today News" component={TodayNewsStacks} />
+      <Drawer.Screen name="News" component={TodayNewsStacks} />
       <Drawer.Screen name="Profile" component={ProfileStacks} />
     </Drawer.Navigator>
   );

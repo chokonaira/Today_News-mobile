@@ -11,7 +11,7 @@ export default function Main() {
   const authenticated = useSelector((state) => state.auth.isAuthenticated);
   const loading = useSelector((state) => state.auth.isLoading);
 
-  if (!authenticated) {
+  if (authenticated) {
     return (
       <View style={styles.container}>
         <Loader visible={loading} />

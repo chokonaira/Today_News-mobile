@@ -11,7 +11,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 const AuthStack = createStackNavigator(),
   TodayNewsStack = createStackNavigator(),
   FavoriteNewsStack = createStackNavigator(),
-  ProfileStack = createStackNavigator()
+  ProfileStack = createStackNavigator();
 
 const screenOptions = {
   headerStyle: {
@@ -41,6 +41,7 @@ function AuthStacks() {
         name="SignIn"
         component={SignIn}
       />
+      <AuthStack.Screen name="News" component={TodayNewsStacks} />
     </AuthStack.Navigator>
   );
 }
@@ -48,7 +49,7 @@ function AuthStacks() {
 function TodayNewsStacks() {
   return (
     <TodayNewsStack.Navigator screenOptions={screenOptions}>
-      <TodayNewsStack.Screen name="Today News" component={TodayNews} />
+      <TodayNewsStack.Screen name="News" component={TodayNews} />
     </TodayNewsStack.Navigator>
   );
 }
@@ -69,9 +70,4 @@ function ProfileStacks() {
   );
 }
 
-export {
-  AuthStacks,
-  TodayNewsStacks,
-  FavoriteNewsStacks,
-  ProfileStacks
-};
+export { AuthStacks, TodayNewsStacks, FavoriteNewsStacks, ProfileStacks };
