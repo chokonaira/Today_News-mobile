@@ -16,6 +16,11 @@ A React Native mobile application for Android and IOS built on top of the NewsAP
 - run `npm install`
 - run `npm start`
 
+# Run Unit Test Locally
+- run `npm install`
+- create a `.env` file in the root of the project
+- copy the variable in the `.env.example` file into your `.env` file, you can leave the values empty
+- run `npm test`
 ### Preview App On Your Mobile Phone
 - Download and install the `Expo Go` from your mobile app store
 - Once installed, open app and choose the Barcode option 
