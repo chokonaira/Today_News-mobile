@@ -10,9 +10,9 @@ import { useSelector } from "react-redux";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
-  const articles = useSelector((state) => state.news.news);
-  const loading = useSelector((state) => state.news.isLoading);
-
+  const { news: articles, loading, isNewsFetched } = useSelector(
+    (state) => state.news
+  );
   React.useEffect(() => {
     dispatch(news());
   }, []);
@@ -29,20 +29,21 @@ export default function TodaysNews({ navigation }) {
       <View style={styles.container}>
         <Loader visible={loading} />
         <ScrollView>
-          {articles.articles &&
+          {isNewsFetched &&
             articles.articles.map((article, index) => {
               return (
-                <Card
-                  key={index}
-                  author={article.author}
-                  sourceName={article.source.name}
-                  imageUrl={article.urlToImage}
-                  color={"red"}
-                  title={article.title}
-                  onPress={() => {
-                    console.log("pressed");
-                  }}
-                />
+                <View key={index}>
+                  <Card
+                    author={article.author}
+                    sourceName={article.source.name}
+                    imageUrl={article.urlToImage}
+                    color={"red"}
+                    title={article.title}
+                    onPress={() => {
+                      console.log("pressed");
+                    }}
+                  />
+                </View>
               );
             })}
         </ScrollView>

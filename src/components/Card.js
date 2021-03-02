@@ -25,7 +25,7 @@ export default function NewsCard({
   title,
 }) {
   return (
-    <Card key={key}>
+    <Card>
       <View onPress={onPress}>
         <CardItem>
           <Left>

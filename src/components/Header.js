@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
   },
   headerDate: {
     top: Platform.OS === "ios" ? 22 : 14,
-    fontSize:10,
+    fontSize: 10,
     fontWeight: "bold",
-    marginLeft: 19,
+    marginLeft: 16,
     color: "#fff",
   },
   iconLeft: {
