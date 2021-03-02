@@ -7,7 +7,8 @@ import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
 import { headerDate } from "../helpers/date";
 import { useSelector } from "react-redux";
-import { addFavorite } from "../redux/actions/favorite";
+import { addFavorite, removeFavorite } from "../redux/actions/favorite";
+import { v4 as uuidv4 } from "uuid";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
@@ -22,7 +23,8 @@ export default function TodaysNews({ navigation }) {
 
   const favoriteHandler = (article) => {
     // console.log(article, "article");
-    dispatch(addFavorite(article))
+    // dispatch(addFavorite(article))
+    dispatch(removeFavorite(article))
 
     // {
     //   favorite === "#bde0fe"
@@ -47,18 +49,23 @@ export default function TodaysNews({ navigation }) {
         <ScrollView>
           {isNewsFetched &&
             articles.articles.map((article, index) => {
+              const uniqueId = uuidv4();
+              const articleWithId = { 
+                ...article, 
+                articleId: uniqueId, 
+              };
               return (
                 <View key={index}>
                   <Card
-                    author={article.author}
-                    sourceName={article.source.name}
-                    imageUrl={article.urlToImage}
+                    author={articleWithId.author}
+                    sourceName={articleWithId.source.name}
+                    imageUrl={articleWithId.urlToImage}
                     color={favorite}
-                    title={article.title}
+                    title={articleWithId.title}
                     onCardPress={() => {
                       console.log("carded");
                     }}
-                    onFavoritePress={() => favoriteHandler(article)}
+                    onFavoritePress={() => favoriteHandler(articleWithId)}
                     onCommentPress={() => {
                       console.log("commented");
                     }}
