@@ -7,7 +7,11 @@ import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
 import { headerDate } from "../helpers/date";
 import { useSelector } from "react-redux";
-import { addFavorite, removeFavorite } from "../redux/actions/favorite";
+import {
+  fetchAllFavorite,
+  addFavorite,
+  removeFavorite,
+} from "../redux/actions/favorites";
 import { v4 as uuidv4 } from "uuid";
 
 export default function TodaysNews({ navigation }) {
@@ -22,16 +26,19 @@ export default function TodaysNews({ navigation }) {
   }, []);
 
   const favoriteHandler = (article) => {
-    // console.log(article, "article");
-    // dispatch(addFavorite(article))
-    dispatch(removeFavorite(article))
+    // dispatch(fetchAllFavorite())
+    dispatch(addFavorite(article));
+    // dispatch(removeFavorite(article));
+  };
 
-    // {
-    //   favorite === "#bde0fe"
-    //     ? setFavorite("#f94144")
-    //     : setFavorite("#bde0fe");
-    //   console.log("favorited");
-    // }
+  const appendArticleId = (article) => {
+    if (article.hasOwnProperty("articleId")) return article;
+    const uniqueId = uuidv4();
+    const newArticle = {
+      ...article,
+      articleId: uniqueId,
+    };
+    return newArticle;
   };
 
   return (
@@ -44,16 +51,11 @@ export default function TodaysNews({ navigation }) {
         navigation={navigation}
       />
       <View style={styles.container}>
-        {/* <Loader visible={!isNewsFetched && hack} /> */}
         <Loader visible={isLoading} />
         <ScrollView>
           {isNewsFetched &&
             articles.articles.map((article, index) => {
-              const uniqueId = uuidv4();
-              const articleWithId = { 
-                ...article, 
-                articleId: uniqueId, 
-              };
+              const articleWithId = appendArticleId(article);
               return (
                 <View key={index}>
                   <Card

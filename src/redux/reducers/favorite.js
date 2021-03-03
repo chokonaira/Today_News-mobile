@@ -2,12 +2,11 @@ import * as types from "../actions/types";
 
 const initialState = {
   isLoading: false,
-  favouriteArticle: [],
-  removedFavorite: [],
+  favorites: [],
   errors: null,
 };
 
-export default function favorite(state = initialState, action) {
+export default function favorites(state = initialState, action) {
   switch (action.type) {
     case types.FAVOURITE_LOADING:
       return {
@@ -18,26 +17,27 @@ export default function favorite(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        favouriteArticle: [...state.favouriteArticle, action.payload],
+        favorites: [...state.favorites, action.payload],
       };
-    case types.ADD_FAVOURITE_ERROR:
+    case types.REMOVE_FAVOURITE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        favorites: [...action.payload],
+      };
+    case types.FETCH_ALL_FAVOURITE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        favorites: [...state.favorites, action.payload],
+      };
+    case types.FAVOURITE_ERROR:
       return {
         ...state,
         isLoading: false,
         errors: action.payload,
       };
-      case types.REMOVE_FAVOURITE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        removedFavorite: action.payload,
-      };
-      case types.REMOVE_FAVOURITE_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        errors: action.payload,
-      };
+
     default:
       return state;
   }

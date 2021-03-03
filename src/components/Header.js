@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     top: Platform.OS === "ios" ? 22 : 14,
     fontSize: 10,
     fontWeight: "bold",
-    marginLeft: 16,
+    marginLeft: 12,
     color: "#fff",
   },
   iconLeft: {
