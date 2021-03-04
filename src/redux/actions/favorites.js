@@ -35,8 +35,8 @@ export const addFavorite = (article) => async (dispatch) => {
       .collection("favorites")
       .doc(article.articleId)
       .set(favoriteArticle);
+      console.log(article.articleId, "added");
     dispatch(addFavoriteSuccess(favoriteArticle));
-    console.log(article.articleId, "added");
   } catch (error) {
     dispatch(favoriteError(error.message));
   }

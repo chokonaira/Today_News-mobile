@@ -12,7 +12,7 @@ import {
   addFavorite,
   removeFavorite,
 } from "../redux/actions/favorites";
-import { encypt } from "../helpers/crypto";
+import { formatter } from "../helpers/formatter";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
@@ -23,75 +23,76 @@ export default function TodaysNews({ navigation }) {
   const [isFetched, setisFetched] = React.useState(false);
 
   React.useEffect(() => {
+   
     dispatch(news());
     dispatch(fetchAllFavorite());
-    setFormattedArticles(articles.articles)
-    setisFetched(true)
-    // unknown()
-    
-      
-  
+    (async()=>{
+      const arti = await formatter(isFetched, articles, favorites, setFavoriteColor)
+      setFormattedArticles(arti)
+    })()      
   },[]);
 
   // console.log(formattedArticles)
 
-   const unknown = ()=> {
-     console.log('called')
-     isFetched && articles.articles.map(article=> {
-      if(favorites.length > 0){ 
-        favorites.forEach(favorite => {
-            encypt(article.url).then((value) => {
-                const articleWithId = { ...article, articleId: value };
-                if(articleWithId.articleId === favorite.articleId && favorite.favorited){
-                  setFavoriteColor('red');
-                  setFormattedArticles(...formattedArticles, {...articleWithId, favorited: true})
-                } else {
-                  setFavoriteColor('#bde0fe');
-                  setFormattedArticles(...formattedArticles, {...articleWithId, favorited: false})
-                }
-            })
-         })
-      } else {
-        encypt(article.url).then((value) => {
-          let updatedArticle = article;
-          if(!article.hasOwnProperty('articleId')){
-            updatedArticle = {...article, articleId: value};
-          } 
-          setFormattedArticles(...formattedArticles, {...updatedArticle, favorited: false})
-        });
-      }
-    })
-  }
+  //  const unknown = ()=> {
+  //    console.log('called')
+  //    isFetched && articles.articles.map(article=> {
+  //     if(favorites.length > 0){ 
+  //       favorites.forEach(favorite => {
+  //           encypt(article.url).then((value) => {
+  //               const articleWithId = { ...article, articleId: value };
+  //               if(articleWithId.articleId === favorite.articleId && favorite.favorited){
+  //                 setFavoriteColor('red');
+  //                 setFormattedArticles(...formattedArticles, {...articleWithId, favorited: true})
+  //               } else {
+  //                 setFavoriteColor('#bde0fe');
+  //                 setFormattedArticles(...formattedArticles, {...articleWithId, favorited: false})
+  //               }
+  //           })
+  //        })
+  //     } else {
+  //       encypt(article.url).then((value) => {
+  //         let updatedArticle = article;
+  //         if(!article.hasOwnProperty('articleId')){
+  //           updatedArticle = {...article, articleId: value};
+  //         } 
+  //         setFormattedArticles(...formattedArticles, {...updatedArticle, favorited: false})
+  //       });
+  //     }
+  //   })
+  // }
 
 
 
   const favoriteHandler = (article) => {
     // encypt('jjjj').then((result)=> console.log(result))
     // dispatch(fetchAllFavorite())
-    dispatch(addFavorite(article));
-    console.log('here')
+    formatter(article, favorites, setFavoriteColor)
+    // console.log(formattedArticle)
+    // dispatch(addFavorite(article));
+    
     // dispatch(removeFavorite(article));
   };
 
-const format = (article) => {
-  let updatedArticle;
-  encypt(article.url).then((value) => {
-    updatedArticle = { ...article, articleId: value, favorited: false };
-    if (favorites.length > 0) {
-      favorites.forEach((favorite) => {
-        if (
-          updatedArticle.articlesId === favorite.articlesId &&
-          favorite.favorited === true
-        ) {
-          updatedArticle = favorite;
-          setFavoriteColor("red");
-        }
-      });
-    }
-  });
-  return updatedArticle;
-};
-
+// const format = (article) => {
+//   let updatedArticle;
+//   encypt(article.url).then((value) => {
+//     updatedArticle = { ...article, articleId: 'value', favorited: false };
+//     if (favorites.length > 0) {
+//       favorites.forEach((favorite) => {
+//         if (
+//           updatedArticle.articlesId === favorite.articlesId &&
+//           favorite.favorited === true
+//         ) {
+//           updatedArticle = favorite;
+//           setFavoriteColor("red");
+//         }
+//       });
+//     }
+//   // });
+//   return updatedArticle;
+// };
+console.log(formattedArticles)
   return (
     <View style={styles.todayNews}>
       <Header
@@ -106,7 +107,7 @@ const format = (article) => {
         <ScrollView>
           {isNewsFetched &&
             articles.articles.map((article, index) => {
-              // const formattedArticle = format(article)
+              // const formattedArticle = formatter(article, favorites, setFavoriteColor)
               return (
                 <View key={index}>
                   <Card
@@ -118,7 +119,7 @@ const format = (article) => {
                     onCardPress={() => {
                       console.log("carded");
                     }}
-                    onFavoritePress={() => addFavorite(article)}
+                    onFavoritePress={() => favoriteHandler(article)}
                     onCommentPress={() => {
                       console.log("commented");
                     }}
