@@ -12,40 +12,55 @@ import {
   addFavorite,
   removeFavorite,
 } from "../redux/actions/favorites";
-import * as Crypto from 'expo-crypto';
 import { encypt } from "../helpers/crypto";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
-  const [favorite, setFavorite] = React.useState("#bde0fe");
   const { news: articles, isLoading, isNewsFetched } = useSelector(
     (state) => state.news
-  );
+    );
+  const { favorites } = useSelector((state) => state.favorites);
+  const [favoriteColor, setFavoriteColor] = React.useState("#bde0fe");
+  const [formattedArticles, setFormattedArticles] = React.useState(articles);
+
   React.useEffect(() => {
     dispatch(news());
-   
-  }, []);
+    dispatch(fetchAllFavorite());
 
+    isNewsFetched && articles.articles.map(article=>{
+        if(favorites.length > 0){
+          favorites.forEach(favorite => {
+              encypt(article.url).then((value) => {
+                  const articleWithId = { ...article, articleId: value };
+                  if(articleWithId.articleId === favorite.articleId && favorite.favorited){
+                    setFavoriteColor('red');
+                    setFormattedArticles(...articles, {...articleWithId, favorited: true})
+                  } else {
+                    setFavoriteColor('#bde0fe');
+                    setFormattedArticles(...articles, {...articleWithId, favorited: false})
+                  }
+              })
+           })
+        } else {
+          encypt(article.url).then((value) => {
+            if(!article.hasOwnProperty('articleId')){
+              const articleWithId = {...article, articleId: value};
+              setFormattedArticles(...articles, {...articleWithId, favorited: false})
+            } else {
+              setFormattedArticles(...articles, {...article, favorited: false})
+            }
+          });
+        }
+      })
+  },[]);
+console.log(formattedArticles)
   const favoriteHandler = async(article) => {
     encypt('jjjj').then((result)=> console.log(result))
-    // console.log(encypt('jjjj'))
-
     // dispatch(fetchAllFavorite())
     dispatch(addFavorite(article));
     // dispatch(removeFavorite(article));
   };
 
-  // const appendArticleId = (article) => {
-  //   console.log(article.hasOwnProperty("articleId"))
-  //   console.log(article, 'article')
-  //   if (article.hasOwnProperty("articleId")) return article;
-  //   const uniqueId = uuidv4();
-  //   const newArticle = {
-  //     ...article,
-  //     articleId: uniqueId,
-  //   };
-  //   return newArticle;
-  // };
 
   return (
     <View style={styles.todayNews}>
@@ -60,19 +75,15 @@ export default function TodaysNews({ navigation }) {
         <Loader visible={isLoading} />
         <ScrollView>
           {isNewsFetched &&
-            articles.articles.map((article, index) => {
-              // encriptedUrl = await encypt(article.url);
-              // const articleWithencription = {
-              //   ...article,
-              //   articleId: encriptedUrl
-              // }
+            formattedArticles.map((article, index) => {
+              appendArticleId(article)
               return (
                 <View key={index}>
                   <Card
                     author={article.author}
                     sourceName={article.source.name}
                     imageUrl={article.urlToImage}
-                    color={favorite}
+                    color={favoriteColor}
                     title={article.title}
                     onCardPress={() => {
                       console.log("carded");
