@@ -3,10 +3,6 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import store from "../store";
 
-// import { firebaseConfig } from "../../config/firebase";
-
-// firebase.initializeApp(firebaseConfig);
-
 const favoriteLoading = () => ({
   type: types.FAVOURITE_LOADING,
 });
@@ -30,7 +26,7 @@ const favoriteError = (payload) => ({
 
 export const addFavorite = (article) => async (dispatch) => {
   try {
-    const authUserFavoriteArticle = {
+    const favoriteArticle = {
       ...article,
       favorited: true,
     };
@@ -38,8 +34,8 @@ export const addFavorite = (article) => async (dispatch) => {
       .firestore()
       .collection("favorites")
       .doc(article.articleId)
-      .set(authUserFavoriteArticle);
-    dispatch(addFavoriteSuccess(authUserFavoriteArticle));
+      .set(favoriteArticle);
+    dispatch(addFavoriteSuccess(favoriteArticle));
     console.log(article.articleId, "added");
   } catch (error) {
     dispatch(favoriteError(error.message));
@@ -57,9 +53,11 @@ export const removeFavorite = (article) => async (dispatch) => {
     const {
       favorites: { favorites },
     } = store.getState();
+
     const updatedFavorites = favorites.filter((favorite) => {
       return favorite.articleId == !article.articleId;
     });
+
     dispatch(removeFavoriteSuccess(updatedFavorites));
   } catch (error) {
     dispatch(favoriteError(error.message));

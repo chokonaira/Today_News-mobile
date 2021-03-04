@@ -12,34 +12,40 @@ import {
   addFavorite,
   removeFavorite,
 } from "../redux/actions/favorites";
-import { v4 as uuidv4 } from "uuid";
+import * as Crypto from 'expo-crypto';
+import { encypt } from "../helpers/crypto";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
-  const [hack] = React.useState(false);
   const [favorite, setFavorite] = React.useState("#bde0fe");
   const { news: articles, isLoading, isNewsFetched } = useSelector(
     (state) => state.news
   );
   React.useEffect(() => {
     dispatch(news());
+   
   }, []);
 
-  const favoriteHandler = (article) => {
+  const favoriteHandler = async(article) => {
+    encypt('jjjj').then((result)=> console.log(result))
+    // console.log(encypt('jjjj'))
+
     // dispatch(fetchAllFavorite())
     dispatch(addFavorite(article));
     // dispatch(removeFavorite(article));
   };
 
-  const appendArticleId = (article) => {
-    if (article.hasOwnProperty("articleId")) return article;
-    const uniqueId = uuidv4();
-    const newArticle = {
-      ...article,
-      articleId: uniqueId,
-    };
-    return newArticle;
-  };
+  // const appendArticleId = (article) => {
+  //   console.log(article.hasOwnProperty("articleId"))
+  //   console.log(article, 'article')
+  //   if (article.hasOwnProperty("articleId")) return article;
+  //   const uniqueId = uuidv4();
+  //   const newArticle = {
+  //     ...article,
+  //     articleId: uniqueId,
+  //   };
+  //   return newArticle;
+  // };
 
   return (
     <View style={styles.todayNews}>
@@ -55,19 +61,23 @@ export default function TodaysNews({ navigation }) {
         <ScrollView>
           {isNewsFetched &&
             articles.articles.map((article, index) => {
-              const articleWithId = appendArticleId(article);
+              // encriptedUrl = await encypt(article.url);
+              // const articleWithencription = {
+              //   ...article,
+              //   articleId: encriptedUrl
+              // }
               return (
                 <View key={index}>
                   <Card
-                    author={articleWithId.author}
-                    sourceName={articleWithId.source.name}
-                    imageUrl={articleWithId.urlToImage}
+                    author={article.author}
+                    sourceName={article.source.name}
+                    imageUrl={article.urlToImage}
                     color={favorite}
-                    title={articleWithId.title}
+                    title={article.title}
                     onCardPress={() => {
                       console.log("carded");
                     }}
-                    onFavoritePress={() => favoriteHandler(articleWithId)}
+                    onFavoritePress={() => favoriteHandler(article)}
                     onCommentPress={() => {
                       console.log("commented");
                     }}
