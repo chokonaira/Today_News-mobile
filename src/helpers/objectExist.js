@@ -1,8 +1,8 @@
-export const ObjectExist = (favorites, favoriteArticle) => {
+export const ObjectExist = (favorites, article) => {
   const found = favorites.some((favorite) => {
     return (
-      favorite.url === favoriteArticle.url &&
-      favorite.publishedAt === favoriteArticle.publishedAt
+      favorite.url === article.url &&
+      favorite.publishedAt === article.publishedAt
     );
   });
   if (found) return true;

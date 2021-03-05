@@ -31,7 +31,7 @@ export default function DrawerContent(props) {
               )}
               label="Today News"
               onPress={() => {
-                props.navigation.navigate("Today News");
+                props.navigation.navigate("News");
               }}
             ></DrawerItem>
             <DrawerItem
