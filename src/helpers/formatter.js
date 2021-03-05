@@ -1,6 +1,6 @@
 import { ObjectExist } from "./objectExist";
 
-export const formatter = (favorites, articles) => {
+export const formatter = (favorites, articles) => (dispatch) => {
   const newArticles = articles || [];
   return new Promise(function (resolve, reject) {
     const updatedArticle = newArticles.map((article) => {
@@ -10,6 +10,8 @@ export const formatter = (favorites, articles) => {
         return { ...article, favorited: false };
       }
     });
-    return resolve(updatedArticle);
+    dispatch(resolve(updatedArticle || []))
   });
 };
+
+

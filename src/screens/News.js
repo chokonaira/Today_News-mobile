@@ -14,13 +14,13 @@ import {
   removeFavorite,
 } from "../redux/actions/favorites";
 import { formatter } from "../helpers/formatter";
+import { ObjectExist } from "../helpers/objectExist";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
   const { favorites } = useSelector((state) => state.favorites);
   const { news: articles, isLoading, isNewsFetched } = useSelector((state) => state.news);
   const [favoriteColor, setFavoriteColor] = React.useState("#bde0fe");
-
   
   React.useEffect(() => {
     dispatch(news(fetchAllFavorite));
@@ -29,18 +29,17 @@ export default function TodaysNews({ navigation }) {
   },[]);
   
   const previousState = usePrevious(favorites)
-  formatter(favorites, articles.articles).then((format)=>{
-    console.log(format)
-  }) 
   
-    
+  const favorite = () => {
+    return dispatch(formatter(favorites, articles.articles));
+  };
+  console.log(favorite());
+  
   const favoriteHandler = (article) => {
-
     // dispatch(fetchAllFavorite())
     // formatter(article, favorites, setFavoriteColor)
     // console.log(formattedArticle)
     dispatch(addFavorite(article));
-    
     // dispatch(removeFavorite(article));
   };
 
