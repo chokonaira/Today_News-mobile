@@ -1,7 +1,7 @@
 import { ObjectExist } from "./objectExist";
 
-export const formatter = (favorites, articles) => (dispatch) => {
-  const newArticles = articles || [];
+export const formatter = (favorites, articles)  => (dispatch) => {
+  const newArticles = articles.articles || [];
   return new Promise(function (resolve, reject) {
     const updatedArticle = newArticles.map((article) => {
       if (ObjectExist(favorites, article)) {
@@ -10,7 +10,7 @@ export const formatter = (favorites, articles) => (dispatch) => {
         return { ...article, favorited: false };
       }
     });
-    dispatch(resolve(updatedArticle || []))
+    return dispatch(resolve(updatedArticle))
   });
 };
 

@@ -29,11 +29,10 @@ export default function TodaysNews({ navigation }) {
   },[]);
   
   const previousState = usePrevious(favorites)
-  
-  const favorite = () => {
-    return dispatch(formatter(favorites, articles.articles));
-  };
-  console.log(favorite());
+  // formatter(favorites, articles).then(result =>{
+  //   console.log(result)
+  // })
+  console.log(articles.articles)
   
   const favoriteHandler = (article) => {
     // dispatch(fetchAllFavorite())
