@@ -13,8 +13,6 @@ import {
   addFavorite,
   removeFavorite,
 } from "../redux/actions/favorites";
-import { formatter } from "../helpers/formatter";
-import { ObjectExist } from "../helpers/objectExist";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();

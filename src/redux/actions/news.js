@@ -2,8 +2,6 @@ import * as types from "./types";
 import { currentDate } from "../../helpers/date";
 import { fetchAllFavorite } from "./favorites";
 import { axiosInstance } from "../../config/axios";
-import store from "../store";
-// import { formatter } from "../../helpers/formatter";
 import { ObjectExist } from "../../helpers/objectExist";
 
 const newsLoading = () => ({
@@ -20,13 +18,13 @@ const newsError = (payload) => ({
   payload,
 });
 
-export const news = () => async (dispatch) => {
+export const news = () => async (dispatch, getState) => {
   dispatch(newsLoading());
   dispatch(fetchAllFavorite());
 
   const {
     favorites: { favorites },
-  } = await store.getState();
+  } = await getState();
 
   return axiosInstance
     .get(`?country=us&from=${currentDate}`)

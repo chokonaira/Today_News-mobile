@@ -1,7 +1,6 @@
 import * as types from "./types";
 import * as firebase from "firebase";
 import "firebase/firestore";
-import store from "../store";
 import { ObjectExist } from "../../helpers/objectExist";
 
 const favoriteLoading = () => ({
@@ -25,11 +24,11 @@ const favoriteError = (payload) => ({
   payload,
 });
 
-export const addFavorite = (article) => async (dispatch) => {
+export const addFavorite = (article) => async (dispatch, getState) => {
   try {
     const {
       favorites: { favorites },
-    } = store.getState();
+    } = await getState();
 
     if (ObjectExist(favorites, article)) return;
 
@@ -49,7 +48,7 @@ export const addFavorite = (article) => async (dispatch) => {
   }
 };
 
-export const removeFavorite = (article) => async (dispatch) => {
+export const removeFavorite = (article) => async (dispatch, getState) => {
   console.log(article.articleId, "remove");
   try {
     await firebase
@@ -59,7 +58,7 @@ export const removeFavorite = (article) => async (dispatch) => {
       .delete();
     const {
       favorites: { favorites },
-    } = store.getState();
+    } = await getState();
 
     const updatedFavorites = favorites.filter((favorite) => {
       return favorite.articleId == !article.articleId;
