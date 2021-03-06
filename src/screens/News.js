@@ -7,36 +7,25 @@ import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
 import { headerDate } from "../helpers/date";
 import { useSelector } from "react-redux";
-import { usePrevious } from "../components/usePrevious";
-import {
-  fetchAllFavorite,
-  addFavorite,
-  removeFavorite, 
-} from "../redux/actions/favorites";
-import { useFocusEffect } from "@react-navigation/native";
+import { addFavorite, removeFavorite } from "../redux/actions/favorites";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
+  const [loading, setLoading] = React.useState(true);
   const { favorites } = useSelector((state) => state.favorites);
-  const { news: articles, isLoading, isNewsFetched } = useSelector(
-    (state) => state.news
-  );
-  const [iconColor, setIconColor] = React.useState("#bde0fe");
+  const { news: articles, isNewsFetched } = useSelector((state) => state.news);
 
   React.useEffect(() => {
     dispatch(news());
-    dispatch(fetchAllFavorite());
-  }, []);
-
-  
-  const previousState = usePrevious(favorites);
+    return () => setLoading(false);
+  }, [favorites.length]);
 
   const favoriteHandler = (article) => {
-    // if ()
+    if (article.favorited) {
+      dispatch(removeFavorite(article));
+    }
     dispatch(addFavorite(article));
-    // dispatch(removeFavorite(article));
   };
-
   return (
     <View style={styles.todayNews}>
       <Header
@@ -47,7 +36,7 @@ export default function TodaysNews({ navigation }) {
         navigation={navigation}
       />
       <View style={styles.container}>
-        <Loader visible={isLoading} />
+        <Loader visible={loading} />
         <ScrollView>
           {isNewsFetched &&
             articles.articles.map((article, index) => {
@@ -57,7 +46,7 @@ export default function TodaysNews({ navigation }) {
                     author={article.author}
                     sourceName={article.source.name}
                     imageUrl={article.urlToImage}
-                    color={article.favorited ? "red" : iconColor}
+                    color={article.favorited ? "red" : "#bde0fe"}
                     title={article.title}
                     onCardPress={() => {
                       console.log("carded");

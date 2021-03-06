@@ -1,7 +1,7 @@
 import * as types from "./types";
 import * as firebase from "firebase";
 import "firebase/firestore";
-import { ObjectExist } from "../../helpers/objectExist";
+import { objectChecker } from "../../helpers/objectExist";
 
 const favoriteLoading = () => ({
   type: types.FAVOURITE_LOADING,
@@ -30,7 +30,7 @@ export const addFavorite = (article) => async (dispatch, getState) => {
       favorites: { favorites },
     } = await getState();
 
-    if (ObjectExist(favorites, article)) return;
+    if (objectChecker.exist(favorites, article)) return;
 
     const favoriteArticle = {
       ...article,
@@ -41,7 +41,6 @@ export const addFavorite = (article) => async (dispatch, getState) => {
       .collection("favorites")
       .doc(article.publishedAt)
       .set(favoriteArticle);
-    // console.log(favoriteArticle, "added");
     dispatch(addFavoriteSuccess(favoriteArticle));
   } catch (error) {
     dispatch(favoriteError(error.message));
@@ -49,7 +48,6 @@ export const addFavorite = (article) => async (dispatch, getState) => {
 };
 
 export const removeFavorite = (article) => async (dispatch, getState) => {
-  console.log(article.articleId, "remove");
   try {
     const {
       favorites: { favorites },
@@ -61,33 +59,22 @@ export const removeFavorite = (article) => async (dispatch, getState) => {
       .doc(article.publishedAt)
       .delete();
 
-    const newFavorites = favorites.filter((favorite) => {
-      return (
-        favorite.url !== article.url &&
-        favorite.publishedAt !== article.publishedAt
-      );
-    });
+    const newFavorites = objectChecker.filter(favorites, article);
+
     dispatch(removeFavoriteSuccess(newFavorites));
   } catch (error) {
     dispatch(favoriteError(error.message));
   }
 };
 
-export const fetchAllFavorite = () => async (dispatch, getState) => {
+export const fetchAllFavorite = () => async (dispatch) => {
   dispatch(favoriteLoading());
   try {
-    // const {
-    //   favorites: { favorites },
-    // } = await getState();
-
     const snapshot = await firebase.firestore().collection("favorites").get();
-    console.dir(snapshot.docs)
     const result = snapshot.docs.map((doc) => {
-      // if (ObjectExist(favorites, doc.data())) return;
-      return doc.data()
+      return doc.data();
     });
     dispatch(fetchAllFavoriteSuccess(result));
-    console.log(result)
   } catch (error) {
     dispatch(favoriteError(error.message));
   }

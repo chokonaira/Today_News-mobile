@@ -2,7 +2,7 @@ import * as types from "./types";
 import { currentDate } from "../../helpers/date";
 import { fetchAllFavorite } from "./favorites";
 import { axiosInstance } from "../../config/axios";
-import { ObjectExist } from "../../helpers/objectExist";
+import { objectChecker } from "../../helpers/objectExist";
 
 const newsLoading = () => ({
   type: types.NEWS_LOADING,
@@ -38,7 +38,7 @@ export const news = () => async (dispatch, getState) => {
 
 export const formatter = (favorites, articles) => (dispatch) => {
   const updatedArticle = articles.articles.map((article) => {
-    if (ObjectExist(favorites, article)) {
+    if (objectChecker.exist(favorites, article)) {
       return { ...article, favorited: true };
     } else {
       return { ...article, favorited: false };
