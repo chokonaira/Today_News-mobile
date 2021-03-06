@@ -2,7 +2,7 @@ import * as types from "./types";
 import { currentDate } from "../../helpers/date";
 import { fetchAllFavorite } from "./favorites";
 import { axiosInstance } from "../../config/axios";
-import { objectChecker } from "../../helpers/objectExist";
+import { objectChecker } from "../../helpers/objectChecker";
 
 const newsLoading = () => ({
   type: types.NEWS_LOADING,

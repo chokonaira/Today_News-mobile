@@ -1,7 +1,7 @@
 import * as types from "./types";
 import * as firebase from "firebase";
 import "firebase/firestore";
-import { objectChecker } from "../../helpers/objectExist";
+import { objectChecker } from "../../helpers/objectChecker";
 
 const favoriteLoading = () => ({
   type: types.FAVOURITE_LOADING,
