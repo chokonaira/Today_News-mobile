@@ -29,7 +29,7 @@ export default function favorites(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        favorites: [...state.favorites, action.payload],
+        favorites: action.payload,
       };
     case types.FAVOURITE_ERROR:
       return {

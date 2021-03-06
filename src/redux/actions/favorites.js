@@ -41,7 +41,7 @@ export const addFavorite = (article) => async (dispatch, getState) => {
       .collection("favorites")
       .doc(article.publishedAt)
       .set(favoriteArticle);
-    console.log(favoriteArticle, "added");
+    // console.log(favoriteArticle, "added");
     dispatch(addFavoriteSuccess(favoriteArticle));
   } catch (error) {
     dispatch(favoriteError(error.message));
@@ -67,20 +67,27 @@ export const removeFavorite = (article) => async (dispatch, getState) => {
         favorite.publishedAt !== article.publishedAt
       );
     });
-
     dispatch(removeFavoriteSuccess(newFavorites));
   } catch (error) {
     dispatch(favoriteError(error.message));
   }
 };
 
-export const fetchAllFavorite = () => async (dispatch) => {
+export const fetchAllFavorite = () => async (dispatch, getState) => {
   dispatch(favoriteLoading());
   try {
+    // const {
+    //   favorites: { favorites },
+    // } = await getState();
+
     const snapshot = await firebase.firestore().collection("favorites").get();
-    snapshot.docs.forEach((doc) => {
-      dispatch(fetchAllFavoriteSuccess(doc.data()));
+    console.dir(snapshot.docs)
+    const result = snapshot.docs.map((doc) => {
+      // if (ObjectExist(favorites, doc.data())) return;
+      return doc.data()
     });
+    dispatch(fetchAllFavoriteSuccess(result));
+    console.log(result)
   } catch (error) {
     dispatch(favoriteError(error.message));
   }

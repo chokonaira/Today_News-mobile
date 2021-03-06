@@ -11,7 +11,7 @@ import { usePrevious } from "../components/usePrevious";
 import {
   fetchAllFavorite,
   addFavorite,
-  removeFavorite,
+  removeFavorite, 
 } from "../redux/actions/favorites";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -28,18 +28,9 @@ export default function TodaysNews({ navigation }) {
     dispatch(fetchAllFavorite());
   }, []);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      dispatch(fetchAllFavorite());
-    }, [iconColor])
-  );
-
+  
   const previousState = usePrevious(favorites);
 
-  // formatter(favorites, articles).then(result =>{
-  //   console.log(result)
-  // })
-  // console.log(previousState);
   const favoriteHandler = (article) => {
     // if ()
     dispatch(addFavorite(article));

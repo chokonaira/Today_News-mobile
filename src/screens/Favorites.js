@@ -18,14 +18,13 @@ import { useFocusEffect } from '@react-navigation/native';
 
 export default function FavoriteNews({ navigation }) {
   const dispatch = useDispatch();
-  const { favorites } = useSelector((state) => state.favorites);
-  const { isNewsFetched } = useSelector((state) => state.news);
+  const { favorites, isLoading } = useSelector((state) => state.favorites);
   const [iconColor, setIconColor] = React.useState("#bde0fe");
 
   useFocusEffect(
     React.useCallback(() => {
       dispatch(fetchAllFavorite());
-    }, [favorites])
+    }, [])
   );
 
   const previousState = usePrevious(favorites)
@@ -39,6 +38,7 @@ export default function FavoriteNews({ navigation }) {
   return (
     <View style={styles.favoriteNews}>
       <Header
+        date={headerDate()}
         onPress={() => navigation.goBack()}
         name="arrow-back"
         title="Favorite News"
@@ -47,7 +47,7 @@ export default function FavoriteNews({ navigation }) {
      <View style={styles.container}>
         <Loader visible={isLoading} />
         <ScrollView>
-          {isNewsFetched &&
+          {!isLoading &&
             favorites.map((favorite, index) => {
               return (
                 <View key={index}>
