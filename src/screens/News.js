@@ -13,29 +13,35 @@ import {
   addFavorite,
   removeFavorite,
 } from "../redux/actions/favorites";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
   const { favorites } = useSelector((state) => state.favorites);
-  const { news: articles, isLoading, isNewsFetched } = useSelector((state) => state.news);
-  const [favoriteColor, setFavoriteColor] = React.useState("#bde0fe");
-  
+  const { news: articles, isLoading, isNewsFetched } = useSelector(
+    (state) => state.news
+  );
+  const [iconColor, setIconColor] = React.useState("#bde0fe");
+
   React.useEffect(() => {
-    dispatch(news(fetchAllFavorite));
+    dispatch(news());
     dispatch(fetchAllFavorite());
-    
-  },[]);
-  
-  const previousState = usePrevious(favorites)
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(fetchAllFavorite());
+    }, [iconColor])
+  );
+
+  const previousState = usePrevious(favorites);
+
   // formatter(favorites, articles).then(result =>{
   //   console.log(result)
   // })
-  console.log(articles.articles)
-  
+  // console.log(previousState);
   const favoriteHandler = (article) => {
-    // dispatch(fetchAllFavorite())
-    // formatter(article, favorites, setFavoriteColor)
-    // console.log(formattedArticle)
+    // if ()
     dispatch(addFavorite(article));
     // dispatch(removeFavorite(article));
   };
@@ -60,7 +66,7 @@ export default function TodaysNews({ navigation }) {
                     author={article.author}
                     sourceName={article.source.name}
                     imageUrl={article.urlToImage}
-                    color={favoriteColor}
+                    color={article.favorited ? "red" : iconColor}
                     title={article.title}
                     onCardPress={() => {
                       console.log("carded");

@@ -41,7 +41,7 @@ export const addFavorite = (article) => async (dispatch, getState) => {
       .collection("favorites")
       .doc(article.publishedAt)
       .set(favoriteArticle);
-    console.log(article.publishedAt, "added");
+    console.log(favoriteArticle, "added");
     dispatch(addFavoriteSuccess(favoriteArticle));
   } catch (error) {
     dispatch(favoriteError(error.message));
@@ -51,20 +51,24 @@ export const addFavorite = (article) => async (dispatch, getState) => {
 export const removeFavorite = (article) => async (dispatch, getState) => {
   console.log(article.articleId, "remove");
   try {
+    const {
+      favorites: { favorites },
+    } = await getState();
+
     await firebase
       .firestore()
       .collection("favorites")
       .doc(article.publishedAt)
       .delete();
-    const {
-      favorites: { favorites },
-    } = await getState();
 
-    const updatedFavorites = favorites.filter((favorite) => {
-      return favorite.articleId == !article.articleId;
+    const newFavorites = favorites.filter((favorite) => {
+      return (
+        favorite.url !== article.url &&
+        favorite.publishedAt !== article.publishedAt
+      );
     });
 
-    dispatch(removeFavoriteSuccess(updatedFavorites));
+    dispatch(removeFavoriteSuccess(newFavorites));
   } catch (error) {
     dispatch(favoriteError(error.message));
   }
