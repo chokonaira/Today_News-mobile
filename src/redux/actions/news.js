@@ -1,5 +1,5 @@
 import * as types from "./types";
-import { currentDate } from "../../helpers/date";
+import { date } from "../../helpers/date";
 import { fetchAllFavorite } from "./favorites";
 import { axiosInstance } from "../../config/axios";
 import { objectChecker } from "../../helpers/objectChecker";
@@ -27,7 +27,7 @@ export const news = () => async (dispatch, getState) => {
   } = await getState();
 
   return axiosInstance
-    .get(`?country=us&from=${currentDate}`)
+    .get(`?country=us&from=${date.currentDate}`)
     .then(({ data }) => {
       dispatch(formatter(favorites, data));
     })

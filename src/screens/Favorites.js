@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import Loader from "../components/Loader";
 import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
-import { headerDate } from "../helpers/date";
+import { date } from "../helpers/date";
 import { useSelector } from "react-redux";
 import { usePrevious } from "../components/usePrevious";
 import {
@@ -38,7 +38,7 @@ export default function FavoriteNews({ navigation }) {
   return (
     <View style={styles.favoriteNews}>
       <Header
-        date={headerDate()}
+        date={date.headerDate()}
         onPress={() => navigation.goBack()}
         name="arrow-back"
         title="Favorite News"
