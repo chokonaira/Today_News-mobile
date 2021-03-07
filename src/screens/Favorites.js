@@ -11,6 +11,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 export default function FavoriteNews({ navigation }) {
   const dispatch = useDispatch();
+  const { news: articles, isNewsFetched } = useSelector((state) => state.news);
   const { favorites, isLoading } = useSelector((state) => state.favorites);
 
   useFocusEffect(
@@ -26,6 +27,24 @@ export default function FavoriteNews({ navigation }) {
     dispatch(addFavorite(article));
   };
 
+  if (favorites.length < 0) {
+    return (
+      <View style={styles.favoriteNews}>
+        <Header
+          onPress={() => navigation.goBack()}
+          name="arrow-back"
+          title="Favorite News"
+          navigation={navigation}
+        />
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Text style={{ fontWeight: 'bold', color: "#333"}}> You have no Favorites Articles</Text>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.favoriteNews}>
       <Header
@@ -35,25 +54,25 @@ export default function FavoriteNews({ navigation }) {
         navigation={navigation}
       />
       <View style={styles.container}>
-        <Loader visible={isLoading} />
+        <Loader visible={!isNewsFetched} />
         <ScrollView>
-          {!isLoading &&
-            favorites.map((favorite, index) => {
+          {isNewsFetched &&
+            favorites.map((article, index) => {
               return (
                 <View key={index}>
                   <Card
-                    author={favorite.author}
-                    sourceName={favorite.source.name}
-                    imageUrl={favorite.urlToImage}
-                    color={favorite.favorited ? "red" : "#bde0fe"}
-                    title={favorite.title}
-                    onCardPress={() => {
-                      console.log("carded");
-                    }}
-                    onFavoritePress={() => favoriteHandler(favorite)}
-                    onCommentPress={() => {
-                      console.log("commented");
-                    }}
+                    author={article.author}
+                    sourceName={article.source.name}
+                    imageUrl={article.urlToImage}
+                    color={article.favorited ? "red" : "#bde0fe"}
+                    title={article.title}
+                    onCardPress={() =>
+                      navigation.navigate("Details", { article })
+                    }
+                    onFavoritePress={() => favoriteHandler(article)}
+                    onCommentPress={() =>
+                      navigation.navigate("Details", { article })
+                    }
                   />
                 </View>
               );

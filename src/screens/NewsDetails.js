@@ -35,7 +35,6 @@ export default function NewsDetails({ navigation, route: { params } }) {
         onPress={() => navigation.goBack()}
         name="arrow-back"
         title={params.article.source.name}
-        navigation={navigation}
       />
 
       <View style={styles.container}>
@@ -44,9 +43,6 @@ export default function NewsDetails({ navigation, route: { params } }) {
             imageUrl={params.article.urlToImage}
             color={params.article.favorited ? "red" : "#bde0fe"}
             content={params.article.content}
-            onCardPress={() => {
-              console.log("carded");
-            }}
             onFavoritePress={() => favoriteHandler(params.article)}
             onCommentPress={() => {
               console.log("commented");
@@ -121,14 +117,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginTop: Platform.OS === "ios" ? 0 : -8,
     paddingLeft: 7,
-    color: "red",
+    color: "#333",
   },
   buttonWrapper: {
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 20,
     paddingLeft: 10,
-    color: "#05375a",
-    width: "100%",
+    color: "red",
+    width: "50%",
   },
   button: {
     height: 40,
