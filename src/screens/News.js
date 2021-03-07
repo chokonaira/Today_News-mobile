@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { View, ScrollView, Text, StyleSheet } from "react-native";
 import Card from "../components/Card";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
@@ -12,12 +12,11 @@ import { addFavorite, removeFavorite } from "../redux/actions/favorites";
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(true);
-  const { favorites } = useSelector((state) => state.favorites);
+  const { favorites, isLoading } = useSelector((state) => state.favorites);
   const { news: articles, isNewsFetched } = useSelector((state) => state.news);
 
   React.useEffect(() => {
     dispatch(news());
-    return () => setLoading(false);
   }, [favorites.length]);
 
   const favoriteHandler = (article) => {
@@ -26,6 +25,10 @@ export default function TodaysNews({ navigation }) {
     }
     dispatch(addFavorite(article));
   };
+
+  if (!isNewsFetched) {
+    return <Loader visible={isLoading} />;
+  }
   return (
     <View style={styles.todayNews}>
       <Header
@@ -36,8 +39,8 @@ export default function TodaysNews({ navigation }) {
         navigation={navigation}
       />
       <View style={styles.container}>
-        <Loader visible={loading} />
         <ScrollView>
+          {/* {articles.articles === ? } */}
           {isNewsFetched &&
             articles.articles.map((article, index) => {
               return (

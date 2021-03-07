@@ -3,10 +3,13 @@ import { useWindowDimensions } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { TodayNewsStacks, ProfileStacks } from "./Stacks";
 import DrawerContent from "../components/DrawerContent";
+import { useSelector } from "react-redux";
 
 const Drawer = createDrawerNavigator();
 
 export function Drawers() {
+  // const authUser = useSelector((state) => state.auth.user);
+// console.log(authUser)
   const dimensions = useWindowDimensions();
 
   const isLargeScreen = dimensions.width >= 768;
