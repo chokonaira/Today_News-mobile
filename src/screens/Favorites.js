@@ -5,46 +5,36 @@ import Header from "../components/Header";
 import Loader from "../components/Loader";
 import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
-import { date } from "../helpers/date";
 import { useSelector } from "react-redux";
-import { usePrevious } from "../components/usePrevious";
-import {
-  fetchAllFavorite,
-  addFavorite,
-  removeFavorite,
-} from "../redux/actions/favorites";
-import { useFocusEffect } from '@react-navigation/native';
-
+import { addFavorite, removeFavorite } from "../redux/actions/favorites";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function FavoriteNews({ navigation }) {
   const dispatch = useDispatch();
   const { favorites, isLoading } = useSelector((state) => state.favorites);
-  const [iconColor, setIconColor] = React.useState("#bde0fe");
 
   useFocusEffect(
     React.useCallback(() => {
-      dispatch(fetchAllFavorite());
-    }, [])
+      dispatch(news());
+    }, [favorites.length])
   );
 
-  const previousState = usePrevious(favorites)
-
-  const favoriteHandler = (favorite) => {
-    // if ()
-    // dispatch(addFavorite(favorite));
-    dispatch(removeFavorite(favorite));
+  const favoriteHandler = (article) => {
+    if (article.favorited) {
+      dispatch(removeFavorite(article));
+    }
+    dispatch(addFavorite(article));
   };
 
   return (
     <View style={styles.favoriteNews}>
       <Header
-        date={date.headerDate()}
         onPress={() => navigation.goBack()}
         name="arrow-back"
         title="Favorite News"
         navigation={navigation}
       />
-     <View style={styles.container}>
+      <View style={styles.container}>
         <Loader visible={isLoading} />
         <ScrollView>
           {!isLoading &&
@@ -55,7 +45,7 @@ export default function FavoriteNews({ navigation }) {
                     author={favorite.author}
                     sourceName={favorite.source.name}
                     imageUrl={favorite.urlToImage}
-                    color={favorite.favorited ? 'red' : iconColor}
+                    color={favorite.favorited ? "red" : "#bde0fe"}
                     title={favorite.title}
                     onCardPress={() => {
                       console.log("carded");
@@ -80,7 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 8,
   },
-  todayNews: {
+  favoriteNews: {
     flex: 1,
     backgroundColor: "#DDDDDD",
   },

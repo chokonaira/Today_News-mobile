@@ -1,17 +1,15 @@
 import React from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import Card from "../components/Card";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
 import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
-import { date } from "../helpers/date";
 import { useSelector } from "react-redux";
 import { addFavorite, removeFavorite } from "../redux/actions/favorites";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
-  const [loading, setLoading] = React.useState(true);
   const { favorites, isLoading } = useSelector((state) => state.favorites);
   const { news: articles, isNewsFetched } = useSelector((state) => state.news);
 
@@ -32,7 +30,6 @@ export default function TodaysNews({ navigation }) {
   return (
     <View style={styles.todayNews}>
       <Header
-        date={date.headerDate()}
         onPress={() => navigation.openDrawer()}
         name="menu"
         title="Today News"
@@ -40,7 +37,6 @@ export default function TodaysNews({ navigation }) {
       />
       <View style={styles.container}>
         <ScrollView>
-          {/* {articles.articles === ? } */}
           {isNewsFetched &&
             articles.articles.map((article, index) => {
               return (
@@ -51,13 +47,9 @@ export default function TodaysNews({ navigation }) {
                     imageUrl={article.urlToImage}
                     color={article.favorited ? "red" : "#bde0fe"}
                     title={article.title}
-                    onCardPress={() => {
-                      console.log("carded");
-                    }}
+                    onCardPress={() => navigation.navigate('Details',{ article } )}
                     onFavoritePress={() => favoriteHandler(article)}
-                    onCommentPress={() => {
-                      console.log("commented");
-                    }}
+                    onCommentPress={() => navigation.navigate('Details',{ article } )}
                   />
                 </View>
               );

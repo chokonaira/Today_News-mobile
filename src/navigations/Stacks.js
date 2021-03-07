@@ -5,7 +5,6 @@ import SignUp from "../screens/SignUp";
 import TodayNews from "../screens/News";
 import FavoriteNews from "../screens/Favorites";
 import Profile from "../screens/Profile";
-
 import { createStackNavigator } from "@react-navigation/stack";
 
 const AuthStack = createStackNavigator(),
@@ -70,4 +69,9 @@ function ProfileStacks() {
   );
 }
 
-export { AuthStacks, TodayNewsStacks, FavoriteNewsStacks, ProfileStacks };
+export {
+  AuthStacks,
+  TodayNewsStacks,
+  FavoriteNewsStacks,
+  ProfileStacks,
+};
