@@ -1,7 +1,7 @@
 import * as types from "./types";
 import * as firebase from "firebase";
 import "firebase/firestore";
-import { objectChecker } from "../../helpers/objectChecker";
+import { Checker } from "../../helpers/checker";
 
 const favoriteLoading = () => ({
   type: types.FAVOURITE_LOADING,
@@ -30,7 +30,7 @@ export const addFavorite = (article) => async (dispatch, getState) => {
       favorites: { favorites },
     } = await getState();
 
-    if (objectChecker.exist(favorites, article)) return;
+    if (Checker.objectExist(favorites, article)) return;
 
     const favoriteArticle = {
       ...article,
@@ -59,7 +59,7 @@ export const removeFavorite = (article) => async (dispatch, getState) => {
       .doc(article.publishedAt)
       .delete();
 
-    const newFavorites = objectChecker.filter(favorites, article);
+    const newFavorites = Checker.filterFavorites(favorites, article);
 
     dispatch(removeFavoriteSuccess(newFavorites));
   } catch (error) {
@@ -67,14 +67,16 @@ export const removeFavorite = (article) => async (dispatch, getState) => {
   }
 };
 
-export const fetchAllFavorite = () => async (dispatch) => {
+export const fetchAllFavorite = () => async (dispatch, getState) => {
   dispatch(favoriteLoading());
   try {
+    const {auth: {user}} = await getState();
     const snapshot = await firebase.firestore().collection("favorites").get();
     const result = snapshot.docs.map((doc) => {
       return doc.data();
     });
-    dispatch(fetchAllFavoriteSuccess(result));
+    const authFavorites = Checker.authArticleCheck(result, user.uid)
+    dispatch(fetchAllFavoriteSuccess(authFavorites));
   } catch (error) {
     dispatch(favoriteError(error.message));
   }

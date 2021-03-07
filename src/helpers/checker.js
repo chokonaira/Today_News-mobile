@@ -1,5 +1,5 @@
-export const objectChecker = {
-  exist(favorites, article) {
+export const Checker = {
+  objectExist(favorites, article) {
     const found = favorites.some((favorite) => {
       return (
         favorite.url === article.url &&
@@ -10,7 +10,7 @@ export const objectChecker = {
     return false;
   },
 
-  filter(favorites, article) {
+  filterFavorites(favorites, article) {
     const newFavorites = favorites.filter((favorite) => {
       return (
         favorite.url !== article.url &&
@@ -18,5 +18,14 @@ export const objectChecker = {
       );
     });
     return newFavorites;
+  },
+
+  authArticleCheck(articles, authUid) {
+    const authArticles = articles.map((article) => {
+      return (
+        article.userId === authUid
+      );
+    });
+    return authArticles;
   },
 };
