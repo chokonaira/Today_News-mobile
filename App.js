@@ -5,6 +5,9 @@ import store from "./src/redux/store";
 import Main from "./src/Main";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Setting a timer']);
 
 const LoadFonts = () => {
   return Font.loadAsync({

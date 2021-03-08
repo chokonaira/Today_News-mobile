@@ -27,6 +27,7 @@ export default function TodaysNews({ navigation }) {
   if (!isNewsFetched) {
     return <Loader visible={isLoading} />;
   }
+  
   return (
     <View style={styles.todayNews}>
       <Header
@@ -43,13 +44,17 @@ export default function TodaysNews({ navigation }) {
                 <View key={index}>
                   <Card
                     author={article.author}
-                    sourceName={article.source.name}
+                    sourceName={article.source.name || ""}
                     imageUrl={article.urlToImage}
                     color={article.favorited ? "red" : "#bde0fe"}
                     title={article.title}
-                    onCardPress={() => navigation.navigate('Details',{ article } )}
+                    onCardPress={() =>
+                      navigation.navigate("Details", { article })
+                    }
                     onFavoritePress={() => favoriteHandler(article)}
-                    onCommentPress={() => navigation.navigate('Details',{ article } )}
+                    onCommentPress={() =>
+                      navigation.navigate("Details", { article })
+                    }
                   />
                 </View>
               );

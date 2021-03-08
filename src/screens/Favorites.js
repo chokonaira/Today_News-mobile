@@ -11,8 +11,8 @@ import { useFocusEffect } from "@react-navigation/native";
 
 export default function FavoriteNews({ navigation }) {
   const dispatch = useDispatch();
-  const { news: articles, isNewsFetched } = useSelector((state) => state.news);
-  const { favorites, isLoading } = useSelector((state) => state.favorites);
+  const { isNewsFetched } = useSelector((state) => state.news);
+  const { favorites } = useSelector((state) => state.favorites);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -26,24 +26,6 @@ export default function FavoriteNews({ navigation }) {
     }
     dispatch(addFavorite(article));
   };
-
-  if (favorites.length < 0) {
-    return (
-      <View style={styles.favoriteNews}>
-        <Header
-          onPress={() => navigation.goBack()}
-          name="arrow-back"
-          title="Favorite News"
-          navigation={navigation}
-        />
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <Text style={{ fontWeight: 'bold', color: "#333"}}> You have no Favorites Articles</Text>
-        </View>
-      </View>
-    );
-  }
 
   return (
     <View style={styles.favoriteNews}>
@@ -62,7 +44,7 @@ export default function FavoriteNews({ navigation }) {
                 <View key={index}>
                   <Card
                     author={article.author}
-                    sourceName={article.source.name}
+                    sourceName={article.source.name || ''}
                     imageUrl={article.urlToImage}
                     color={article.favorited ? "red" : "#bde0fe"}
                     title={article.title}

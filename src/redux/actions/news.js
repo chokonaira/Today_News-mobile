@@ -22,24 +22,24 @@ export const news = () => async (dispatch, getState) => {
   dispatch(newsLoading());
   dispatch(fetchAllFavorite());
 
-  const {auth: {user}, favorites: { favorites }} = await getState();
+  const {favorites: { favorites }} = await getState();
 
   return axiosInstance
     .get(`?country=us&from=${date.currentDate}`)
     .then(({ data }) => {
-      dispatch(favoriteFormatter(user.uid, favorites, data));
+      dispatch(addRelationships(favorites, data));
     })
     .catch((error) => {
       dispatch(newsError(error.message));
     });
 };
 
-export const favoriteFormatter = (authUserUid, favorites, articles) => (dispatch) => {
+export const addRelationships = (favorites, articles) => (dispatch) => {
   const updatedArticle = articles.articles.map((article) => {
     if (Checker.objectExist(favorites, article)) {
       return { ...article, favorited: true };
     } else {
-      return { ...article, userId: authUserUid, favorited: false };
+      return { ...article, favorited: false };
     }
   });
   dispatch(newsSuccess({ articles: updatedArticle }));

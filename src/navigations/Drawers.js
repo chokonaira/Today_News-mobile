@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useWindowDimensions } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { TodayNewsStacks, ProfileStacks, newsDetailsStacks } from "./Stacks";
+import { TodayNewsStacks, ProfileStacks } from "./Stacks";
 import DrawerContent from "../components/DrawerContent";
 import NewsDetails from "../screens/NewsDetails";
 
