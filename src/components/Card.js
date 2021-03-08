@@ -63,7 +63,7 @@ export default function NewsCard({
         <Left>
           <Button onPress={onCommentPress} transparent>
             <Icon active name="chatbubbles" />
-            <Text>4 Comments</Text>
+            <Text>Comments</Text>
           </Button>
         </Left>
         <Right>

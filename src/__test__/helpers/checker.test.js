@@ -1,6 +1,6 @@
-import { Checker } from "../../helpers/checker";
+import { Controllers } from "../../helpers/checker";
 
-describe("Checker", () => {
+describe("Controllers", () => {
   const favorites = [
     {
       url: "url.com",
@@ -20,11 +20,11 @@ describe("Checker", () => {
 
   describe("Object exist", () => {
     it("checks that an article is already favorited", () => {
-      expect(Checker.objectExist(favorites, favoritedArticle)).toEqual(true);
+      expect(Controllers.objectExist(favorites, favoritedArticle)).toEqual(true);
     });
 
     it("checks that an article has not been favorited", () => {
-      expect(Checker.objectExist(favorites, unFavoritedArticle)).toEqual(false);
+      expect(Controllers.objectExist(favorites, unFavoritedArticle)).toEqual(false);
     });
   });
 
@@ -32,13 +32,13 @@ describe("Checker", () => {
     const newFavorites = [];
 
     it("checks that a favorited is deleted", () => {
-      expect(Checker.deleteFavorite(favorites, favoritedArticle)).toEqual(
+      expect(Controllers.deleteFavorite(favorites, favoritedArticle)).toEqual(
         newFavorites
       );
     });
 
     it("checks that an unfavorited is not deleted", () => {
-      expect(Checker.deleteFavorite(favorites, unFavoritedArticle)).toEqual(
+      expect(Controllers.deleteFavorite(favorites, unFavoritedArticle)).toEqual(
         favorites
       );
     });

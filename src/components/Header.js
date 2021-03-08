@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerText: {
-    top: Platform.OS === "ios" ? 20 : 15,
+    top: Platform.OS === "ios" ? 22 : 13,
     fontWeight: "bold",
     fontSize: 20,
     color: "#fff",

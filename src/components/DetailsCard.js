@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Card, CardItem, Text } from "native-base";
 import ProgressBar from "react-native-progress";
 import Image from "react-native-image-progress";
 
-export default function DetailsCard({ content, onCardPress, imageUrl }) {
+export default function DetailsCard({ content, imageUrl }) {
   return (
     <Card>
       <CardItem cardBody>

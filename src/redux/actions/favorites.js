@@ -1,7 +1,7 @@
 import * as types from "./types";
 import * as firebase from "firebase";
 import "firebase/firestore";
-import { Checker } from "../../helpers/checker";
+import { Controllers } from "../../helpers/controllers";
 
 const favoriteLoading = () => ({
   type: types.FAVOURITE_LOADING,
@@ -31,11 +31,11 @@ export const addFavorite = (article) => async (dispatch, getState) => {
       favorites: { favorites },
     } = await getState();
 
-    if (Checker.objectExist(favorites, article)) return;
+    if (Controllers.objectExist(favorites, article)) return;
 
     const favoriteArticle = {
       ...article,
-      // userId: user.uid,
+      userId: user.uid,
       favorited: true,
     };
     await firebase
@@ -55,13 +55,12 @@ export const removeFavorite = (article) => async (dispatch, getState) => {
       favorites: { favorites },
     } = await getState();
 
-    
     await firebase
-    .firestore()
-    .collection("favorites")
-    .doc(article.publishedAt)
-    .delete();
-    const newFavorites = Checker.deleteFavorites(favorites, article);
+      .firestore()
+      .collection("favorites")
+      .doc(article.publishedAt)
+      .delete();
+    const newFavorites = Controllers.deleteFavorites(favorites, article);
     dispatch(removeFavoriteSuccess(newFavorites));
   } catch (error) {
     dispatch(favoriteError(error.message));
@@ -71,14 +70,11 @@ export const removeFavorite = (article) => async (dispatch, getState) => {
 export const fetchAllFavorite = () => async (dispatch, getState) => {
   dispatch(favoriteLoading());
   try {
-    const {
-      auth: { user },
-    } = await getState();
+    const {} = await getState();
     const snapshot = await firebase.firestore().collection("favorites").get();
     const result = snapshot.docs.map((doc) => {
       return doc.data();
     });
-    // const authFavorites = await Checker.authArticleCheck(result, user.uid);
     dispatch(fetchAllFavoriteSuccess(result));
   } catch (error) {
     dispatch(favoriteError(error.message));
