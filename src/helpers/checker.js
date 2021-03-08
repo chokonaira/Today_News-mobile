@@ -10,7 +10,7 @@ export const Checker = {
     return false;
   },
 
-  filterFavorites(favorites, article) {
+  deleteFavorites(favorites, article) {
     const newFavorites = favorites.filter((favorite) => {
       return (
         favorite.url !== article.url &&
@@ -22,9 +22,7 @@ export const Checker = {
 
   authArticleCheck(articles, authUid) {
     const authArticles = articles.map((article) => {
-      return (
-        article.userId === authUid
-      );
+      return article.userId === authUid;
     });
     return authArticles;
   },

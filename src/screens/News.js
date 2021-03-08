@@ -12,6 +12,7 @@ export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
   const { favorites, isLoading } = useSelector((state) => state.favorites);
   const { news: articles, isNewsFetched } = useSelector((state) => state.news);
+  const defaultImage = 'https://lh3.googleusercontent.com/proxy/YKSgQxCMHJraD0dW8afdPheVXfZEWyGoIVcF0zrMhYdx9WFqeZGm4fU9FHg8MaLRken_eHKaD7mnJ7j6f5Lfom6vShg'
 
   React.useEffect(() => {
     dispatch(news());
@@ -44,8 +45,8 @@ export default function TodaysNews({ navigation }) {
                 <View key={index}>
                   <Card
                     author={article.author}
-                    sourceName={article.source.name || ""}
-                    imageUrl={article.urlToImage}
+                    sourceName={article.source.name}
+                    imageUrl={article.urlToImage || defaultImage}
                     color={article.favorited ? "red" : "#bde0fe"}
                     title={article.title}
                     onCardPress={() =>

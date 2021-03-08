@@ -32,13 +32,13 @@ describe("Checker", () => {
     const newFavorites = [];
 
     it("checks that a favorited is deleted", () => {
-      expect(Checker.filterFavorites(favorites, favoritedArticle)).toEqual(
+      expect(Checker.deleteFavorite(favorites, favoritedArticle)).toEqual(
         newFavorites
       );
     });
 
     it("checks that an unfavorited is not deleted", () => {
-      expect(Checker.filterFavorites(favorites, unFavoritedArticle)).toEqual(
+      expect(Checker.deleteFavorite(favorites, unFavoritedArticle)).toEqual(
         favorites
       );
     });

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, TextInput } from "react-native";
 import DetailsCard from "../components/DetailsCard";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
@@ -15,6 +15,8 @@ export default function NewsDetails({ navigation, route: { params } }) {
   const dispatch = useDispatch();
   const [comment, setComment] = React.useState("");
   const { favorites, isLoading } = useSelector((state) => state.favorites);
+  const defaultImage =
+    "https://lh3.googleusercontent.com/proxy/YKSgQxCMHJraD0dW8afdPheVXfZEWyGoIVcF0zrMhYdx9WFqeZGm4fU9FHg8MaLRken_eHKaD7mnJ7j6f5Lfom6vShg";
 
   React.useEffect(() => {
     dispatch(news());
@@ -40,7 +42,7 @@ export default function NewsDetails({ navigation, route: { params } }) {
       <View style={styles.container}>
         <ScrollView>
           <DetailsCard
-            imageUrl={params.article.urlToImage}
+            imageUrl={params.article.urlToImage || defaultImage}
             color={params.article.favorited ? "red" : "#bde0fe"}
             content={params.article.content}
             onFavoritePress={() => favoriteHandler(params.article)}
@@ -49,34 +51,32 @@ export default function NewsDetails({ navigation, route: { params } }) {
             }}
           />
           <Card>
-            {/* <Card>
-              <CardItem style={styles.commentWrapper} cardBody>
-                <Text style={styles.commentHeader}>Comments</Text>
-              </CardItem>
-            </Card> */}
             <Card>
-              <CardItem >
-                <Input
+              <View style={styles.action}>
+                <TextInput
                   testID="comments"
                   placeholder="Write comments here..."
                   type="comments"
                   onChangeText={(comment) => setComment(comment)}
                   value={comment}
                   style={styles.textInput}
+                  multiline={true}
+                  numberOfLines={2}
                 />
                 <View style={styles.buttonWrapper}>
                   <Button
-                    title="Add comment"
+                    title="Submit"
                     onPress={commentHandler}
-                    color="#333"
-                    size={20}
+                    color="#fff"
+                    fontSize={11}
+                    size={10}
                     style={[
                       styles.button,
-                      { width: "100%", backgroundColor: "#00A6FB" },
+                      { justifyContent: "center", alignItems: "center" },
                     ]}
                   />
                 </View>
-              </CardItem>
+              </View>
             </Card>
             <Card>
               <CardItem cardBody>
@@ -106,32 +106,33 @@ const styles = StyleSheet.create({
   text: {
     alignSelf: "center",
   },
-  commentWrapper: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#fff",
-    height: 35,
-  },
   textInput: {
-    flex: 1,
-    fontSize: 15,
-    marginTop: Platform.OS === "ios" ? 0 : -8,
-    paddingLeft: 7,
+    fontSize: 13,
+    padding: 10,
     color: "#333",
+    height: 50,
+    width: "100%",
   },
   buttonWrapper: {
-    alignItems: "center",
-    marginTop: 20,
-    paddingLeft: 10,
-    color: "red",
-    width: "50%",
+    backgroundColor: "#00A6FB",
+    width: 60,
+    height: 23,
+    paddingTop: 7,
+    marginLeft: 7,
+    marginTop: 7,
+    marginBottom: 10,
+    borderRadius: 5,
   },
   button: {
-    height: 40,
-    justifyContent: "center",
+    fontSize: 4,
     alignItems: "center",
-    borderRadius: 10,
-    flexDirection: "row",
+    justifyContent: "center",
+  },
+  action: {
+    marginTop: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f2f2f2",
+    flexDirection: "column",
   },
   commentHeader: { color: "#00A6FB", fontWeight: "bold" },
   commentText: { color: "#00A6FB", padding: 8 },

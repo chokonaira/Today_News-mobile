@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet, Text } from "react-native";
 import Card from "../components/Card";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
@@ -13,6 +13,7 @@ export default function FavoriteNews({ navigation }) {
   const dispatch = useDispatch();
   const { isNewsFetched } = useSelector((state) => state.news);
   const { favorites } = useSelector((state) => state.favorites);
+  const defaultImage = 'https://lh3.googleusercontent.com/proxy/YKSgQxCMHJraD0dW8afdPheVXfZEWyGoIVcF0zrMhYdx9WFqeZGm4fU9FHg8MaLRken_eHKaD7mnJ7j6f5Lfom6vShg'
 
   useFocusEffect(
     React.useCallback(() => {
@@ -26,6 +27,27 @@ export default function FavoriteNews({ navigation }) {
     }
     dispatch(addFavorite(article));
   };
+
+  if (favorites.length === 0) {
+    return (
+      <View style={styles.favoriteNews}>
+        <Header
+          onPress={() => navigation.goBack()}
+          name="arrow-back"
+          title="Favorite News"
+          navigation={navigation}
+        />
+        <View
+          style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+        >
+          <Loader visible={!isNewsFetched} />
+          <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            You have no Favorites news
+          </Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.favoriteNews}>
@@ -44,8 +66,8 @@ export default function FavoriteNews({ navigation }) {
                 <View key={index}>
                   <Card
                     author={article.author}
-                    sourceName={article.source.name || ''}
-                    imageUrl={article.urlToImage}
+                    sourceName={article.source.name}
+                    imageUrl={article.urlToImage || defaultImage}
                     color={article.favorited ? "red" : "#bde0fe"}
                     title={article.title}
                     onCardPress={() =>

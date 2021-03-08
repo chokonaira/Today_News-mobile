@@ -35,7 +35,7 @@ export const addFavorite = (article) => async (dispatch, getState) => {
 
     const favoriteArticle = {
       ...article,
-      userId: user.uid,
+      // userId: user.uid,
       favorited: true,
     };
     await firebase
@@ -55,13 +55,13 @@ export const removeFavorite = (article) => async (dispatch, getState) => {
       favorites: { favorites },
     } = await getState();
 
-    const newFavorites = await Checker.filterFavorites(favorites, article);
-
+    
     await firebase
-      .firestore()
-      .collection("favorites")
-      .doc(article.publishedAt)
-      .delete();
+    .firestore()
+    .collection("favorites")
+    .doc(article.publishedAt)
+    .delete();
+    const newFavorites = Checker.deleteFavorites(favorites, article);
     dispatch(removeFavoriteSuccess(newFavorites));
   } catch (error) {
     dispatch(favoriteError(error.message));
@@ -78,8 +78,8 @@ export const fetchAllFavorite = () => async (dispatch, getState) => {
     const result = snapshot.docs.map((doc) => {
       return doc.data();
     });
-    const authFavorites = await Checker.authArticleCheck(result, user.uid);
-    dispatch(fetchAllFavoriteSuccess(authFavorites));
+    // const authFavorites = await Checker.authArticleCheck(result, user.uid);
+    dispatch(fetchAllFavoriteSuccess(result));
   } catch (error) {
     dispatch(favoriteError(error.message));
   }
