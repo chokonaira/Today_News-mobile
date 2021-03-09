@@ -3,13 +3,13 @@ import Home from "../screens/Home";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 import TodayNews from "../screens/News";
-import FavoriteNews from "../screens/Favorites";
+import authArticleCheck from "../screens/Favorites";
 import Profile from "../screens/Profile";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const AuthStack = createStackNavigator(),
   TodayNewsStack = createStackNavigator(),
-  FavoriteNewsStack = createStackNavigator(),
+  authArticleCheckStack = createStackNavigator(),
   ProfileStack = createStackNavigator();
 
 const screenOptions = {
@@ -53,11 +53,11 @@ function TodayNewsStacks() {
   );
 }
 
-function FavoriteNewsStacks() {
+function authArticleCheckStacks() {
   return (
-    <FavoriteNewsStack.Navigator screenOptions={screenOptions}>
-      <FavoriteNewsStack.Screen name="Favorites" component={FavoriteNews} />
-    </FavoriteNewsStack.Navigator>
+    <authArticleCheckStack.Navigator screenOptions={screenOptions}>
+      <authArticleCheckStack.Screen name="Favorite" component={authArticleCheck} />
+    </authArticleCheckStack.Navigator>
   );
 }
 
@@ -72,6 +72,6 @@ function ProfileStacks() {
 export {
   AuthStacks,
   TodayNewsStacks,
-  FavoriteNewsStacks,
+  authArticleCheckStacks,
   ProfileStacks,
 };

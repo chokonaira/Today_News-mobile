@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   text: {
-    color: "grey",
+    color: "#05375a",
     marginTop: 5,
   },
   buttonWrapper: {

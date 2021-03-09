@@ -1,6 +1,8 @@
 import * as types from "./types";
-import { currentDate } from "../../helpers/date";
+import { date } from "../../helpers/date";
+import { fetchAllFavorite } from "./favorites";
 import { axiosInstance } from "../../config/axios";
+import { Controllers } from "../../helpers/controllers";
 
 const newsLoading = () => ({
   type: types.NEWS_LOADING,
@@ -16,14 +18,31 @@ const newsError = (payload) => ({
   payload,
 });
 
-export const news = () => (dispatch) => {
+export const news = () => async (dispatch, getState) => {
   dispatch(newsLoading());
+  dispatch(fetchAllFavorite());
+
+  const {
+    favorites: { favorites },
+  } = await getState();
+
   return axiosInstance
-    .get(`?country=us&from=${currentDate}`)
+    .get(`?country=us&from=${date.currentDate}`)
     .then(({ data }) => {
-      return dispatch(newsSuccess(data));
+      dispatch(addRelationships(favorites, data));
     })
     .catch((error) => {
       dispatch(newsError(error.message));
     });
+};
+
+export const addRelationships = (favorites, articles) => (dispatch) => {
+  const updatedArticle = articles.articles.map((article) => {
+    if (Controllers.objectExist(favorites, article)) {
+      return { ...article, favorited: true };
+    } else {
+      return { ...article, favorited: false };
+    }
+  });
+  dispatch(newsSuccess({ articles: updatedArticle }));
 };

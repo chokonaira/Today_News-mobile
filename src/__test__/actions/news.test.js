@@ -3,7 +3,7 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { axiosInstance } from "../../config/axios";
 import { news } from "../../redux/actions/news";
-import { currentDate } from "../../helpers/date";
+import { date } from "../../helpers/date";
 import {
   NEWS_LOADING,
   NEWS_SUCCESS,
@@ -37,7 +37,7 @@ describe("Fetch News actions", () => {
         },
       ],
     };
-    mock.onGet(`?country=us&from=${currentDate}`).reply(200, payload);
+    mock.onGet(`?country=us&from=${date.currentDate}`).reply(200, payload);
 
     const expectedActions = [
       {
@@ -63,7 +63,7 @@ describe("Fetch News actions", () => {
     const store = mockStore({});
     const payload = "Request failed with status code 404";
 
-    mock.onGet(`?country=us&from=${currentDate}`).reply(404, payload);
+    mock.onGet(`?country=us&from=${date.currentDate}`).reply(404, payload);
 
     const expectedActions = [
       {

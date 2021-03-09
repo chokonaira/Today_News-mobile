@@ -14,7 +14,6 @@ export default function Header({ title, name, onPress, date }) {
       {date ? (
         <View>
           <Text style={styles.headerText}>{title}</Text>
-          <Text style={styles.headerDate}>{date}</Text>
         </View>
       ) : (
         <View>
@@ -42,18 +41,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerText: {
-    top: Platform.OS === "ios" ? 22 : 15,
+    top: Platform.OS === "ios" ? 22 : 13,
     fontWeight: "bold",
     fontSize: 20,
     color: "#fff",
     letterSpacing: 1,
-  },
-  headerDate: {
-    top: Platform.OS === "ios" ? 22 : 14,
-    fontSize: 10,
-    fontWeight: "bold",
-    marginLeft: 16,
-    color: "#fff",
   },
   iconLeft: {
     position: "absolute",

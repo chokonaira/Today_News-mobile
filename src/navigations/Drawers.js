@@ -3,6 +3,7 @@ import { useWindowDimensions } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { TodayNewsStacks, ProfileStacks } from "./Stacks";
 import DrawerContent from "../components/DrawerContent";
+import NewsDetails from "../screens/NewsDetails";
 
 const Drawer = createDrawerNavigator();
 
@@ -16,8 +17,9 @@ export function Drawers() {
       drawerStyle={isLargeScreen ? null : { width: "65%" }}
       drawerContent={(props) => <DrawerContent {...props} />}
     >
-      <Drawer.Screen name="Today News" component={TodayNewsStacks} />
+      <Drawer.Screen name="News" component={TodayNewsStacks} />
       <Drawer.Screen name="Profile" component={ProfileStacks} />
+      <Drawer.Screen name="Details" component={NewsDetails} />
     </Drawer.Navigator>
   );
 }
