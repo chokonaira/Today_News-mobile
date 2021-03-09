@@ -9,7 +9,7 @@ export const Controllers = {
     if (found) return true;
     return false;
   },
-
+  
   deleteFavorites(arr, article) {
     const favorites = arr.filter((favorite) => {
       return (

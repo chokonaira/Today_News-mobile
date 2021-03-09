@@ -18,7 +18,7 @@ export default function NewsDetails({ navigation, route: { params } }) {
 
   React.useEffect(() => {
     dispatch(fetchAllComments(params.article.url));
-  }, [comments.length, params]);
+  }, [comments.length]);
 
   const commentHandler = (articleUrl) => {
     if (comment.length === 0) return;
@@ -144,3 +144,4 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
 });
+

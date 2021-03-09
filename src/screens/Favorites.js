@@ -13,14 +13,14 @@ export default function FavoriteNews({ navigation }) {
   const dispatch = useDispatch();
   const { isNewsFetched } = useSelector((state) => state.news);
   const { favorites } = useSelector((state) => state.favorites);
-  const defaultImage = 'https://lh3.googleusercontent.com/proxy/YKSgQxCMHJraD0dW8afdPheVXfZEWyGoIVcF0zrMhYdx9WFqeZGm4fU9FHg8MaLRken_eHKaD7mnJ7j6f5Lfom6vShg'
+  const defaultImage =
+    "https://lh3.googleusercontent.com/proxy/YKSgQxCMHJraD0dW8afdPheVXfZEWyGoIVcF0zrMhYdx9WFqeZGm4fU9FHg8MaLRken_eHKaD7mnJ7j6f5Lfom6vShg";
 
   useFocusEffect(
     React.useCallback(() => {
       dispatch(news());
     }, [favorites.length])
   );
-
   const favoriteHandler = (article) => {
     if (article.favorited) {
       dispatch(removeFavorite(article));

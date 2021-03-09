@@ -54,12 +54,15 @@ export const addComment = (comment, articleUrl) => async (
 export const fetchAllComments = (articleUrl) => async (dispatch) => {
   dispatch(commentsLoading());
   try {
-    const snapshot = await firebase.firestore().collection("comments").get();
+    const commentRef = firebase.firestore().collection("comments");
+
+    const snapshot = await commentRef
+      .where("articleUrl", "==", articleUrl)
+      .get();
     const result = snapshot.docs.map((doc) => {
       return doc.data();
     });
-    const comments = Controllers.commentsByArticle(result, articleUrl);
-    dispatch(fetchAllCommentsSuccess(comments));
+    dispatch(fetchAllCommentsSuccess(result));
   } catch (error) {
     dispatch(commentsError(error.message));
   }
