@@ -55,10 +55,9 @@ export const fetchAllComments = (articleUrl) => async (dispatch) => {
   dispatch(commentsLoading());
   try {
     const commentRef = firebase.firestore().collection("comments");
-
     const snapshot = await commentRef
-      .where("articleUrl", "==", articleUrl)
-      .get();
+    .where("articleUrl", "==", articleUrl)
+    .get();
     const result = snapshot.docs.map((doc) => {
       return doc.data();
     });

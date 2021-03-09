@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { addComment, fetchAllComments } from "../redux/actions/comments";
 import Button from "../components/Button";
 import { Card, CardItem } from "native-base";
-import Loader from '../components/Loader'
+import Loader from "../components/Loader";
 
 export default function NewsDetails({ navigation, route: { params } }) {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export default function NewsDetails({ navigation, route: { params } }) {
 
   React.useEffect(() => {
     dispatch(fetchAllComments(params.article.url));
-  }, [comments.length]);
+  }, [params.article]);
 
   const commentHandler = (articleUrl) => {
     if (comment.length === 0) return;
@@ -42,7 +42,7 @@ export default function NewsDetails({ navigation, route: { params } }) {
             content={params.article.content}
           />
           <View>
-            <View style={styles.action}>
+            <Card style={styles.action}>
               <TextInput
                 testID="comments"
                 placeholder="Write comments here..."
@@ -66,13 +66,19 @@ export default function NewsDetails({ navigation, route: { params } }) {
                   ]}
                 />
               </View>
-            </View>
+            </Card>
             <View>
-              <Loader visible={isLoading}/>
-              {!isLoading &&
+              {comments.length === 0 ? (
+                <Text
+                  style={{ alignSelf: "center", marginTop: 35, fontSize: 12 }}
+                >
+                  Be the first to comment
+                </Text>
+              ) : (
+                !isLoading &&
                 comments.map((comment, index) => [
                   <Card key={index}>
-                    <CardItem cardBody>
+                    <CardItem key={index} cardBody>
                       <View style={styles.commentWrapper}>
                         <Text style={styles.commentHeader}>
                           {comment.userEmail}
@@ -82,8 +88,9 @@ export default function NewsDetails({ navigation, route: { params } }) {
                         </Text>
                       </View>
                     </CardItem>
-                  </Card>
-                ])}
+                  </Card>,
+                ])
+              )}
             </View>
           </View>
         </ScrollView>
@@ -144,4 +151,3 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
 });
-
