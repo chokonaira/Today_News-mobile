@@ -24,18 +24,10 @@ const favoriteError = (payload) => ({
   payload,
 });
 
-export const addFavorite = (article) => async (dispatch, getState) => {
+export const addFavorite = (article) => async (dispatch) => {
   try {
-    const {
-      auth: { user },
-      favorites: { favorites },
-    } = await getState();
-
-    if (Controllers.objectExist(favorites, article)) return;
-
     const favoriteArticle = {
       ...article,
-      userId: user.uid,
       favorited: true,
     };
     await firebase
@@ -67,10 +59,9 @@ export const removeFavorite = (article) => async (dispatch, getState) => {
   }
 };
 
-export const fetchAllFavorite = () => async (dispatch, getState) => {
+export const fetchAllFavorite = () => async (dispatch) => {
   dispatch(favoriteLoading());
   try {
-    const {} = await getState();
     const snapshot = await firebase.firestore().collection("favorites").get();
     const result = snapshot.docs.map((doc) => {
       return doc.data();

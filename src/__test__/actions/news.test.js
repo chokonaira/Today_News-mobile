@@ -13,7 +13,7 @@ import {
 const mock = new MockAdapter(axiosInstance);
 const mockStore = configureStore([thunk]);
 
-describe("Fetch News actions", () => {
+xdescribe("Fetch News actions", () => {
   beforeEach(() => {
     mock.resetHistory();
   });

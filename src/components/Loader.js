@@ -9,7 +9,7 @@ export default function Loader({ visible }) {
       color="#fff"
       visible={visible}
       textStyle={{ color: "#fff" }}
-      overlayColor="rgba(0, 0, 0, 0.9)"
+      overlayColor="rgba(0, 0, 0, .8)"
       textStyle={{ color: "#fff" }}
     />
   );
