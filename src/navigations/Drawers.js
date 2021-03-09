@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useWindowDimensions } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { TodayNewsStacks, ProfileStacks } from "./Stacks";
+import { TodayNewsStacks, ProfileStacks, HomeStacks } from "./Stacks";
 import DrawerContent from "../components/DrawerContent";
 import NewsDetails from "../screens/NewsDetails";
 
@@ -19,6 +19,7 @@ export function Drawers() {
     >
       <Drawer.Screen name="News" component={TodayNewsStacks} />
       <Drawer.Screen name="Profile" component={ProfileStacks} />
+      <Drawer.Screen name="Home" component={HomeStacks} />
       <Drawer.Screen name="Details" component={NewsDetails} />
     </Drawer.Navigator>
   );

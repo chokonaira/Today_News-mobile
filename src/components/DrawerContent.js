@@ -3,9 +3,14 @@ import { View, StyleSheet } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { Avatar, Title, Caption, Drawer } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { logout } from "../redux/actions/auth";
 import store from "../redux/store";
+import { useDispatch } from "react-redux";
+
 
 export default function DrawerContent(props) {
+  const dispatch = useDispatch();
+
   const {
     auth: { user },
   } = store.getState();
@@ -54,7 +59,7 @@ export default function DrawerContent(props) {
               }}
             ></DrawerItem>
           </Drawer.Section>
-        </View>
+        </View> 
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
@@ -62,7 +67,7 @@ export default function DrawerContent(props) {
             <Icon name="exit-to-app" color={color} size={size} />
           )}
           label="Sign Out"
-          onPress={() => {}}
+          onPress={() => dispatch(logout(props.navigation))}
         ></DrawerItem>
       </Drawer.Section>
     </View>

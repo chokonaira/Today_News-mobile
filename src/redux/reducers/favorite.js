@@ -37,7 +37,12 @@ export default function favorites(state = initialState, action) {
         isLoading: false,
         errors: action.payload,
       };
-
+    case types.LOGOUT_SUCCESS:
+      return {
+        isLoading: false,
+        favorites: [],
+        errors: null,
+      };
     default:
       return state;
   }

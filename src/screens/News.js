@@ -29,7 +29,7 @@ export default function TodaysNews({ navigation }) {
   if (!isNewsFetched) {
     return <Loader visible={isLoading} />;
   }
-  
+
   return (
     <View style={styles.todayNews}>
       <Header

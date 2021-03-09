@@ -81,10 +81,6 @@ export const fetchAllFavorite = () => async (dispatch, getState) => {
     const snapshot = await favoritesRef
       .where("userEmail", "==", user.email)
       .get();
-    if (snapshot.empty) {
-      console.log("nothing");
-      return;
-    }
     const result = snapshot.docs.map((doc) => doc.data());
     dispatch(fetchAllFavoriteSuccess(result));
   } catch (error) {

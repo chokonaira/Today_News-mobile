@@ -31,7 +31,12 @@ export default function comments(state = initialState, action) {
         isLoading: false,
         errors: action.payload,
       };
-
+    case types.LOGOUT_SUCCESS:
+      return {
+        iisLoading: false,
+        comments: [],
+        errors: null,
+      };
     default:
       return state;
   }
