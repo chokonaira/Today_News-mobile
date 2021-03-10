@@ -1,8 +1,5 @@
 import * as types from "./types";
 
-const logoutLoading = () => ({
-  type: types.AUTH_LOADING,
-});
 const logoutSuccess = () => ({
   type: types.LOGOUT_SUCCESS,
 });
