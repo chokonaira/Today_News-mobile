@@ -7,7 +7,6 @@ import { logout } from "../redux/actions/auth";
 import store from "../redux/store";
 import { useDispatch } from "react-redux";
 
-
 export default function DrawerContent(props) {
   const dispatch = useDispatch();
 
@@ -59,7 +58,7 @@ export default function DrawerContent(props) {
               }}
             ></DrawerItem>
           </Drawer.Section>
-        </View> 
+        </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem

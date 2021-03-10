@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { addComment, fetchAllComments } from "../redux/actions/comments";
 import Button from "../components/Button";
 import { Card, CardItem } from "native-base";
-import Loader from "../components/Loader";
 
 export default function NewsDetails({ navigation, route: { params } }) {
   const dispatch = useDispatch();

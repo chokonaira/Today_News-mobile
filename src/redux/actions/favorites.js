@@ -3,6 +3,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import { Controllers } from "../../helpers/controllers";
 import { v4 as uuidv4 } from "uuid";
+import { state } from "./getState";
 
 const favoriteLoading = () => ({
   type: types.FAVOURITE_LOADING,
@@ -24,19 +25,15 @@ const favoriteError = (payload) => ({
   payload,
 });
 
-export const addFavorite = (article) => async (dispatch, getState) => {
+export const addFavorite = (article, email) => async (dispatch) => {
   try {
-    const {
-      auth: { user },
-    } = await getState();
-
     if (article.favorited) return;
 
     const favoriteArticle = {
       ...article,
       id: uuidv4(),
       favorited: true,
-      userEmail: user.email,
+      userEmail: email,
     };
 
     await firebase
@@ -50,19 +47,18 @@ export const addFavorite = (article) => async (dispatch, getState) => {
   }
 };
 
-export const removeFavorite = (article) => async (dispatch, getState) => {
+export const removeFavorite = (article, email) => async (dispatch) => {
+  
   try {
-    const {
-      auth: { user },
-      favorites: { favorites },
-    } = await getState();
+    const { favorites } = await state();
+
     const favoritesRef = firebase.firestore().collection("favorites");
     const snapshot = await favoritesRef
-      .where("userEmail", "==", user.email)
+      .where("userEmail", "==", email)
       .where("url", "==", article.url)
       .where("publishedAt", "==", article.publishedAt)
       .get();
-    snapshot.forEach((doc) => console.log(doc.ref.delete()));
+    snapshot.forEach((doc) => doc.ref.delete());
     const newFavorites = Controllers.deleteFavorites(favorites, article);
     dispatch(removeFavoriteSuccess(newFavorites));
   } catch (error) {
@@ -70,17 +66,11 @@ export const removeFavorite = (article) => async (dispatch, getState) => {
   }
 };
 
-export const fetchAllFavorite = () => async (dispatch, getState) => {
+export const fetchAllFavorite = (email) => async (dispatch) => {
   dispatch(favoriteLoading());
   try {
-    const {
-      auth: { user },
-    } = await getState();
-
     const favoritesRef = firebase.firestore().collection("favorites");
-    const snapshot = await favoritesRef
-      .where("userEmail", "==", user.email)
-      .get();
+    const snapshot = await favoritesRef.where("userEmail", "==", email).get();
     const result = snapshot.docs.map((doc) => doc.data());
     dispatch(fetchAllFavoriteSuccess(result));
   } catch (error) {

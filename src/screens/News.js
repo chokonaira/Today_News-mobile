@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { addFavorite, removeFavorite } from "../redux/actions/favorites";
+import { favoriteHandler } from "../helpers/favoriteHandler";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
@@ -19,12 +19,6 @@ export default function TodaysNews({ navigation }) {
     dispatch(news());
   }, [favorites.length]);
 
-  const favoriteHandler = (article) => {
-    if (article.favorited) {
-      dispatch(removeFavorite(article));
-    }
-    dispatch(addFavorite(article));
-  };
 
   if (!isNewsFetched) {
     return <Loader visible={isLoading} />;
@@ -53,7 +47,7 @@ export default function TodaysNews({ navigation }) {
                     onCardPress={() =>
                       navigation.navigate("Details", { article })
                     }
-                    onFavoritePress={() => favoriteHandler(article)}
+                    onFavoritePress={() => favoriteHandler(article, dispatch)}
                     onCommentPress={() =>
                       navigation.navigate("Details", { article })
                     }

@@ -6,8 +6,8 @@ import Loader from "../components/Loader";
 import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { addFavorite, removeFavorite } from "../redux/actions/favorites";
 import { useFocusEffect } from "@react-navigation/native";
+import { favoriteHandler } from "../helpers/favoriteHandler";
 
 export default function FavoriteNews({ navigation }) {
   const dispatch = useDispatch();
@@ -21,12 +21,6 @@ export default function FavoriteNews({ navigation }) {
       dispatch(news());
     }, [favorites.length])
   );
-  const favoriteHandler = (article) => {
-    if (article.favorited) {
-      dispatch(removeFavorite(article));
-    }
-    dispatch(addFavorite(article));
-  };
 
   if (favorites.length === 0) {
     return (
@@ -73,7 +67,7 @@ export default function FavoriteNews({ navigation }) {
                     onCardPress={() =>
                       navigation.navigate("Details", { article })
                     }
-                    onFavoritePress={() => favoriteHandler(article)}
+                    onFavoritePress={() => favoriteHandler(article, dispatch)}
                     onCommentPress={() =>
                       navigation.navigate("Details", { article })
                     }

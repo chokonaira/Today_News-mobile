@@ -4,11 +4,10 @@ import Logo from "../components/Logo";
 import Button from "../components/Button";
 
 export default function Home({ navigation }) {
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Logo />
+        <Logo source={require("../assets/news_logo.png")}/>
       </View>
       <View style={styles.footer}>
         <Text style={styles.title}>Stay connected with Todays News</Text>

@@ -3,6 +3,8 @@ import { date } from "../../helpers/date";
 import { fetchAllFavorite } from "./favorites";
 import { axiosInstance } from "../../config/axios";
 import { Controllers } from "../../helpers/controllers";
+import { state } from "./getState";
+
 
 const newsLoading = () => ({
   type: types.NEWS_LOADING,
@@ -18,13 +20,11 @@ const newsError = (payload) => ({
   payload,
 });
 
-export const news = () => async (dispatch, getState) => {
-  dispatch(newsLoading());
-  dispatch(fetchAllFavorite());
+export const news = () => async (dispatch) => {
+  const {user, favorites} = await state();
 
-  const {
-    favorites: { favorites },
-  } = await getState();
+  dispatch(newsLoading());
+  dispatch(fetchAllFavorite(user.email));
 
   return axiosInstance
     .get(`?country=us&from=${date.currentDate}`)
