@@ -28,20 +28,20 @@ const favoriteError = (payload) => ({
 export const addFavorite = (article, email) => async (dispatch) => {
   try {
     if (article.favorited) return;
-
+    
     const favoriteArticle = {
       ...article,
       id: uuidv4(),
       favorited: true,
       userEmail: email,
     };
-
+    console.log(favoriteArticle)
     await firebase
       .firestore()
       .collection("favorites")
       .doc(favoriteArticle.id)
       .set(favoriteArticle);
-    dispatch(addFavoriteSuccess(favoriteArticle));
+  dispatch(addFavoriteSuccess(favoriteArticle));
   } catch (error) {
     dispatch(favoriteError(error.message));
   }

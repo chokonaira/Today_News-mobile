@@ -54,7 +54,7 @@ export default function TodaysNews({ navigation }) {
                   />
                 </View>
               );
-            })}
+            })} 
         </ScrollView>
       </View>
     </View>

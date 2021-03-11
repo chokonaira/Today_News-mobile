@@ -9,136 +9,186 @@ import {
 } from "../../redux/actions/types";
 import "firebase/firestore";
 
+const mockStore = configureStore([thunk]);
 
-describe("Succesfull Authentication", () => {
-  const createUserWithEmailAndPassword = jest.fn(() => {
-    return Promise.resolve("result of createUserWithEmailAndPassword");
-  });
+const payload = {
+  username: "testuser",
+  email: "test@gmail.com",
+  password: "password",
+};
+const payload = "Cannot read property 'navigate' of undefined",
+const createUserWithEmailAndPassword = jest.fn(() => {
+  return Promise.resolve({ user: payload });
+});
 
-  const signInWithEmailAndPassword = jest.fn(() => {
-    return Promise.resolve("result of signInWithEmailAndPassword");
-  });
+const signInWithEmailAndPassword = jest.fn(() => {
+  return Promise.resolve({ user: payload });
+});
 
-  beforeEach(() => {
-    jest.restoreAllMocks();
-    const firestoreMock = {
-      collection: jest.fn().mockReturnThis(),
-      doc: jest.fn().mockReturnThis(),
-      set: jest.fn().mockResolvedValueOnce(),
-    }
-    
-    jest.spyOn(firebase, "firestore").mockImplementationOnce(() => firestoreMock);
+const firestoreMock = {
+  collection: jest.fn().mockReturnThis(),
+  doc: jest.fn().mockReturnThis(),
+  set: jest.fn().mockResolvedValueOnce(),
+};
 
-    jest.spyOn(firebase, "auth").mockImplementation(() => {
-      return {
-        createUserWithEmailAndPassword,
-        signInWithEmailAndPassword,
-        currentUser: {
-          uid: 5,
-        },
-      };
-    });
+jest.spyOn(firebase, "firestore").mockImplementationOnce(() => firestoreMock);
+
+const auth = jest.spyOn(firebase, "auth").mockImplementation(() => {
+  return {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    currentUser: {
+      uid: 5,
+    },
+  };
+});
+
+describe("Authentication", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   xit("succesfully firebase signup and save user in firestore", async (done) => {
+    const store = mockStore({});
+
     const navigation = {
       navigate: jest.fn(),
     };
 
-    await signUp(
-      "testuser",
-      "test@gmail.com",
-      "password",
-      navigation
-    )(() => {});
+    const expectedActions = [
+      {
+        type: AUTH_LOADING,
+      },
+      {
+        type: AUTH_SUCCESS,
+        payload,
+      },
+    ];
 
-    expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled();
-    expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith(
-      "test@gmail.com",
-      "password"
-    );
-    expect(firestoreMock.collection).toBeCalledWith("users");
-    expect(firestoreMock.doc).toBeCalledWith(5);
-    expect(firestoreMock.set).toBeCalledWith({
-      email: "test@gmail.com",
-      username: "testuser",
-    });
-    done();
+    store
+      .dispatch(
+        signUp(payload.username, payload.email, payload.password, navigation)
+      )
+      .then(() => {
+        try {
+          expect(
+            firebase.auth().createUserWithEmailAndPassword
+          ).toHaveBeenCalled();
+          expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith(
+            payload.email,
+            payload.password
+          );
+          expect(firestoreMock.collection).toBeCalledWith("users");
+          expect(firestoreMock.doc).toBeCalledWith(5);
+          expect(firestoreMock.set).toBeCalledWith({
+            username: payload.username,
+            email: payload.email,
+          });
+          expect(store.getActions()).toEqual(expectedActions);
+
+          done();
+        } catch (error) {
+          console.log(error);
+        }
+      });
+  });
+
+it("firebase signup returned error and failed to save a user in firestore", async (done) => {
+    const store = mockStore({});
+
+    const navigation = {
+      navigate: jest.fn(),
+    };
+
+    const expectedActions = [
+      {
+        type: AUTH_LOADING,
+      },
+      {
+        type: AUTH_ERROR,
+        payload: "Cannot read property 'navigate' of undefined",
+      }
+    ];
+
+    store
+      .dispatch(
+        signUp(payload.username, payload.email, payload.password)
+      )
+      .then(() => {
+        try {
+          expect(store.getActions()).toEqual(expectedActions);
+
+          done();
+        } catch (error) {
+          console.log(error);
+        }
+      });
   });
 
   it("succesfully firebase signin with firebase", async (done) => {
+    const store = mockStore({});
 
     const navigation = {
       navigate: jest.fn(),
     };
 
-    await signIn("test@gmail.com", "password", navigation)(() => {});
+    const expectedActions = [
+      {
+        type: AUTH_LOADING,
+      },
+      {
+        type: AUTH_SUCCESS,
+        payload,
+      },
+    ];
 
-    expect(firebase.auth().signInWithEmailAndPassword).toHaveBeenCalled();
-    expect(firebase.auth().signInWithEmailAndPassword).toBeCalledWith(
-      "test@gmail.com",
-      "password"
-    );
-    done();
+    store
+      .dispatch(signIn(payload.email, payload.password, navigation))
+      .then(() => {
+        try {
+          expect(firebase.auth().signInWithEmailAndPassword).toHaveBeenCalled();
+          expect(firebase.auth().signInWithEmailAndPassword).toBeCalledWith(
+            payload.email,
+            payload.password
+          );
+          expect(store.getActions()).toEqual(expectedActions);
+          done();
+        } catch (error) {
+          console.log(error);
+        }
+      });
   });
-});
 
-describe("Unsuccesfull Authentication", () => {
-
-  const createUserWithEmailAndPassword = jest.fn(() => {
-    return Promise.reject(new Error("Failed"));
-  });
-
-  const signInWithEmailAndPassword = jest.fn(() => {
-    return Promise.reject(new Error("Failed"));
-  });
-
-  beforeEach(() => {   
-    jest.restoreAllMocks(); 
-    jest.spyOn(firebase, "auth").mockImplementation(() => {
-      return {
-        createUserWithEmailAndPassword,
-        signInWithEmailAndPassword
-      };
+  xit("firebase signin returned error and failed to save a user in firestore", async (done) => {
+    signInWithEmailAndPassword.mockImplementation(() => {
+      throw new Error("Error occured");
     });
-  });
-
-  xit("firebase signup returned error and failed to save a user in firestore", async (done) => {
-  
-    const navigation = {
-      navigate: jest.fn(),
-    };
-
-    await signUp(
-      "testuser",
-      "test@gmail.com",
-      "password",
-      navigation
-    )(() => {});
-
-    expect(firebase.auth().createUserWithEmailAndPassword).toHaveBeenCalled();
-    expect(firebase.auth().createUserWithEmailAndPassword).toBeCalledWith(
-      "test@gmail.com",
-      "password"
-    );
-    expect(firebase.auth().currentUser).toEqual(undefined);
-    expect(database.mock.instances).toEqual([]);
-    done();
-  });
-
-  it("firebase signin return an error", async (done) => {
+    
+    const store = mockStore({});
 
     const navigation = {
       navigate: jest.fn(),
     };
 
-    await signIn("test@gmail.com", "password", navigation)(() => {});
-    expect(firebase.auth().signInWithEmailAndPassword).toHaveBeenCalled();
-    expect(firebase.auth().signInWithEmailAndPassword).toBeCalledWith(
-      "test@gmail.com",
-      "password"
-    );
-    expect(firebase.auth().currentUser).toEqual(undefined);
-    done();
+    const expectedActions = [
+      {
+        type: AUTH_LOADING,
+      },
+      {
+        type: AUTH_ERROR,
+        payload: "Error occured",
+      },
+    ];
+
+    store
+      .dispatch(signIn(payload.email, payload.password, navigation))
+      .then(() => {
+        try {
+          expect(store.getActions()).toEqual(expectedActions);
+          done();
+        } catch (error) {
+          console.log(error);
+        }
+      });
   });
 });

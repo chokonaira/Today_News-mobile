@@ -17,7 +17,7 @@ export default function NewsDetails({ navigation, route: { params } }) {
 
   React.useEffect(() => {
     dispatch(fetchAllComments(params.article.url));
-  }, [params.article]);
+  }, [comments.length, params.article]);
 
   const commentHandler = (articleUrl) => {
     if (comment.length === 0) return;
