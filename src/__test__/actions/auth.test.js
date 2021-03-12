@@ -16,7 +16,6 @@ const payload = {
   email: "test@gmail.com",
   password: "password",
 };
-const payload = "Cannot read property 'navigate' of undefined",
 const createUserWithEmailAndPassword = jest.fn(() => {
   return Promise.resolve({ user: payload });
 });
@@ -38,7 +37,7 @@ const auth = jest.spyOn(firebase, "auth").mockImplementation(() => {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     currentUser: {
-      uid: 5,
+      uid: "5",
     },
   };
 });
@@ -48,7 +47,7 @@ describe("Authentication", () => {
     jest.clearAllMocks();
   });
 
-  xit("succesfully firebase signup and save user in firestore", async (done) => {
+  it("succesfully firebase signup and save user in firestore", async (done) => {
     const store = mockStore({});
 
     const navigation = {
@@ -79,7 +78,7 @@ describe("Authentication", () => {
             payload.password
           );
           expect(firestoreMock.collection).toBeCalledWith("users");
-          expect(firestoreMock.doc).toBeCalledWith(5);
+          expect(firestoreMock.doc).toBeCalledWith("5");
           expect(firestoreMock.set).toBeCalledWith({
             username: payload.username,
             email: payload.email,
@@ -93,7 +92,12 @@ describe("Authentication", () => {
       });
   });
 
-it("firebase signup returned error and failed to save a user in firestore", async (done) => {
+  it("firebase signup returned error and failed to save a user in firestore", async (done) => {
+    createUserWithEmailAndPassword.mockImplementation(() => {
+      return Promise.reject(new Error("Error occured"));
+    });
+
+    const message = "Error occured";
     const store = mockStore({});
 
     const navigation = {
@@ -106,13 +110,13 @@ it("firebase signup returned error and failed to save a user in firestore", asyn
       },
       {
         type: AUTH_ERROR,
-        payload: "Cannot read property 'navigate' of undefined",
-      }
+        payload: message,
+      },
     ];
 
     store
       .dispatch(
-        signUp(payload.username, payload.email, payload.password)
+        signUp(payload.username, payload.email, payload.password, navigation)
       )
       .then(() => {
         try {
@@ -159,11 +163,11 @@ it("firebase signup returned error and failed to save a user in firestore", asyn
       });
   });
 
-  xit("firebase signin returned error and failed to save a user in firestore", async (done) => {
+  it("firebase signin returned error and failed to save a user in firestore", async (done) => {
     signInWithEmailAndPassword.mockImplementation(() => {
-      throw new Error("Error occured");
+      return Promise.reject(new Error("Error occured"));
     });
-    
+    const message = "Error occured";
     const store = mockStore({});
 
     const navigation = {
@@ -176,7 +180,7 @@ it("firebase signup returned error and failed to save a user in firestore", asyn
       },
       {
         type: AUTH_ERROR,
-        payload: "Error occured",
+        payload: message,
       },
     ];
 
