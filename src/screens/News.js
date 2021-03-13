@@ -4,8 +4,7 @@ import Card from "../components/Card";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
 import { news } from "../redux/actions/news";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { favoriteHandler } from "../helpers/favoriteHandler";
 
 export default function TodaysNews({ navigation }) {
@@ -18,7 +17,6 @@ export default function TodaysNews({ navigation }) {
   React.useEffect(() => {
     dispatch(news());
   }, [favorites.length]);
-
 
   if (!isNewsFetched) {
     return <Loader visible={isLoading} />;

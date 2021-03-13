@@ -29,14 +29,14 @@ export const news = () => async (dispatch) => {
   return axiosInstance
     .get(`?country=us&from=${date.currentDate}`)
     .then(({ data }) => {
-      dispatch(addRelationships(favorites, data));
+      dispatch(addColumn(favorites, data));
     })
     .catch((error) => {
       dispatch(newsError(error.message));
     });
 };
 
-export const addRelationships = (favorites, articles) => (dispatch) => {
+export const addColumn = (favorites, articles) => (dispatch) => {
   const updatedArticle = articles.articles.map((article) => {
     if (Controllers.objectExist(favorites, article)) {
       return { ...article, favorited: true };
