@@ -10,7 +10,7 @@ export const Controllers = {
     return false;
   },
   
-  deleteFavorites(arr, article) {
+  filterFavorites(arr, article) {
     const favorites = arr.filter((favorite) => {
       return (
         favorite.url !== article.url &&

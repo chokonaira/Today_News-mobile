@@ -12,17 +12,27 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import firebase from "firebase";
 import {Controllers} from "../../helpers/controllers"
+import { get } from "fetch-mock";
 
 const mockStore = configureStore([thunk]);
 
 jest.mock("uuid");
 jest.spyOn(uuid, "v4").mockReturnValue("56778");
 
+const get = jest.fn(() => {
+  return Promise.resolve();
+});
+
 const firestoreMock = {
   collection: jest.fn().mockReturnThis(),
   doc: jest.fn().mockReturnThis(),
   set: jest.fn().mockResolvedValueOnce(),
-  get: jest.fn().mockReturnThis(),
+  where: jest.fn().mockImplementation(()=>{
+    return jest.fn(()=> {
+      get: ()=> 
+    })
+  }),
+  get: jest.fn().mockResolvedValueOnce(),
 };
 
 jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
@@ -96,23 +106,25 @@ describe("Articles Favorites", () => {
   });
 
   it("succesfully removes a favorited article from firestore", async (done) => {
+    const favoriteArticle 
+    firestoreMock.collection.mockImplementation(() => {
+      throw new Error("Error occured");
+    });
+
     const {store, article} = helper(true)
-    const favorites = [{
-      userEmail: "email@gmail.com",
-      url: 'url.com',
-      publishedAt: '01-2021'
-    }];
+    
     const expectedActions = [
       {
         type: REMOVE_FAVOURITE_SUCCESS,
         payload: [],
       },
     ];
+
+    jest.spyOn(Controllers, "filterFavorites").mockImplementation(() => []);
+
     store.dispatch(removeFavorite(article, article.userEmail)).then(() => {
       try {
         expect(firestoreMock.collection).toBeCalledWith("favorites");
-        // expect(firestoreMock.get).toBeCalledWith(favorites);
-        expect(Controllers.deleteFavorites(favorites, article)).mockResolvedValueOnce([]);
         expect(store.getActions()).toEqual(expectedActions);
 
         done();
