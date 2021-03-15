@@ -2,6 +2,7 @@ import * as types from "./types";
 import * as firebase from "firebase";
 import "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import { state } from "./getState";
 
 const commentsLoading = () => ({
   type: types.COMMENTS_LOADING,
@@ -22,15 +23,10 @@ const commentsError = (payload) => ({
   payload,
 });
 
-export const addComment = (comment, articleUrl) => async (
-  dispatch,
-  getState
-) => {
+export const addComment = (comment, articleUrl) => async (dispatch) => {
   dispatch(commentsLoading());
   try {
-    const {
-      auth: { user },
-    } = await getState();
+    const { user } = await state();
 
     const commentedArticle = {
       id: uuidv4(),
@@ -55,8 +51,8 @@ export const fetchAllComments = (articleUrl) => async (dispatch) => {
   try {
     const commentRef = firebase.firestore().collection("comments");
     const snapshot = await commentRef
-    .where("articleUrl", "==", articleUrl)
-    .get();
+      .where("articleUrl", "==", articleUrl)
+      .get();
     const result = snapshot.docs.map((doc) => {
       return doc.data();
     });
