@@ -60,4 +60,35 @@ describe("Articles Comments", () => {
       }
     });
   });
+
+  it("Does returns an error when something go wrong", async (done) => {
+    firestoreMock.collection.mockImplementation(() => {
+      throw new Error("Error occured");
+    });
+    const store = mockStore({});
+    const commentedArticle = {
+      id: "1234",
+      comment: 'Hello World ',
+      userEmail: "email@gmail.com",
+      articleUrl: 'url.com',
+    };
+      const expectedActions = [
+        {
+          type: COMMENTS_LOADING,
+        },
+        {
+          type: COMMENTS_ERROR,
+          payload: "Error occured",
+        },
+      ];
+      store.dispatch(addComment(commentedArticle.comment, commentedArticle.articleUrl)).then(() => {
+        try {
+          expect(store.getActions()).toEqual(expectedActions);
+  
+          done();
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    });
 });
