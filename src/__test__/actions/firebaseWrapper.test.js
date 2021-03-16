@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import {
   FirestoreWrapper
-} from '../../redux/actions/FirebaseWrapper'
+} from '../../redux/actions/FirestoreWrapper'
 
 
 const favoritedArticle = [{
@@ -10,36 +10,19 @@ const favoritedArticle = [{
   publishedAt: '2021-01-01'
 }]
 
-// const collection = jest.fn(() => {
-//   return {
-//     doc: jest.fn(() => {
-//       return {
-//         collection: collection,
-//         update: jest.fn(() => Promise.resolve(true)),
-//         onSnapshot: jest.fn(() => Promise.resolve(true)),
-//         get: jest.fn(() => Promise.resolve(true))
-//       }
-//     }),
-//     where: jest.fn(() => {
-//       return {
-//         get: jest.fn(() => Promise.resolve(favoritedArticle)),
-//         onSnapshot: jest.fn(() => Promise.resolve(true)),
-//       }
-//     })
-//   }
-// });
-
+const whereMock = jest.fn(() => {
+  return {
+    get: jest.fn(() => mockResolvedValueOnce(favoritedArticle)),
+    where: whereMock,
+    onSnapshot: jest.fn(() => mockReturnThis()),
+  };
+})
 
 const firestoreMock = {
   collection: jest.fn().mockReturnThis(),
   doc: jest.fn().mockReturnThis(),
   set: jest.fn().mockResolvedValueOnce(),
-  where: jest.fn(() => {
-    return {
-      get: jest.fn(() => mockResolvedValueOnce(favoritedArticle)),
-      onSnapshot: jest.fn(() => mockReturnThis()),
-    }
-  })
+  where: whereMock
 };
 
 jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
@@ -55,14 +38,16 @@ describe('Firestore', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  
-  it("succesfully queries and removes a favorited article from firestore", async (done) => {
+
+  it("succesfully queries and removes a favorited article from firestore", (done) => {
     const wrapper = new FirestoreWrapper()
-    await wrapper.removeFavorite(article, article.userEmail)
+    wrapper.removeFavorite(article, article.userEmail)
   
     expect(firestoreMock.collection).toBeCalledWith("favorites");
+    expect(firestoreMock.where).toHaveBeenNthCalledWith(1, "userEmail", "==", article.userEmail);
+    expect(firestoreMock.where).toHaveBeenNthCalledWith(2, "url", "==", article.url);
+    expect(firestoreMock.where).toHaveBeenNthCalledWith(3, "publishedAt", "==", article.publishedAt);
   
-    // expect(firestoreMock.collection).toBeCalledWith("favorites");
     done()
   });
 })
