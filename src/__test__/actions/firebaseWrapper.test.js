@@ -2,6 +2,7 @@ import firebase from "firebase";
 import {
   FirestoreWrapper
 } from '../../redux/actions/FirestoreWrapper'
+import favorites from "../../redux/reducers/favorite";
 
 
 const favoritedArticle = [{
@@ -10,10 +11,15 @@ const favoritedArticle = [{
   publishedAt: '2021-01-01'
 }]
 
+const getMock = jest.fn(() => {
+  return {
+    get: jest.fn().mockResolvedValueOnce(),
+  };
+})
 const whereMock = jest.fn(() => {
   return {
-    get: jest.fn(() => mockResolvedValueOnce(favoritedArticle)),
     where: whereMock,
+    get: getMock,
     onSnapshot: jest.fn(() => mockReturnThis()),
   };
 })
@@ -22,7 +28,8 @@ const firestoreMock = {
   collection: jest.fn().mockReturnThis(),
   doc: jest.fn().mockReturnThis(),
   set: jest.fn().mockResolvedValueOnce(),
-  where: whereMock
+  where: whereMock,
+  get: getMock,
 };
 
 jest.spyOn(firebase, "firestore").mockImplementation(() => firestoreMock);
@@ -47,6 +54,9 @@ describe('Firestore', () => {
     expect(firestoreMock.where).toHaveBeenNthCalledWith(1, "userEmail", "==", article.userEmail);
     expect(firestoreMock.where).toHaveBeenNthCalledWith(2, "url", "==", article.url);
     expect(firestoreMock.where).toHaveBeenNthCalledWith(3, "publishedAt", "==", article.publishedAt);
+    expect(firestoreMock.get).toHaveBeenCalled();
+    // expect(firestoreMock.get).toBeCalledWith(favoritedArticle);
+    // expect(whereMock.get).toBeCalledWith(favoritedArticle);
   
     done()
   });
