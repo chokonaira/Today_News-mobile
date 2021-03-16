@@ -4,7 +4,8 @@ import "firebase/firestore";
 import { Controllers } from "../../helpers/controllers";
 import { v4 as uuidv4 } from "uuid";
 import { state } from "./getState";
-import { FirestoreWrapper } from "./FirebaseWrapper";
+import { FirestoreWrapper } from "./FirestoreWrapper";
+const wrapper = new FirestoreWrapper();
 
 const favoriteLoading = () => ({
   type: types.FAVOURITE_LOADING,
@@ -50,7 +51,8 @@ export const addFavorite = (article, email) => async (dispatch) => {
 export const removeFavorite = (article, email) => async (dispatch) => {
   try {
     const { favorites } = await state();
-    await FirestoreWrapper.removeFavourite(article, email);
+
+    wrapper.removeFavorite(article, email);
     const newFavorites = Controllers.filterFavorites(favorites, article);
     dispatch(removeFavoriteSuccess(newFavorites));
   } catch (error) {
@@ -61,7 +63,7 @@ export const removeFavorite = (article, email) => async (dispatch) => {
 export const fetchAllFavorite = (email) => async (dispatch) => {
   dispatch(favoriteLoading());
   try {
-    const result = await FirestoreWrapper.fetchAllFavorite(email);
+    const result = await wrapper.fetchAllFavorite(email);
     dispatch(fetchAllFavoriteSuccess(result));
   } catch (error) {
     dispatch(favoriteError(error.message));

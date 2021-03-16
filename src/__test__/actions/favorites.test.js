@@ -12,7 +12,6 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import firebase from "firebase";
 import {Controllers} from "../../helpers/controllers"
-import { get } from "fetch-mock";
 
 const mockStore = configureStore([thunk]);
 
