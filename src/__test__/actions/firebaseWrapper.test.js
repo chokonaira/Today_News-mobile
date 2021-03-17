@@ -47,12 +47,7 @@ describe('Firestore', () => {
     const db = firebase.firestore();
     const wrapper = new FirestoreWrapper()
     await wrapper.removeFavorite(article, article.userEmail)
-    return db
-    .collection('favorites')
-    .get()
-    .then(userDocs => {
-      expect(mockCollection).toHaveBeenCalledWith('favorites');
-    });
+    expect(mockCollection).toHaveBeenCalledWith('favorites');
     
   });
 
