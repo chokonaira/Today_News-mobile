@@ -4,7 +4,7 @@ import "firebase/firestore";
 import { FakeFirestore } from "./FakeFirestore";
 
 const refMock = {
-  delete: jest.fn().mockResolvedValueOnce(),
+  delete: jest.fn(),
 };
 
 const favoritedArticles = [
@@ -33,23 +33,21 @@ describe("Firestore", () => {
     const wrapper = new FirestoreWrapper();
     await wrapper.removeFavorite(article, article.userEmail);
 
-    expect(myFirestore.collectionWasCalledWith).toEqual("favorites");
-    expect(myFirestore.whereWasCalledWith[0]).toEqual([
-      "userEmail",
-      "==",
-      article.userEmail,
-    ]);
-    expect(myFirestore.whereWasCalledWith[1]).toEqual([
-      "url",
-      "==",
-      article.url,
-    ]);
-    expect(myFirestore.whereWasCalledWith[2]).toEqual([
-      "publishedAt",
-      "==",
-      article.publishedAt,
-    ]);
-    // expect(refMock.deleteFn()).toHaveBeenCalled();
+    expect(myFirestore.collectionWasCalledWith).toEqual("favorites")
+    expect(myFirestore.whereWasCalledWith[0]).toEqual(["userEmail", "==", article.userEmail])
+    expect(myFirestore.whereWasCalledWith[1]).toEqual(["url", "==", article.url])
+    expect(myFirestore.whereWasCalledWith[2]).toEqual(["publishedAt", "==", article.publishedAt])
+    expect(refMock.delete).toHaveBeenCalled();
   });
 
+  // it("succesfully query and fectch all favorited article for a user", (done) => {
+  //   const wrapper = new FirestoreWrapper()
+  //   wrapper.fetchAllFavorite(article.userEmail)
+
+  //   expect(firestoreMock.collection).toBeCalledWith("favorites");
+  //   expect(firestoreMock.where).toHaveBeenNthCalledWith(1, "userEmail", "==", article.userEmail);
+  //   expect(firestoreMock.get).toHaveBeenCalled();
+  //   // expect(firestoreMock.docs).toHaveBeenCalled();
+  //   done()
+  // });
 });
