@@ -26,11 +26,6 @@ const firestoreMock = {
   collection: jest.fn().mockReturnThis(),
   doc: jest.fn().mockReturnThis(),
   set: jest.fn().mockResolvedValueOnce(),
-  where: jest.fn().mockImplementation(()=>{
-    return jest.fn(()=> {
-      get: ()=> 
-    })
-  }),
   get: jest.fn().mockResolvedValueOnce(),
 };
 
@@ -105,7 +100,6 @@ describe("Articles Favorites", () => {
   });
 
   it("succesfully removes a favorited article from firestore", async (done) => {
-    const favoriteArticle 
     firestoreMock.collection.mockImplementation(() => {
       throw new Error("Error occured");
     });
