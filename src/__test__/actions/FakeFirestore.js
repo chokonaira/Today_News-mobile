@@ -4,6 +4,7 @@ export class FakeFirestore {
     this.data = data;
     this.collectionWasCalledWith = '';
     this.whereWasCalledWith = [];
+    // this.docsWasCalledWith = [];
   }
 
   collection(name) {

@@ -36,6 +36,7 @@ export const addFavorite = (article, email) => async (dispatch) => {
       favorited: true,
       userEmail: email,
     };
+    console.log('email')
 
     await firebase
       .firestore()
@@ -52,7 +53,7 @@ export const removeFavorite = (article, email) => async (dispatch) => {
   try {
     const { favorites } = await state();
 
-    wrapper.removeFavorite(article, email);
+    await wrapper.removeFavorite(article, email);
     const newFavorites = Controllers.filterFavorites(favorites, article);
     dispatch(removeFavoriteSuccess(newFavorites));
   } catch (error) {

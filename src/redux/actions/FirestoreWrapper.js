@@ -9,7 +9,7 @@ export class FirestoreWrapper {
       .where("url", "==", article.url)
       .where("publishedAt", "==", article.publishedAt)
       .get();
-    snapshot.forEach((doc) => doc.ref.delete());
+    snapshot.docs.map((doc) => doc.ref.delete());
   }
 
   async fetchAllFavorite(email) {
