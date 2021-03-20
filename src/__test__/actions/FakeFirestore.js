@@ -1,27 +1,33 @@
 export class FakeFirestore {
-
-  constructor(data){
+  constructor(data) {
     this.data = data;
-    this.collectionWasCalledWith = '';
+    this.collectionWasCalledWith = "";
+    this.docWasCalledWith = "";
+    this.setWasCalledWith = {};
     this.whereWasCalledWith = [];
-    // this.docsWasCalledWith = [];
   }
 
   collection(name) {
     this.collectionWasCalledWith = name;
     return this;
   }
-  
+
+  doc(id) {
+    this.docWasCalledWith = id;
+    return this;
+  }
+
+  set(article) {
+    this.setWasCalledWith = article;
+    return this;
+  }
+
   where(key, equality, value) {
-    this.whereWasCalledWith.push([key, equality, value])
+    this.whereWasCalledWith.push([key, equality, value]);
     return this;
   }
-  
-  add() {
-    return this;
-  }
-  
+
   get() {
-    return this.data
+    return this.data;
   }
 }

@@ -36,13 +36,7 @@ export const addFavorite = (article, email) => async (dispatch) => {
       favorited: true,
       userEmail: email,
     };
-    console.log('email')
-
-    await firebase
-      .firestore()
-      .collection("favorites")
-      .doc(favoriteArticle.id)
-      .set(favoriteArticle);
+    await wrapper.addFavorite(favoriteArticle);
     dispatch(addFavoriteSuccess(favoriteArticle));
   } catch (error) {
     dispatch(favoriteError(error.message));

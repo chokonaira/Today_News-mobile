@@ -24,6 +24,7 @@ const myFirestore = new FakeFirestore(favoritedArticles);
 jest.spyOn(firebase, "firestore").mockImplementation(() => myFirestore);
 
 const article = {
+  id: '1233',
   userEmail: "email.com",
   url: "url.com",
   publishedAt: "2021-01-01",
@@ -32,6 +33,15 @@ const article = {
 describe("Firestore", () => {
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it("succesfully adds a favorited article to firestore", async () => {
+    const wrapper = new FirestoreWrapper();
+    await wrapper.addFavorite(article);
+
+    expect(myFirestore.collectionWasCalledWith).toEqual("favorites")
+    expect(myFirestore.docWasCalledWith).toEqual(article.id)
+    expect(myFirestore.setWasCalledWith).toEqual(article)
   });
 
   it("succesfully queries and removes a favorited article from firestore", async () => {
