@@ -99,7 +99,10 @@ describe("Articles Favorites", () => {
     });
   });
 
-  xit("Does returns an error when something go wrong", async (done) => {
+  xit("Does returns an error when something go wrong when adding an article", async (done) => {
+    myFirestore.collectionWasCalledWith.mockImplementation(() => {
+      throw new Error("Error occured");
+    });
     const { store, article } = helper(false);
     const expectedActions = [
       {
@@ -108,9 +111,6 @@ describe("Articles Favorites", () => {
       },
     ];
     store.dispatch(addFavorite(article, article.userEmail)).then(() => {
-      myFirestore.collectionWasCalledWith.mockImplementation(() => {
-        throw new Error("Error occured");
-      });
       try {
         expect(store.getActions()).toEqual(expectedActions);
         done();
@@ -145,6 +145,28 @@ describe("Articles Favorites", () => {
         );
         expect(store.getActions()).toEqual(expectedActions);
 
+        done();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
+
+  xit("Does returns an error when something go wrong when removing an article", async (done) => {
+    await myFirestore.collectionWasCalledWith.mockImplementation(() => {
+      throw new Error("Error occured");
+    });
+
+    const { store, article } = helper(true);
+    const expectedActions = [
+      {
+        type: FAVOURITE_ERROR,
+        payload: "Error occured",
+      },
+    ];
+    store.dispatch(removeFavorite(article, article.userEmail)).then(() => {
+      try {
+        expect(store.getActions()).toEqual(expectedActions);
         done();
       } catch (error) {
         console.log(error);
