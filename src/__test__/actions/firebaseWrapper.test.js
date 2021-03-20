@@ -20,7 +20,7 @@ const favoritedArticles = {
   },
 ]};
 
-const myFirestore = new FakeFirestore(favoritedArticles);
+export const myFirestore = new FakeFirestore(favoritedArticles);
 jest.spyOn(firebase, "firestore").mockImplementation(() => myFirestore);
 
 const article = {
