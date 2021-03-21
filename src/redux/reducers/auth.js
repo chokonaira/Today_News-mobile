@@ -28,10 +28,17 @@ export default function auth(state = initialState, action) {
         errors: action.payload,
       };
     case types.DISMISS_AUTH_ERROR:
-    return {
-      ...state,
-      errors: undefined,
-    };
+      return {
+        ...state,
+        errors: undefined,
+      };
+    case types.LOGOUT_SUCCESS:
+      return {
+        isLoading: false,
+        isAuthenticated: false,
+        user: [],
+        errors: null,
+      };
     default:
       return state;
   }

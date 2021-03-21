@@ -27,6 +27,13 @@ export default function news(state = initialState, action) {
         isLoading: false,
         errors: action.payload,
       };
+    case types.LOGOUT_SUCCESS:
+      return {
+        isLoading: false,
+        isNewsFetched: false,
+        news: [],
+        errors: null,
+      };
     default:
       return state;
   }

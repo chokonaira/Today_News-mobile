@@ -17,7 +17,7 @@ export default function NewsDetails({ navigation, route: { params } }) {
 
   React.useEffect(() => {
     dispatch(fetchAllComments(params.article.url));
-  }, [comments.length, params]);
+  }, [comments.length, params.article]);
 
   const commentHandler = (articleUrl) => {
     if (comment.length === 0) return;
@@ -41,7 +41,7 @@ export default function NewsDetails({ navigation, route: { params } }) {
             content={params.article.content}
           />
           <View>
-            <View style={styles.action}>
+            <Card style={styles.action}>
               <TextInput
                 testID="comments"
                 placeholder="Write comments here..."
@@ -65,12 +65,19 @@ export default function NewsDetails({ navigation, route: { params } }) {
                   ]}
                 />
               </View>
-            </View>
+            </Card>
             <View>
-              {!isLoading &&
+              {comments.length === 0 ? (
+                <Text
+                  style={{ alignSelf: "center", marginTop: 35, fontSize: 12 }}
+                >
+                  Be the first to comment
+                </Text>
+              ) : (
+                !isLoading &&
                 comments.map((comment, index) => [
                   <Card key={index}>
-                    <CardItem cardBody>
+                    <CardItem key={index} cardBody>
                       <View style={styles.commentWrapper}>
                         <Text style={styles.commentHeader}>
                           {comment.userEmail}
@@ -80,8 +87,9 @@ export default function NewsDetails({ navigation, route: { params } }) {
                         </Text>
                       </View>
                     </CardItem>
-                  </Card>
-                ])}
+                  </Card>,
+                ])
+              )}
             </View>
           </View>
         </ScrollView>

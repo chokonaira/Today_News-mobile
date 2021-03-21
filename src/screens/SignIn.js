@@ -2,9 +2,8 @@ import React from "react";
 import { View, StyleSheet, Alert, Platform, Text } from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { useDispatch } from "react-redux";
 import { signIn } from "../redux/actions/auth";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { emailValidation, passwordValidation } from "../helpers/validations";
 import * as types from "../redux/actions/types";
 

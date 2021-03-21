@@ -36,14 +36,14 @@ describe("Controllers", () => {
     const newFavorites = [];
 
     it("checks that a favorited is deleted", () => {
-      expect(Controllers.deleteFavorites(favorites, favoritedArticle)).toEqual(
+      expect(Controllers.filterFavorites(favorites, favoritedArticle)).toEqual(
         newFavorites
       );
     });
 
     it("checks that an unfavorited is not deleted", () => {
       expect(
-        Controllers.deleteFavorites(favorites, unFavoritedArticle)
+        Controllers.filterFavorites(favorites, unFavoritedArticle)
       ).toEqual(favorites);
     });
   });

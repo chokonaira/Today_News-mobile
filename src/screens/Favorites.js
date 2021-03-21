@@ -6,27 +6,21 @@ import Loader from "../components/Loader";
 import { news } from "../redux/actions/news";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { addFavorite, removeFavorite } from "../redux/actions/favorites";
 import { useFocusEffect } from "@react-navigation/native";
+import { favoriteHandler } from "../helpers/favoriteHandler";
 
 export default function FavoriteNews({ navigation }) {
   const dispatch = useDispatch();
   const { isNewsFetched } = useSelector((state) => state.news);
   const { favorites } = useSelector((state) => state.favorites);
-  const defaultImage = 'https://lh3.googleusercontent.com/proxy/YKSgQxCMHJraD0dW8afdPheVXfZEWyGoIVcF0zrMhYdx9WFqeZGm4fU9FHg8MaLRken_eHKaD7mnJ7j6f5Lfom6vShg'
+  const defaultImage =
+    "https://lh3.googleusercontent.com/proxy/YKSgQxCMHJraD0dW8afdPheVXfZEWyGoIVcF0zrMhYdx9WFqeZGm4fU9FHg8MaLRken_eHKaD7mnJ7j6f5Lfom6vShg";
 
   useFocusEffect(
     React.useCallback(() => {
       dispatch(news());
     }, [favorites.length])
   );
-
-  const favoriteHandler = (article) => {
-    if (article.favorited) {
-      dispatch(removeFavorite(article));
-    }
-    dispatch(addFavorite(article));
-  };
 
   if (favorites.length === 0) {
     return (
@@ -73,7 +67,7 @@ export default function FavoriteNews({ navigation }) {
                     onCardPress={() =>
                       navigation.navigate("Details", { article })
                     }
-                    onFavoritePress={() => favoriteHandler(article)}
+                    onFavoritePress={() => favoriteHandler(article, dispatch)}
                     onCommentPress={() =>
                       navigation.navigate("Details", { article })
                     }

@@ -3,8 +3,16 @@ import { View, StyleSheet } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { Avatar, Title, Caption, Drawer } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { logout } from "../redux/actions/auth";
+import store from "../redux/store";
+import { useDispatch } from "react-redux";
 
 export default function DrawerContent(props) {
+  const dispatch = useDispatch();
+
+  const {
+    auth: { user },
+  } = store.getState();
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -18,9 +26,15 @@ export default function DrawerContent(props) {
                 }}
                 size={53}
               />
-              <View style={{ flexDirection: "column", marginLeft: 15, width:'95%' }}>
+              <View
+                style={{
+                  flexDirection: "column",
+                  marginLeft: 15,
+                  width: "95%",
+                }}
+              >
                 <Title style={styles.title}>Logged-In As</Title>
-                <Caption style={styles.caption}>henry@gmail.com</Caption>
+                <Caption style={styles.caption}>{user.email}</Caption>
               </View>
             </View>
           </View>
@@ -52,7 +66,7 @@ export default function DrawerContent(props) {
             <Icon name="exit-to-app" color={color} size={size} />
           )}
           label="Sign Out"
-          onPress={() => {}}
+          onPress={() => dispatch(logout(props.navigation))}
         ></DrawerItem>
       </Drawer.Section>
     </View>
@@ -66,20 +80,20 @@ const styles = StyleSheet.create({
   userInfoSection: {
     paddingLeft: 20,
     paddingBottom: 6,
-    borderBottomWidth: .3,
+    borderBottomWidth: 0.3,
     borderBottomColor: "#333",
   },
   title: {
     fontSize: 12,
     fontWeight: "bold",
     color: "#333",
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   caption: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 10,
     lineHeight: 14,
-    width: '70%'
+    width: "70%",
   },
   drawerSection: {
     marginTop: 15,
@@ -88,5 +102,5 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderTopColor: "#f4f4f4",
     borderTopWidth: 1,
-  }
+  },
 });

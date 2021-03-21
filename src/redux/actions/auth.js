@@ -19,6 +19,10 @@ const authError = (payload) => ({
   payload,
 });
 
+const logoutSuccess = () => ({
+  type: types.LOGOUT_SUCCESS,
+});
+
 export const signUp = (username, email, password, navigation) => async(dispatch) => {
   dispatch(authLoading());
   firebase
@@ -52,4 +56,7 @@ export const signIn = (email, password, navigation) => async(dispatch) => {
     });
 };
 
-
+export const logout = (navigation) => (dispatch) => {
+  dispatch(logoutSuccess());
+  navigation.navigate("Home");
+};
