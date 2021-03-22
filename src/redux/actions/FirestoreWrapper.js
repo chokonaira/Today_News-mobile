@@ -34,12 +34,13 @@ export class FirestoreWrapper {
       .set(article);
   }
 
-  async fetchAllComments(articleUrl) {
+  async fetchAllComments(url) {
     const commentRef = firebase.firestore().collection("comments");
     const snapshot = await commentRef
-      .where("articleUrl", "==", articleUrl)
-      .get();
+    .where("url", "==", url)
+    .get();
     const result = snapshot.docs.map((doc) => doc.data());
+    console.log(result, 'results')
     return result;
   }
 }

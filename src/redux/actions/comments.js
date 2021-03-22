@@ -41,10 +41,10 @@ export const addComment = (comment, url, email, firestore = firestoreWrapper) =>
   }
 };
 
-export const fetchAllComments = (articleUrl, firestore = firestoreWrapper) => async (dispatch) => {
+export const fetchAllComments = (url, firestore = firestoreWrapper) => async (dispatch) => {
   dispatch(commentsLoading());
   try {
-    const result = await firestore.fetchAllComments(articleUrl);
+    const result = await firestore.fetchAllComments(url);
     patch(fetchAllCommentsSuccess(result));
   } catch (error) {
     dispatch(commentsError(error.message));
