@@ -5,7 +5,7 @@ import { Controllers } from "../../helpers/controllers";
 import { v4 as uuidv4 } from "uuid";
 import { state } from "./getState";
 import { FirestoreWrapper } from "./FirestoreWrapper";
-const wrapper = new FirestoreWrapper();
+const firestoreWrapper = new FirestoreWrapper();
 
 const favoriteLoading = () => ({
   type: types.FAVOURITE_LOADING,
@@ -27,7 +27,7 @@ const favoriteError = (payload) => ({
   payload,
 });
 
-export const addFavorite = (article, email) => async (dispatch) => {
+export const addFavorite = (article, email, firestore = firestoreWrapper) => async (dispatch) => {
   try {
     if (article.favorited) return;
     const favoriteArticle = {
@@ -36,7 +36,7 @@ export const addFavorite = (article, email) => async (dispatch) => {
       favorited: true,
       userEmail: email,
     };
-    await wrapper.addFavorite(favoriteArticle);
+    await firestore.addFavorite(favoriteArticle);
     dispatch(addFavoriteSuccess(favoriteArticle));
   } catch (error) {
     dispatch(favoriteError(error.message));
@@ -47,7 +47,7 @@ export const removeFavorite = (article, email) => async (dispatch) => {
   try {
     const { favorites } = await state();
 
-    await wrapper.removeFavorite(article, email);
+    await firestoreWrapper.removeFavorite(article, email);
     const newFavorites = Controllers.filterFavorites(favorites, article);
     dispatch(removeFavoriteSuccess(newFavorites));
   } catch (error) {
@@ -58,7 +58,7 @@ export const removeFavorite = (article, email) => async (dispatch) => {
 export const fetchAllFavorite = (email) => async (dispatch) => {
   dispatch(favoriteLoading());
   try {
-    const result = await wrapper.fetchAllFavorite(email);
+    const result = await firestoreWrapper.fetchAllFavorite(email);
     dispatch(fetchAllFavoriteSuccess(result));
   } catch (error) {
     dispatch(favoriteError(error.message));
