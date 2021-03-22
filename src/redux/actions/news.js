@@ -3,7 +3,6 @@ import { date } from "../../helpers/date";
 import { fetchAllFavorite } from "./favorites";
 import { axiosInstance } from "../../config/axios";
 import { Controllers } from "../../helpers/controllers";
-import { state } from "./getState";
 
 
 const newsLoading = () => ({
@@ -20,11 +19,19 @@ const newsError = (payload) => ({
   payload,
 });
 
-export const news = () => async (dispatch) => {
-  const {user, favorites} = await state();
+export const addFavoritedColumn = (favorites, articles) => (dispatch) => {
+  const updatedArticle = articles.articles.map((article) => {
+    if (Controllers.objectExist(favorites, article)) {
+      return { ...article, favorited: true };
+    } else {
+      return { ...article, favorited: false };
+    }
+  });
+  dispatch(newsSuccess({ articles: updatedArticle }));
+};
 
+export const news = (favorites, addColumn = addFavoritedColumn) => async (dispatch) => {
   dispatch(newsLoading());
-  dispatch(fetchAllFavorite(user.email));
 
   return axiosInstance
     .get(`?country=us&from=${date.currentDate}`)
@@ -36,13 +43,3 @@ export const news = () => async (dispatch) => {
     });
 };
 
-export const addColumn = (favorites, articles) => (dispatch) => {
-  const updatedArticle = articles.articles.map((article) => {
-    if (Controllers.objectExist(favorites, article)) {
-      return { ...article, favorited: true };
-    } else {
-      return { ...article, favorited: false };
-    }
-  });
-  dispatch(newsSuccess({ articles: updatedArticle }));
-};

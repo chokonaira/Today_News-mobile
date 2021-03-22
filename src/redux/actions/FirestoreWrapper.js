@@ -40,7 +40,6 @@ export class FirestoreWrapper {
     .where("url", "==", url)
     .get();
     const result = snapshot.docs.map((doc) => doc.data());
-    console.log(result, 'results')
     return result;
   }
 }

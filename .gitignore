@@ -1,6 +1,7 @@
 node_modules/**/*
 .expo/*
 .env
+.questions
 .env.prod
 npm-debug.*
 *.jks
