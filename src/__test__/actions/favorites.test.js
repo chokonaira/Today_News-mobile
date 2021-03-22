@@ -1,5 +1,4 @@
 import * as uuid from "uuid";
-import firebase from "firebase";
 import { addFavorite, removeFavorite } from "../../redux/actions/favorites";
 import {
   ADD_FAVOURITE_SUCCESS,
@@ -9,7 +8,6 @@ import {
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { FirestoreWrapper } from "../../redux/actions/FirestoreWrapper";
-import { FakeFirestore } from "./FakeFirestore";
 import { Controllers } from "../../helpers/controllers";
 
 jest.mock("../../redux/actions/FirestoreWrapper");
@@ -17,27 +15,6 @@ jest.mock("../../helpers/controllers");
 
 jest.mock("uuid");
 jest.spyOn(uuid, "v4").mockReturnValue("56778");
-
-const dataMock = jest.fn();
-
-const refMock = {
-  delete: jest.fn(),
-};
-
-// const favoritedArticles = {
-//   docs: [
-//     {
-//       userEmail: "email.com",
-//       url: "url.com",
-//       publishedAt: "2021-01-01",
-//       ref: refMock,
-//       data: dataMock,
-//     },
-//   ],
-// };
-
-// export const myFirestore = new FakeFirestore(favoritedArticles);
-// jest.spyOn(firebase, "firestore").mockImplementation(() => myFirestore);
 
 const mockStore = configureStore([thunk]);
 
@@ -92,18 +69,22 @@ describe("Articles Favorites", () => {
     });
   });
 
-  xit("Does returns an error when something go wrong when adding an article", async (done) => {
-    myFirestore.collectionWasCalledWith.mockImplementation(() => {
+  it("Does returns an error when something go wrong when adding an article", async (done) => {
+    
+    const { store, article } = helper(false);
+    const firestoreWrapper = new FirestoreWrapper()
+
+    firestoreWrapper.addFavorite.mockImplementation(() => {
       throw new Error("Error occured");
     });
-    const { store, article } = helper(false);
+
     const expectedActions = [
       {
         type: FAVOURITE_ERROR,
         payload: "Error occured",
       },
     ];
-    store.dispatch(addFavorite(article, article.userEmail)).then(() => {
+    store.dispatch(addFavorite(article, article.userEmail, firestoreWrapper)).then(() => {
       try {
         expect(store.getActions()).toEqual(expectedActions);
         done();
@@ -142,19 +123,21 @@ describe("Articles Favorites", () => {
     });
   });
 
-  xit("Does returns an error when something go wrong when removing an article", async (done) => {
-    await myFirestore.collectionWasCalledWith.mockImplementation(() => {
+  it("Does returns an error when something go wrong when removing an article", async (done) => {
+    const { store, article } = helper(true);
+    const firestoreWrapper = new FirestoreWrapper()
+
+    firestoreWrapper.removeFavorite.mockImplementation(() => {
       throw new Error("Error occured");
     });
 
-    const { store, article } = helper(true);
     const expectedActions = [
       {
         type: FAVOURITE_ERROR,
         payload: "Error occured",
       },
     ];
-    store.dispatch(removeFavorite(article, article.userEmail)).then(() => {
+    store.dispatch(removeFavorite(article, article.userEmail, firestoreWrapper)).then(() => {
       try {
         expect(store.getActions()).toEqual(expectedActions);
         done();

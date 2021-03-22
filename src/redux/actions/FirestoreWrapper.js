@@ -1,5 +1,4 @@
-import * as firebase from "firebase";
-import "firebase/firestore";
+import firebase from "firebase";
 
 export class FirestoreWrapper {
   async addFavorite(article) {
