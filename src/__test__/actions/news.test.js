@@ -1,23 +1,117 @@
+import * as uuid from "uuid";
 import MockAdapter from "axios-mock-adapter";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { axiosInstance } from "../../config/axios";
-import { news } from "../../redux/actions/news";
+import { addFavoritedColumn, news } from "../../redux/actions/news";
 import { date } from "../../helpers/date";
 import {
   NEWS_LOADING,
   NEWS_SUCCESS,
   NEWS_ERROR,
 } from "../../redux/actions/types";
+import { Controllers } from "../../helpers/controllers";
+
+jest.mock("../../helpers/controllers");
+
+jest.mock("uuid");
+jest.spyOn(uuid, "v4").mockReturnValue("56778");
 
 const mock = new MockAdapter(axiosInstance);
 const mockStore = configureStore([thunk]);
 
-xdescribe("Fetch News actions", () => {
+describe("Fetch News actions", () => {
   beforeEach(() => {
-    mock.resetHistory();
+    jest.clearAllMocks();
   });
-  it("succesfull action to fetch news", (done) => {
+
+  it("it adds a collumn to an article that has been favorited before", (done) => {
+    const store = mockStore({});
+    Controllers.objectExist.mockReturnValue(true)
+    const favorites = [
+      {
+        id: "56778",
+        userEmail: "email@gmail.com",
+        favorited: true,
+        url: "url.com",
+        publishedAt: "01-2021",
+      },
+    ];
+
+    const articles= {
+      articles: [{
+      id: "56778",
+      userEmail: "email@gmail.com",
+      favorited: true,
+      url: "url.com",
+      publishedAt: "01-2021",
+    }]
+    };
+
+    const expectedActions = [
+      {
+        type: NEWS_SUCCESS,
+        payload: articles,
+      },
+    ];
+
+    store.dispatch(addFavoritedColumn(favorites, articles))
+    try{
+
+      const mockObjectExist = Controllers.objectExist;
+
+      expect(mockObjectExist).toHaveBeenCalled();
+      expect(store.getActions()).toEqual(expectedActions);
+      done();
+    } catch(error){
+      console.log(error.message)
+    }
+  });
+
+  it("it adds a collumn to an article that has not been favorited before", (done) => {
+    const store = mockStore({});
+    Controllers.objectExist.mockReturnValue(false)
+    const favorites = [
+      {
+        id: "56778",
+        userEmail: "email@gmail.com",
+        favorited: false,
+        url: "url.com",
+        publishedAt: "01-2021",
+      },
+    ];
+
+    const articles= {
+      articles: [{
+      id: "56778",
+      userEmail: "email@gmail.com",
+      favorited: false,
+      url: "url.com",
+      publishedAt: "01-2021",
+    }]
+    };
+
+    const expectedActions = [
+      {
+        type: NEWS_SUCCESS,
+        payload: articles,
+      },
+    ];
+
+    store.dispatch(addFavoritedColumn(favorites, articles))
+    try{
+
+      const mockObjectExist = Controllers.objectExist;
+
+      expect(mockObjectExist).toHaveBeenCalled();
+      expect(store.getActions()).toEqual(expectedActions);
+      done();
+    } catch(error){
+      console.log(error.message)
+    }
+  });
+
+  xit("succesfull action to fetch news", (done) => {
     const store = mockStore({});
     const payload = {
       articles: [

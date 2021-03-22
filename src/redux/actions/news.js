@@ -1,6 +1,5 @@
 import * as types from "./types";
 import { date } from "../../helpers/date";
-import { fetchAllFavorite } from "./favorites";
 import { axiosInstance } from "../../config/axios";
 import { Controllers } from "../../helpers/controllers";
 
