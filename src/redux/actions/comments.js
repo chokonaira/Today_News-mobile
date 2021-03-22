@@ -25,14 +25,14 @@ const commentsError = (payload) => ({
   payload,
 });
 
-export const addComment = (comment, articleUrl, email, firestore = firestoreWrapper) => async (dispatch) => {
+export const addComment = (comment, url, email, firestore = firestoreWrapper) => async (dispatch) => {
   dispatch(commentsLoading());
   try {
     const commentedArticle = {
       id: uuidv4(),
       comment,
       userEmail: email,
-      articleUrl,
+      url,
     };
     await firestore.addComment(commentedArticle);
     dispatch(addCommentsSuccess(commentedArticle));

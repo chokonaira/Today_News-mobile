@@ -63,4 +63,22 @@ describe("Firestore", () => {
     expect(myFirestore.whereWasCalledWith[0]).toEqual(["userEmail", "==", article.userEmail])
     expect(dataMock).toHaveBeenCalled();
   });
+
+  it("succesfully adds a commented article to firestore", async () => {
+    const wrapper = new FirestoreWrapper();
+    await wrapper.addComment(article);
+
+    expect(myFirestore.collectionWasCalledWith).toEqual("comments")
+    expect(myFirestore.docWasCalledWith).toEqual(article.id)
+    expect(myFirestore.setWasCalledWith).toEqual(article)
+  });
+
+  it("succesfully query and fectch all commented article to firestore", async () => {
+    const wrapper = new FirestoreWrapper();
+    await wrapper.fetchAllComments(article.url);
+
+    expect(myFirestore.collectionWasCalledWith).toEqual("comments")
+    expect(myFirestore.whereWasCalledWith[1]).toEqual(["url", "==", article.url])
+    expect(dataMock).toHaveBeenCalled();
+  });
 });
