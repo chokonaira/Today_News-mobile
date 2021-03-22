@@ -55,10 +55,10 @@ export const removeFavorite = (article, email, firestore = firestoreWrapper, con
   }
 };
 
-export const fetchAllFavorite = (email) => async (dispatch) => {
+export const fetchAllFavorite = (email, firestore = firestoreWrapper) => async (dispatch) => {
   dispatch(favoriteLoading());
   try {
-    const result = await firestoreWrapper.fetchAllFavorite(email);
+    const result = await firestore.fetchAllFavorite(email);
     dispatch(fetchAllFavoriteSuccess(result));
   } catch (error) {
     dispatch(favoriteError(error.message));

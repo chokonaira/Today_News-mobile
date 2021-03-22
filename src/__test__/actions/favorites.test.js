@@ -1,8 +1,10 @@
 import * as uuid from "uuid";
-import { addFavorite, removeFavorite } from "../../redux/actions/favorites";
+import { addFavorite, removeFavorite, fetchAllFavorite } from "../../redux/actions/favorites";
 import {
+  FAVOURITE_LOADING,
   ADD_FAVOURITE_SUCCESS,
   REMOVE_FAVOURITE_SUCCESS,
+  FETCH_ALL_FAVOURITE_SUCCESS,
   FAVOURITE_ERROR,
 } from "../../redux/actions/types";
 import configureStore from "redux-mock-store";
@@ -138,6 +140,63 @@ describe("Articles Favorites", () => {
       },
     ];
     store.dispatch(removeFavorite(article, article.userEmail, firestoreWrapper)).then(() => {
+      try {
+        expect(store.getActions()).toEqual(expectedActions);
+        done();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
+
+  it("succesfully fetches all favorited articles from firestore", async (done) => {
+    const { store, article } = helper(true);
+    const firestoreWrapper = new FirestoreWrapper()
+    firestoreWrapper.fetchAllFavorite.mockResolvedValue([article])
+
+    const expectedActions = [
+      {
+        type: FAVOURITE_LOADING,
+      },
+      {
+        type: FETCH_ALL_FAVOURITE_SUCCESS,
+        payload: [article],
+      },
+    ];
+    store.dispatch(fetchAllFavorite(article.userEmail, firestoreWrapper)).then(() => {
+      try {
+
+        const mockWrapperInstance = FirestoreWrapper.mock.instances[0];
+        const mockFetchAllFavorites = mockWrapperInstance.fetchAllFavorite;
+
+        expect(mockFetchAllFavorites).toHaveBeenCalledWith(article.userEmail);
+        expect(store.getActions()).toEqual(expectedActions);
+        done();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
+
+  it("Does returns an error when something go wrong when fetching all favorited articles", async (done) => {
+    const { store, article } = helper(true);
+    const firestoreWrapper = new FirestoreWrapper()
+    
+    firestoreWrapper.fetchAllFavorite.mockImplementation(() => {
+      throw new Error("Error occured");
+    });
+
+    const expectedActions = [
+      {
+        type: FAVOURITE_LOADING,
+      },
+      {
+        type: FAVOURITE_ERROR,
+        payload: "Error occured",
+      },
+    ];
+
+    store.dispatch(fetchAllFavorite(article.userEmail, firestoreWrapper)).then(() => {
       try {
         expect(store.getActions()).toEqual(expectedActions);
         done();

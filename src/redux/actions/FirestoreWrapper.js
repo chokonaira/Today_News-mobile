@@ -21,6 +21,7 @@ export class FirestoreWrapper {
   async fetchAllFavorite(email) {
     const favoritesRef = firebase.firestore().collection("favorites");
     const snapshot = await favoritesRef.where("userEmail", "==", email).get();
-    return snapshot.docs.map((doc) => doc.data());
+    const result = snapshot.docs.map((doc) => doc.data());
+    return result;
   }
 }
