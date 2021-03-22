@@ -3,6 +3,8 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { state } from "./getState";
+import { FirestoreWrapper } from "./FirestoreWrapper";
+const firestoreWrapper = new FirestoreWrapper();
 
 const commentsLoading = () => ({
   type: types.COMMENTS_LOADING,
@@ -23,40 +25,27 @@ const commentsError = (payload) => ({
   payload,
 });
 
-export const addComment = (comment, articleUrl) => async (dispatch) => {
+export const addComment = (comment, articleUrl, email, firestore = firestoreWrapper) => async (dispatch) => {
   dispatch(commentsLoading());
   try {
-    const { user } = await state();
-
     const commentedArticle = {
       id: uuidv4(),
       comment,
-      userEmail: user.email,
+      userEmail: email,
       articleUrl,
     };
-
-    await firebase
-      .firestore()
-      .collection("comments")
-      .doc(commentedArticle.id)
-      .set(commentedArticle);
+    await firestore.addComment(commentedArticle);
     dispatch(addCommentsSuccess(commentedArticle));
   } catch (error) {
     dispatch(commentsError(error.message));
   }
 };
 
-export const fetchAllComments = (articleUrl) => async (dispatch) => {
+export const fetchAllComments = (articleUrl, firestore = firestoreWrapper) => async (dispatch) => {
   dispatch(commentsLoading());
   try {
-    const commentRef = firebase.firestore().collection("comments");
-    const snapshot = await commentRef
-      .where("articleUrl", "==", articleUrl)
-      .get();
-    const result = snapshot.docs.map((doc) => {
-      return doc.data();
-    });
-    dispatch(fetchAllCommentsSuccess(result));
+    const result = await firestore.fetchAllComments(articleUrl);
+    patch(fetchAllCommentsSuccess(result));
   } catch (error) {
     dispatch(commentsError(error.message));
   }
