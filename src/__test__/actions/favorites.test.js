@@ -10,8 +10,10 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { FirestoreWrapper } from "../../redux/actions/FirestoreWrapper";
 import { FakeFirestore } from "./FakeFirestore";
+import { Controllers } from "../../helpers/controllers";
 
 jest.mock("../../redux/actions/FirestoreWrapper");
+jest.mock("../../helpers/controllers");
 
 jest.mock("uuid");
 jest.spyOn(uuid, "v4").mockReturnValue("56778");
@@ -70,22 +72,17 @@ describe("Articles Favorites", () => {
     });
   });
 
-  xit("Does not favorite an already favorited article", async (done) => {
+  it("Does not favorite an already favorited article", async (done) => {
     const { store, article } = helper(true);
+    const firestoreWrapper = new FirestoreWrapper()
     const expectedActions = [];
-    store.dispatch(addFavorite(article, article.userEmail)).then(() => {
+    store.dispatch(addFavorite(article, article.userEmail, firestoreWrapper)).then(() => {
       try {
-        const wrapper = new FirestoreWrapper();
-        wrapper.addFavorite(article, article.userEmail);
 
         const mockWrapperInstance = FirestoreWrapper.mock.instances[0];
         const mockAddFavorite = mockWrapperInstance.addFavorite;
 
-        expect(mockAddFavorite).toHaveBeenCalledTimes(1);
-        expect(mockAddFavorite).toHaveBeenCalledWith(
-          article,
-          article.userEmail
-        );
+        expect(mockAddFavorite).not.toHaveBeenCalled()
         expect(store.getActions()).toEqual(expectedActions);
 
         done();
@@ -116,8 +113,10 @@ describe("Articles Favorites", () => {
     });
   });
 
-  xit("succesfully removes a favorited article from firestore", async (done) => {
+  it("succesfully removes a favorited article from firestore", async (done) => {
     const { store, article } = helper(true);
+    const firestoreWrapper = new FirestoreWrapper()
+    Controllers.filterFavorites.mockReturnValue([])
 
     const expectedActions = [
       {
@@ -125,20 +124,15 @@ describe("Articles Favorites", () => {
         payload: [],
       },
     ];
-
-    store.dispatch(removeFavorite(article, article.userEmail)).then(() => {
+    
+    store.dispatch(removeFavorite(article, article.userEmail,firestoreWrapper, Controllers)).then(() => {
       try {
-        const wrapper = new FirestoreWrapper();
-        wrapper.removeFavorite(article, article.userEmail);
-
         const mockWrapperInstance = FirestoreWrapper.mock.instances[0];
         const mockRemoveFavorite = mockWrapperInstance.removeFavorite;
-
-        expect(mockRemoveFavorite).toHaveBeenCalledTimes(1);
-        expect(mockRemoveFavorite).toHaveBeenCalledWith(
-          article,
-          article.userEmail
-        );
+        const mockFilterFavorites = Controllers.filterFavorites;
+        
+        expect(mockRemoveFavorite).toHaveBeenCalledWith(article,article.userEmail);
+        expect(mockFilterFavorites).toHaveBeenCalled();
         expect(store.getActions()).toEqual(expectedActions);
 
         done();
