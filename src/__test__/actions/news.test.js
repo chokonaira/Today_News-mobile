@@ -13,6 +13,7 @@ import {
 import { Controllers } from "../../helpers/controllers";
 
 jest.mock("../../helpers/controllers");
+// jest.mock("../../redux/actions/news");
 
 jest.mock("uuid");
 jest.spyOn(uuid, "v4").mockReturnValue("56778");
@@ -25,28 +26,11 @@ describe("Fetch News actions", () => {
     jest.clearAllMocks();
   });
 
-  it("it adds a collumn to an article that has been favorited before", (done) => {
+  xit("it adds a collumn to an article that has been favorited before", (done) => {
     const store = mockStore({});
-    Controllers.objectExist.mockReturnValue(true)
-    const favorites = [
-      {
-        id: "56778",
-        userEmail: "email@gmail.com",
-        favorited: true,
-        url: "url.com",
-        publishedAt: "01-2021",
-      },
-    ];
+    Controllers.objectExist.mockReturnValue(true);
 
-    const articles= {
-      articles: [{
-      id: "56778",
-      userEmail: "email@gmail.com",
-      favorited: true,
-      url: "url.com",
-      publishedAt: "01-2021",
-    }]
-    };
+    const { favorites, articles } = helper(true)
 
     const expectedActions = [
       {
@@ -55,64 +39,48 @@ describe("Fetch News actions", () => {
       },
     ];
 
-    store.dispatch(addFavoritedColumn(favorites, articles))
-    try{
-
+    store.dispatch(addFavoritedColumn(favorites, articles));
+    try {
       const mockObjectExist = Controllers.objectExist;
 
       expect(mockObjectExist).toHaveBeenCalled();
       expect(store.getActions()).toEqual(expectedActions);
       done();
-    } catch(error){
-      console.log(error.message)
+    } catch (error) {
+      console.log(error.message);
     }
   });
 
-  it("it adds a collumn to an article that has not been favorited before", (done) => {
+  xit("it adds a collumn to an article that has not been favorited before", (done) => {
     const store = mockStore({});
-    Controllers.objectExist.mockReturnValue(false)
-    const favorites = [
-      {
-        id: "56778",
-        userEmail: "email@gmail.com",
-        favorited: false,
-        url: "url.com",
-        publishedAt: "01-2021",
-      },
-    ];
+    Controllers.objectExist.mockReturnValue(false);
 
-    const articles= {
-      articles: [{
-      id: "56778",
-      userEmail: "email@gmail.com",
-      favorited: false,
-      url: "url.com",
-      publishedAt: "01-2021",
-    }]
-    };
-
+    const { favorites, articles } = helper(false)
+    
     const expectedActions = [
       {
         type: NEWS_SUCCESS,
         payload: articles,
       },
     ];
-
-    store.dispatch(addFavoritedColumn(favorites, articles))
-    try{
-
+    store.dispatch(addFavoritedColumn(favorites, articles));
+    try {
       const mockObjectExist = Controllers.objectExist;
 
       expect(mockObjectExist).toHaveBeenCalled();
       expect(store.getActions()).toEqual(expectedActions);
       done();
-    } catch(error){
-      console.log(error.message)
+    } catch (error) {
+      console.log(error.message);
     }
   });
 
-  xit("succesfull action to fetch news", (done) => {
+  it("succesfull action to fetch news", (done) => {
     const store = mockStore({});
+    const { favorites, articles } = helper(false)
+
+    jest.fn().mockImplementationOnce(addFavoritedColumn);
+
     const payload = {
       articles: [
         {
@@ -122,6 +90,7 @@ describe("Fetch News actions", () => {
           },
           author: "Henry",
           title: "title 5",
+          favorited: false,
           description: "Lorem Ipsum",
           url: "www.cnn.com",
           urlToImage: "www.cnn.com/image.jpg",
@@ -139,12 +108,13 @@ describe("Fetch News actions", () => {
       },
       {
         type: NEWS_SUCCESS,
-        payload,
-      },
+        payload
+      }
     ];
 
-    store.dispatch(news()).then(() => {
+    store.dispatch(news(favorites, addFavoritedColumn)).then(() => {
       try {
+        expect(addFavoritedColumn).toHaveBeenCalledWith(favorites, articles);
         expect(store.getActions()).toEqual(expectedActions);
         done();
       } catch (error) {
@@ -153,7 +123,7 @@ describe("Fetch News actions", () => {
     });
   });
 
-  it("unsuccesfull action to fetch news", (done) => {
+  xit("unsuccesfull action to fetch news", (done) => {
     const store = mockStore({});
     const payload = "Request failed with status code 404";
 
@@ -179,3 +149,28 @@ describe("Fetch News actions", () => {
     });
   });
 });
+
+const helper = (isFavorited) => {
+  const favorites = [
+    {
+      id: "56778",
+      userEmail: "email@gmail.com",
+      favorited: isFavorited,
+      url: "url.com",
+      publishedAt: "01-2021",
+    },
+  ];
+
+  const articles = {
+    articles: [
+      {
+        id: "56778",
+        userEmail: "email@gmail.com",
+        favorited: isFavorited,
+        url: "url.com",
+        publishedAt: "01-2021",
+      },
+    ],
+  };
+  return { favorites, articles };
+};

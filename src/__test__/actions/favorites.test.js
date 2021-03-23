@@ -152,7 +152,8 @@ describe("Articles Favorites", () => {
   it("succesfully fetches all favorited articles from firestore", async (done) => {
     const { store, article } = helper(true);
     const firestoreWrapper = new FirestoreWrapper()
-    firestoreWrapper.fetchAllFavorite.mockResolvedValue([article])
+    const result = [article]
+    firestoreWrapper.fetchAllFavorite.mockResolvedValue(result)
 
     const expectedActions = [
       {
@@ -160,7 +161,7 @@ describe("Articles Favorites", () => {
       },
       {
         type: FETCH_ALL_FAVOURITE_SUCCESS,
-        payload: [article],
+        payload: result,
       },
     ];
     store.dispatch(fetchAllFavorite(article.userEmail, firestoreWrapper)).then(() => {

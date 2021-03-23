@@ -31,8 +31,9 @@ const article = {
 };
 
 describe("Firestore", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
+    myFirestore.reset()
   });
 
   it("succesfully adds a favorited article to firestore", async () => {
@@ -78,7 +79,7 @@ describe("Firestore", () => {
     await wrapper.fetchAllComments(article.url);
 
     expect(myFirestore.collectionWasCalledWith).toEqual("comments")
-    expect(myFirestore.whereWasCalledWith[1]).toEqual(["url", "==", article.url])
+    expect(myFirestore.whereWasCalledWith[0]).toEqual(["url", "==", article.url])
     expect(dataMock).toHaveBeenCalled();
   });
 });
