@@ -78,10 +78,11 @@ describe("Articles Comments", () => {
       });
   });
 
-  xit("succesfully fetches all comments for an articles in firestore", async (done) => {
+  it("succesfully fetches all comments for an articles in firestore", async (done) => {
     const { store, article } = helper();
     const firestoreWrapper = new FirestoreWrapper()
-    firestoreWrapper.fetchAllComments.mockResolvedValue([article])
+    const result = [article];
+    firestoreWrapper.fetchAllComments.mockResolvedValue(result)
 
     const expectedActions = [
       {
@@ -89,7 +90,7 @@ describe("Articles Comments", () => {
       },
       {
         type: FETCH_ALL_COMMENTS_SUCCESS,
-        payload: [article],
+        payload: result,
       },
     ];
     store.dispatch(fetchAllComments(article.url, firestoreWrapper))

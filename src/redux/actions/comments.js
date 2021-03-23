@@ -1,8 +1,5 @@
 import * as types from "./types";
-import * as firebase from "firebase";
-import "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
-import { state } from "./getState";
 import { FirestoreWrapper } from "./FirestoreWrapper";
 const firestoreWrapper = new FirestoreWrapper();
 
@@ -45,7 +42,7 @@ export const fetchAllComments = (url, firestore = firestoreWrapper) => async (di
   dispatch(commentsLoading());
   try {
     const result = await firestore.fetchAllComments(url);
-    patch(fetchAllCommentsSuccess(result));
+    dispatch(fetchAllCommentsSuccess(result));
   } catch (error) {
     dispatch(commentsError(error.message));
   }
