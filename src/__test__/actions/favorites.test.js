@@ -108,7 +108,7 @@ describe("Articles Favorites", () => {
       },
     ];
     
-    store.dispatch(removeFavorite(article, article.userEmail,firestoreWrapper, Controllers)).then(() => {
+    store.dispatch(removeFavorite(article, article.userEmail,firestoreWrapper)).then(() => {
       try {
         const mockWrapperInstance = FirestoreWrapper.mock.instances[0];
         const mockRemoveFavorite = mockWrapperInstance.removeFavorite;

@@ -13,7 +13,6 @@ import {
 import { Controllers } from "../../helpers/controllers";
 
 jest.mock("../../helpers/controllers");
-// jest.mock("../../redux/actions/news");
 
 jest.mock("uuid");
 jest.spyOn(uuid, "v4").mockReturnValue("56778");
@@ -26,7 +25,7 @@ describe("Fetch News actions", () => {
     jest.clearAllMocks();
   });
 
-  xit("it adds a collumn to an article that has been favorited before", (done) => {
+  it("it adds a collumn to an article that has been favorited before", (done) => {
     const store = mockStore({});
     Controllers.objectExist.mockReturnValue(true);
 
@@ -51,7 +50,7 @@ describe("Fetch News actions", () => {
     }
   });
 
-  xit("it adds a collumn to an article that has not been favorited before", (done) => {
+  it("it adds a collumn to an article that has not been favorited before", (done) => {
     const store = mockStore({});
     Controllers.objectExist.mockReturnValue(false);
 
@@ -77,10 +76,8 @@ describe("Fetch News actions", () => {
 
   it("succesfull action to fetch news", (done) => {
     const store = mockStore({});
-    const { favorites, articles } = helper(false)
-
-    jest.fn().mockImplementationOnce(addFavoritedColumn);
-
+    const { favorites } = helper(false)
+    
     const payload = {
       articles: [
         {
@@ -96,11 +93,11 @@ describe("Fetch News actions", () => {
           urlToImage: "www.cnn.com/image.jpg",
           publishedAt: "2021-02-28T08:20:00Z",
           content:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry",
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry",
         },
       ],
     };
-    mock.onGet(`?country=us&from=${date.currentDate}`).reply(200, payload);
+    mock.onGet(`?country=us&from=${date.currentDate()}`).reply(200, payload);
 
     const expectedActions = [
       {
@@ -112,9 +109,9 @@ describe("Fetch News actions", () => {
       }
     ];
 
-    store.dispatch(news(favorites, addFavoritedColumn)).then(() => {
+    store.dispatch(news(favorites)).then(() => {
       try {
-        expect(addFavoritedColumn).toHaveBeenCalledWith(favorites, articles);
+
         expect(store.getActions()).toEqual(expectedActions);
         done();
       } catch (error) {
@@ -123,11 +120,11 @@ describe("Fetch News actions", () => {
     });
   });
 
-  xit("unsuccesfull action to fetch news", (done) => {
+  it("unsuccesfull action to fetch news", (done) => {
     const store = mockStore({});
     const payload = "Request failed with status code 404";
 
-    mock.onGet(`?country=us&from=${date.currentDate}`).reply(404, payload);
+    mock.onGet(`?country=us&from=${date.currentDate()}`).reply(404, payload);
 
     const expectedActions = [
       {

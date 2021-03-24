@@ -29,13 +29,12 @@ export const addFavoritedColumn = (favorites, articles) => (dispatch) => {
   dispatch(newsSuccess({ articles: updatedArticle }));
 };
 
-export const news = (favorites, addColumn = addFavoritedColumn) => async (dispatch) => {
+export const news = (favorites) => async (dispatch) => {
   dispatch(newsLoading());
-
   return axiosInstance
-    .get(`?country=us&from=${date.currentDate}`)
+    .get(`?country=us&from=${date.currentDate()}`)
     .then(({ data }) => {
-      dispatch(addColumn(favorites, data));
+      dispatch(addFavoritedColumn(favorites, data));
     })
     .catch((error) => {
       dispatch(newsError(error.message));
