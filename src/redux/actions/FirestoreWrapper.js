@@ -1,5 +1,4 @@
-import * as firebase from "firebase";
-import "firebase/firestore";
+import firebase from "firebase";
 
 export class FirestoreWrapper {
   async addFavorite(article) {
@@ -9,6 +8,7 @@ export class FirestoreWrapper {
       .doc(article.id)
       .set(article);
   }
+
   async removeFavorite(article, email) {
     const favoritesRef = firebase.firestore().collection("favorites");
     const snapshot = await favoritesRef
@@ -22,6 +22,24 @@ export class FirestoreWrapper {
   async fetchAllFavorite(email) {
     const favoritesRef = firebase.firestore().collection("favorites");
     const snapshot = await favoritesRef.where("userEmail", "==", email).get();
-    return snapshot.docs.map((doc) => doc.data());
+    const result = snapshot.docs.map((doc) => doc.data());
+    return result;
+  }
+
+  async addComment(article) {
+    await firebase
+      .firestore()
+      .collection("comments")
+      .doc(article.id)
+      .set(article);
+  }
+
+  async fetchAllComments(url) {
+    const commentRef = firebase.firestore().collection("comments");
+    const snapshot = await commentRef
+    .where("url", "==", url)
+    .get();
+    const result = snapshot.docs.map((doc) => doc.data());
+    return result;
   }
 }

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { addComment, fetchAllComments } from "../redux/actions/comments";
 import Button from "../components/Button";
 import { Card, CardItem } from "native-base";
+import { state } from "../redux/actions/getState";
 
 export default function NewsDetails({ navigation, route: { params } }) {
   const dispatch = useDispatch();
@@ -19,9 +20,10 @@ export default function NewsDetails({ navigation, route: { params } }) {
     dispatch(fetchAllComments(params.article.url));
   }, [comments.length, params.article]);
 
-  const commentHandler = (articleUrl) => {
+  const commentHandler = async(articleUrl) => {
+  const { user } = await state();
     if (comment.length === 0) return;
-    dispatch(addComment(comment, articleUrl));
+    dispatch(addComment(comment, articleUrl, user.email));
     setComment("");
   };
 

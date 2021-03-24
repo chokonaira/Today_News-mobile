@@ -4,8 +4,10 @@ import Card from "../components/Card";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
 import { news } from "../redux/actions/news";
+import { fetchAllFavorite } from "../redux/actions/favorites";
 import { useDispatch, useSelector } from "react-redux";
 import { favoriteHandler } from "../helpers/favoriteHandler";
+import { state } from "../redux/actions/getState";
 
 export default function TodaysNews({ navigation }) {
   const dispatch = useDispatch();
@@ -15,7 +17,12 @@ export default function TodaysNews({ navigation }) {
     "https://lh3.googleusercontent.com/proxy/YKSgQxCMHJraD0dW8afdPheVXfZEWyGoIVcF0zrMhYdx9WFqeZGm4fU9FHg8MaLRken_eHKaD7mnJ7j6f5Lfom6vShg";
 
   React.useEffect(() => {
-    dispatch(news());
+    (async () => {
+      await state().then(({ user }) => {
+        dispatch(news(favorites));
+        dispatch(fetchAllFavorite(user.email));
+      });
+    })();
   }, [favorites.length]);
 
   if (!isNewsFetched) {
@@ -52,7 +59,7 @@ export default function TodaysNews({ navigation }) {
                   />
                 </View>
               );
-            })} 
+            })}
         </ScrollView>
       </View>
     </View>

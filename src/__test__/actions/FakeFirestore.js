@@ -30,4 +30,11 @@ export class FakeFirestore {
   get() {
     return this.data;
   }
+
+  reset(){
+    this.collectionWasCalledWith = "";
+    this.docWasCalledWith = "";
+    this.setWasCalledWith = {};
+    this.whereWasCalledWith = [];
+  }
 }
