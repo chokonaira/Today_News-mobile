@@ -1,6 +1,5 @@
 import { FirestoreWrapper } from "../../redux/actions/FirestoreWrapper";
 import firebase from "firebase";
-import "firebase/firestore";
 import { FakeFirestore } from "./FakeFirestore";
 
 const dataMock = jest.fn()
@@ -20,7 +19,7 @@ const favoritedArticles = {
   },
 ]};
 
-export const myFirestore = new FakeFirestore(favoritedArticles);
+const myFirestore = new FakeFirestore(favoritedArticles);
 jest.spyOn(firebase, "firestore").mockImplementation(() => myFirestore);
 
 const article = {

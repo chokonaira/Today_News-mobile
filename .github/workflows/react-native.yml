@@ -5,7 +5,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      CI: false
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
@@ -18,5 +19,4 @@ jobs:
       - run: npm install jest@latest
       - run: npm run build --if-present
       - run: npm test
-        env:
-          CI: true
+      
